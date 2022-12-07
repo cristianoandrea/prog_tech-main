@@ -23,7 +23,7 @@ import { Nav,
 const Navbar = ({ toggle }) => {
   
 
-  const [logged, setLogged]=useState(true);
+  const [logged, setLogged]=useState(false);
   const [scrollNav, setScrollNav] = useState(false);
 
   const changeNav = () => {
