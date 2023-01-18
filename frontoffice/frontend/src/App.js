@@ -14,9 +14,12 @@ import UserProfile from './pages/userProfile';
 import SingleProduct from './pages/prodotto_singolo';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PresenzaServizio from './pages/presenzaServizio';
+import { ShoppingCartProvider } from './context/shoppingCartContext';
 
 function App() { 
   return (
+    <ShoppingCartProvider>
+
     <Router >
       <div className='pages'>
       <Routes>     
@@ -38,6 +41,7 @@ function App() {
 
       </div>
     </Router>
+    </ShoppingCartProvider>
   );
 }
 

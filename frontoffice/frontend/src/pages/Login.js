@@ -1,5 +1,7 @@
 import { useState } from "react"
+import { Button1 } from "../components/ButtonElement"
 import { useLogin } from "../hooks/useLogin"
+import { Buttone } from "./prodotto_singolo"
 
 const Login = () => {
     const [email, setEmail]= useState('')
@@ -12,6 +14,7 @@ const Login = () => {
     }
 
     return (
+        <>
         <form className="login" onSubmit={handleSubmit}>
             <h3>log in</h3>
             <label>Email:</label>
@@ -28,7 +31,11 @@ const Login = () => {
               />
               <button disabled= {isLoading}>Log in</button>
               {error&& <div className="error">{error}</div>}
+              
         </form>
+        <Button1 to="/signin" >Registrati</Button1>
+        <Button1 to="/" >Home</Button1>
+        </>
     )
 }
 

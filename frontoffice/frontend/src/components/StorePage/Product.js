@@ -15,6 +15,7 @@ import Link from '@mui/joy/Link';
 import Favorite from '@mui/icons-material/Favorite';
 import { Rating } from "@mui/material";
 import {  red } from '@mui/material/colors';
+import { formatCurrency } from "../../utilities/formatCurrency";
 
   
   const Info = styled.div`
@@ -138,7 +139,7 @@ import {  red } from '@mui/material/colors';
         </Link>
       </Typography>
       <Typography level="body2" sx={{ mt: 0.5, mb: 2 }}>
-        {item.prezzo} $
+        {formatCurrency(item.prezzo)} 
       </Typography>
       <Rating value={3} readOnly />
       <Divider inset="context" />

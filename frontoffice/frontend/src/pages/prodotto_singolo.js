@@ -20,15 +20,20 @@ import { Divider } from '@mui/joy';
 import Recensione from '../components/StorePage/recensione';
 import Footer from '../components/Footer'
 import Slider from '../components/StorePage/Slider';
+import { formatCurrency } from '../utilities/formatCurrency';
+import { useShoppingCart } from '../context/shoppingCartContext';
+import ShoppingCart from '../components/ShoppingCart';
 
-const data={
+export const data = [
+  {
+  id: 1,
   producer: "SSC Napoli",
   name: "Maglia Home 2022/2023",
   description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris viverra, erat accumsan auctor fringilla, enim ipsum aliquet lectus, eu finibus turpis enim eu mauris. ",
   rating: 3.5,
   images: [
     {
-      path:  "//v2.grommet.io/assets/Wilderpeople_Ricky.jpg",
+      path: "//v2.grommet.io/assets/Wilderpeople_Ricky.jpg",
       alt: 'Garfield'
     },
     {
@@ -36,40 +41,201 @@ const data={
       alt: 'Leone'
     },
   ],
-  prezzo: "125$",
-  varianti:[
+  prezzo: "125",
+  varianti: [
     {
       id: "0",
-      value:"azzurro",
-      etichetta:"Azzurro",
+      value: "azzurro",
+      etichetta: "Azzurro",
       disponibilità: 4
     },
     {
       id: '1',
-      value:"bianco",
-      etichetta:"Bianco",
+      value: "bianco",
+      etichetta: "Bianco",
       disponibilità: 6
     },
     {
       id: '2',
-      value:"grigio",
-      etichetta:"Grigio",
+      value: "grigio",
+      etichetta: "Grigio",
       disponibilità: 8
     }
   ],
   recensioni: [
     {
+      id: 0,
       nome: "Lellosan",
       rating: 1.5,
       testo: "terrificante, disgustoso non acquistate"
     },
     {
+      id: 1,
       nome: "Libanese",
       rating: 4.5,
       testo: "Un devasto senza fine"
     }
   ]
+},
+
+{
+  id: 2,
+  producer: "Real Madrid",
+  name: "Maglia Away 2021/2022",
+  description: " Proin id tempus odio. Curabitur auctor, augue vel vestibulum euismod, nulla felis ullamcorper magna, eu gravida nibh velit eu velit. ",
+  rating: 4.2,
+  images: [
+    {
+      path: "//v2.grommet.io/assets/IMG_1234.jpg",
+      alt: 'Real Madrid Crest'
+    },
+    {
+      path: "//v2.grommet.io/assets/IMG_5678.jpg",
+      alt: 'Real Madrid Players'
+    },
+  ],
+  prezzo: "140",
+  varianti: [
+    {
+      id: "0",
+      value: "bianco",
+      etichetta: "Bianco",
+      disponibilità: 3
+    },
+    {
+      id: '1',
+      value: "nero",
+      etichetta: "Nero",
+      disponibilità: 5
+    },
+    {
+      id: '2',
+      value: "rosso",
+      etichetta: "Rosso",
+      disponibilità: 7
+    }
+  ],
+  recensioni: [
+    {
+      id: 0,
+      nome: "Juan",
+      rating: 3.5,
+      testo: "Buono, ma un po' caro"
+    },
+    {
+      id: 1,
+      nome: "Pedro",
+      rating: 5,
+      testo: "Eccellente, ne voglio un altro!"
+    }
+  ]
+},
+{
+  id: 3,
+  producer: "Barcelona FC",
+  name: "Maglia Third 2020/2021",
+  description: " Sed eget nisl id magna feugiat blandit. Sed euismod, est eget euismod iaculis, magna orci feugiat magna, eget convallis magna ipsum a ipsum. ",
+  rating: 4.8,
+  images: [
+    {
+      path: "//v2.grommet.io/assets/IMG_2345.jpg",
+      alt: 'Barcelona Crest'
+    },
+    {
+      path: "//v2.grommet.io/assets/IMG_6789.jpg",
+      alt: 'Barcelona Players'
+    },
+  ],
+  prezzo: "110",
+  varianti: [
+    {
+      id: "0",
+      value: "verde",
+      etichetta: "Verde",
+      disponibilità: 2
+    },
+    {
+      id: '1',
+      value: "giallo",
+      etichetta: "Giallo",
+      disponibilità: 4
+    },
+    {
+      id: '2',
+      value: "blu",
+      etichetta: "Blu",
+      disponibilità: 6
+    }
+  ],
+  recensioni: [
+    {
+      id: 0,
+      nome: "Sergio",
+      rating: 4,
+      testo: "Molto bello, ma un po' stretto"
+    },
+    {
+      id: 1,
+      nome: "Andres",
+      rating: 5,
+      testo: "Perfetto per mostrare il mio supporto al Barca!"
+    }
+  ]
+},
+{
+  id: 4,
+  producer: "Chelsea FC",
+  name: "Maglia Home 2019/2020",
+  description: " Sed eget nisl id magna feugiat blandit. Sed euismod, est eget euismod iaculis, magna orci feugiat magna, eget convallis magna ipsum a ipsum. ",
+  rating: 4.5,
+  images: [
+    {
+      path: "//v2.grommet.io/assets/IMG_3456.jpg",
+      alt: 'Juventus Crest'
+    },
+    {
+      path: "//v2.grommet.io/assets/IMG_7890.jpg",
+      alt: 'Juventus Players'
+    },
+  ],
+  prezzo: "120",
+  varianti: [
+    {
+      id: "0",
+      value: "bianco",
+      etichetta: "Bianco",
+      disponibilità: 3
+    },
+    {
+      id: '1',
+      value: "nero",
+      etichetta: "Nero",
+      disponibilità: 5
+    },
+    {
+      id: '2',
+      value: "viola",
+      etichetta: "Viola",
+      disponibilità: 7
+    }
+  ],
+  recensioni: [
+    {
+      id: 0,
+      nome: "Gianluca",
+      rating: 4.5,
+      testo: "Maglia di qualità, soddisfatto"
+    },
+    {
+      id: 1,
+      nome: "Francesco",
+      rating: 3.5,
+      testo: "Buona maglia, ma un po' costosa"
+    }
+  ]
 }
+]
+
 
 const Container1= styled.div`
 margin-top:80px;
@@ -107,8 +273,14 @@ width: 100%
 `
 
 const SingleProduct = () => {
-  //la valutazione media del prodotto
-  const [valutazione, setValutazione] = React.useState(0);
+
+  const {
+    isOpen, 
+    increaseCartQuantity,
+    addToCart
+  } = useShoppingCart()
+
+  const [valutazione, setValutazione] = React.useState(0); //la valutazione media del prodotto
   const [open, setOpen] = React.useState(false);
   //indica la quantità che si desidera acquistare
   const [quantity, setQuantity] = React.useState('');
@@ -116,21 +288,26 @@ const SingleProduct = () => {
   //prodotto stiamo scegliendo (esempio il colore)
   //e di conseguenza cambia il numero di elementi riguardanti la
   //quantità acquistabile
-  var varianti= data.varianti
+  var varianti= data[0].varianti
+
+  var id_prodotto=data[0].id
+
+  
   const [type, setType] = React.useState(varianti[0].id);
 
   const handleChangeQuantity = (event) => {
-    console.log(event)
+    console.log(event.target.value)
     setQuantity(event.target.value);
   };
 
   const handleChangeType = (event) => {
+    console.log(event.target.value)
     setType(event.target.value);
   };
   
   var i=0;
   
-  var recensioni=data.recensioni
+  var recensioni=data[0].recensioni
  
   return (
     <>
@@ -138,18 +315,22 @@ const SingleProduct = () => {
     <Container1>
     <Grid container spacing={2}>
       <Grid item xs={12} md={5}>
-       <Slider testo={false} data={data}/>
+       <Slider testo={false} data={data[0]}/>
       </Grid>
+
       <Grid item xs={12} md={7}>
         <ColonnaDestra>
-        <h2>{data.producer}</h2>
-        <h1>{data.name}</h1>
-        <h5>{data.prezzo}</h5>
-        <label for="read-only">Recensioni:</label>
-        <Rating name="read-only" value={data.rating} readOnly />
-        <p>{data.description}</p>
-        
-        <br/>
+        <div>
+
+          <h2>{data[0].producer}</h2>
+          <h1>{data[0].name}</h1>
+          <h5>{formatCurrency(data[0].prezzo)}</h5>
+          <label for="read-only">Recensioni:</label>
+          <Rating name="read-only" value={data[0].rating} readOnly />
+          <p>{data[0].description}</p>
+          
+          <br/>
+        </div>
         
         <form>
         
@@ -255,17 +436,26 @@ const SingleProduct = () => {
             
           </Select>
           <br/>
-          <Buttone>Add to cart</Buttone>
 
+          <Buttone type='button' onClick={()=>{
+            console.log("id_prodotto:");
+            console.log(id_prodotto);
+            console.log("quantity:");
+            console.log(quantity);
+            
+            addToCart(quantity, id_prodotto);
+            
+          }} >Add to cart</Buttone>
+
+          
         </FormControl>
         
 
         </form>
         
-        
-        <Accordion sx={{
+        <ShoppingCart isOpen={isOpen} />
 
-        }}>
+        <Accordion sx={{}}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -273,37 +463,40 @@ const SingleProduct = () => {
           >
             <Typography>Recensioni</Typography>
           </AccordionSummary>
-          <AccordionDetails>
+            <AccordionDetails>
 
-          <Button variant="outlined" color="neutral" onClick={() => setOpen(true)}>
-            Aggiungi una recensione
-          </Button>
-          <br/>
+            <Button variant="outlined" color="neutral" onClick={() => setOpen(true)}>
+              Aggiungi una recensione
+            </Button>
+            <br/>
 
-            {
-              recensioni.map((recensione)=>{
-                return(
-                <Recensione data={recensione} />
-                )
-              })
-            }
-          
-        </AccordionDetails>
+              {
+                recensioni.map((recensione)=>{
+                  return(
+                  <Recensione
+                    key={recensione.id}
+                    data={recensione} />
+                  )
+                })
+              }
+            
+          </AccordionDetails>
         </Accordion>
+
         <Accordion>
-        <AccordionSummary
+          <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
           <Typography>Prodotti Consigliati</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Qui idealmente si fa una chiamata per cercare prodotti con stesso tag
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
+          </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                Qui idealmente si fa una chiamata per cercare prodotti con stesso tag
+              </Typography>
+            </AccordionDetails>
+        </Accordion>
           
           
         
