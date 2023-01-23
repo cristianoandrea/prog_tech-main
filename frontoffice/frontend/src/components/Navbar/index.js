@@ -150,7 +150,7 @@ const Navbar = ({ toggle }) => {
   
   const {openCart, cartQuantity} = useShoppingCart()  
 
-  const [logged, setLogged]=useState(false);
+  const [logged, setLogged]=useState(true);
 
   const [scrollNav, setScrollNav] = useState(false);
 
@@ -206,8 +206,16 @@ const Navbar = ({ toggle }) => {
                     logged ?
                     (
                         <>
+                        <NavBtn>
+
                         <Dropdown/>
-                        
+                        {cartQuantity > 0 && (
+                            <ShoppingCart isOpen={isOpen}>
+                                {cartQuantity}
+                            </ShoppingCart>
+                               
+                            )}
+                        </NavBtn>
                         </>
                         
                     )

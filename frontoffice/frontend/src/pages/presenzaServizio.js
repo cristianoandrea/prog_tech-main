@@ -17,12 +17,14 @@ export const ServicesH1= styled.h1`
 `
 export const ServicesContainer= styled.div`
 margin-top:150px;
+width: 100%
     height: 800px;
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background: white;
+    flex-wrap: wrap;
 
 `
 //uso uno stesso componente per dogsitting e veterinario:
@@ -33,8 +35,6 @@ const PresenzaServizio = ({service, time}) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
   var pippo={time}
-
-  
 
   useEffect(() => {
     axios.post('http://localhost:4000/api/item/')
