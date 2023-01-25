@@ -8,7 +8,7 @@ const userRoutes = require('./routes/user')
 const itemRoutes = require('./routes/item')
 const serviceRoutes = require('./routes/service')
 const noteRoutes = require('./routes/note')
-const cardRoutes = require('./routes/card')
+
 
 const cors = require('cors')
 
@@ -24,7 +24,7 @@ app.use('/api/user',userRoutes)
 app.use('/api/item',itemRoutes)
 app.use('/api/service',serviceRoutes)
 app.use('/api/note',noteRoutes)
-app.use('/api/cards',cardRoutes)
+
 
 
 

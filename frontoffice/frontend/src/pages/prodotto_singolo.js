@@ -31,6 +31,8 @@ export const data = [
   name: "Maglia Home 2022/2023",
   description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris viverra, erat accumsan auctor fringilla, enim ipsum aliquet lectus, eu finibus turpis enim eu mauris. ",
   rating: 3.5,
+  tag:"accessorio",
+  animale:"ao",
   images: [
     {
       path: "//v2.grommet.io/assets/Wilderpeople_Ricky.jpg",
@@ -42,7 +44,7 @@ export const data = [
     },
   ],
   prezzo: "125",
-  varianti: [
+  varianti: [ 
     {
       id: "0",
       value: "azzurro",

@@ -1,4 +1,5 @@
 import React from 'react'
+import Dropdown from '../Dropdown'
 import{
     SidebarContainer,
     Icon,
@@ -18,12 +19,12 @@ const Sidebar = ({isOpen, toggle}) => {
 
       <SidebarWrapper>
         <SidebarMenu>
-          <SidebarLink to="about" onClick={ toggle }>About</SidebarLink>
+          <SidebarLink1 to="/" onClick={ toggle }>About</SidebarLink1>
           <SidebarLink1 to="/store" onClick={ toggle }>Store</SidebarLink1>
           <SidebarLink1 to="/presenza" onClick={ toggle }>Presenza</SidebarLink1>
           <SidebarLink1 to="/online" onClick={ toggle }>Online</SidebarLink1>
           <SidebarLink1 to="/community" onClick={ toggle }>Community</SidebarLink1>
-          
+          <Dropdown />
           
         </SidebarMenu>
       </SidebarWrapper>
@@ -35,3 +36,4 @@ const Sidebar = ({isOpen, toggle}) => {
 }
 
 export default Sidebar
+//scommessa persa

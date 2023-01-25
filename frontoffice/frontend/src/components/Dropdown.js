@@ -5,7 +5,7 @@ import MenuItem from '@mui/joy/MenuItem';
 import { NavBtnLink } from './Navbar';
 import { ListDivider } from '@mui/joy';
 
-export default function BasicMenu() {
+export default function Dropdown() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {

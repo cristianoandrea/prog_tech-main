@@ -143,12 +143,9 @@ const NavLink1 = styled(LinkRouter)`
     
 
 const Navbar = ({ toggle }) => {
-
-    const { 
-        isOpen
-      } = useShoppingCart()  
   
-  const {openCart, cartQuantity} = useShoppingCart()  
+  
+  const {openCart, cartQuantity, isOpen} = useShoppingCart()  
 
   const [logged, setLogged]=useState(true);
 

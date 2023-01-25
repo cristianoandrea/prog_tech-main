@@ -57,7 +57,8 @@ margin-bottom: 64px;
 
 
 const StorePage = () => {
-  const[isOpen, setIsOpen] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false)
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   
