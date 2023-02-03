@@ -1,0 +1,9 @@
+<div class="font">
+    <h1>Diocane!</h1>
+    <button type="button" class="btn btn-secondary buttone" *ngIf="!game_started" (click)="start()">Inizia!</button>
+
+    <div>
+        <app-dino-game *ngIf="game_started"></app-dino-game>
+    </div>
+    <button type="button" class="btn btn-secondary buttone" *ngIf="game_started" (click)="start()">Chiudi</button>
+</div>

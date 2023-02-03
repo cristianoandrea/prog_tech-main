@@ -108,7 +108,6 @@ import { formatCurrency } from "../../utilities/formatCurrency";
         </AspectRatio>
         <IconButton
           aria-label="Like minimal photography"
-          
           variant="solid"
           color="danger"
           sx={{
