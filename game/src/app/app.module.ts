@@ -10,6 +10,7 @@ import { InfocardsComponent } from './infocards/infocards.component';
 import { HomeComponent } from './pages/home/home.component';
 import { GamesComponent } from './pages/games/games.component';
 import { DinoGameComponent } from './dino-game/dino-game.component';
+import { TrexGameComponent } from './games/trex-game/trex-game.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { DinoGameComponent } from './dino-game/dino-game.component';
     HomeComponent,
     GamesComponent,
     DinoGameComponent,
+    TrexGameComponent,
 
   ],
   imports: [

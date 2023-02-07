@@ -14,14 +14,16 @@ import {
 export class DinoGameComponent implements AfterViewInit {
 
   //private dino: any;
-  
+  public points: number
   public jump_status:boolean;
+  public isPaused:boolean
   @ViewChild("dino_el") dino: ElementRef | undefined;
   @ViewChild("cactus_el") cactus: ElementRef | undefined;
 
   constructor(){
-    
+    this.points=0;
     this.jump_status=false;
+    this.isPaused=false;
   }
   ngAfterViewInit(): void {
     
@@ -39,6 +41,14 @@ export class DinoGameComponent implements AfterViewInit {
                 break;
         }
   }
+
+  public setPoints= setInterval(()=>{
+    if(!this.isPaused){
+
+      console.log(this.points)
+      this.points+=100
+    }
+  },1000)
   
   public isAlive = setInterval( ()=> {
     if(this.dino && this.cactus!= null) {
@@ -48,7 +58,7 @@ export class DinoGameComponent implements AfterViewInit {
       //il dinosauro a sx si trova in posizione 277
       //
       if((cactusLeft-dinoRight<=10) && (dinoTop>=255)  ){
-        alert("SCEMOOOOO");
+        alert("COJONA AHAHAHAHAHA COJONAAAA AAHAHAHAHAH");
         console.log(dinoTop)
       }
       
@@ -73,30 +83,93 @@ export class DinoGameComponent implements AfterViewInit {
 
 }
 
-
-
 /*
+document.addEventListener('DOMContentLoaded', () => {
+const dino = document.querySelector('.dino')
+const grid = document.querySelector('.grid')
+const body = document.querySelector('body')
+const alert = document.getElementById('alert')
+let isJumping = false
+let gravity = 0.9
+let isGameOver = false
 
-
-let isAlive = setInterval(function () {
-  // get current dino Y position
-  let dinoTop = parseInt(window.getComputedStyle(dino).getPropertyValue("top"));
-
-  // get current cactus X position
-  let cactusLeft = parseInt(
-    window.getComputedStyle(cactus).getPropertyValue("left")
-  );
-
-  // detect collision
-  if (cactusLeft < 50 && cactusLeft > 0 && dinoTop >= 140) {
-    // collision
-    alert("Game Over!");
+function control(e) {
+  if (e.keyCode === 32) {
+    if (!isJumping) {
+      isJumping = true
+      jump()
+    }
   }
-}, 10);
+}
+document.addEventListener('keyup', control)
 
-document.addEventListener("keydown", function (event) {
-  jump();
-});
+let position = 0
+function jump() {
+  let count = 0
+  let timerId = setInterval(function () {
+    //move down
+    if (count === 15) {
+      clearInterval(timerId)
+      let downTimerId = setInterval(function () {
+        if (count === 0) {
+          clearInterval(downTimerId)
+          isJumping = false
+        }
+        position -= 5
+        count--
+        position = position * gravity
+        dino.style.bottom = position + 'px'
+      },20)
+
+    }
+    //move up
+    position +=30
+    count++
+    position = position * gravity
+    dino.style.bottom = position + 'px'
+  },20)
+}
+
+function generateObstacles() {
+  let randomTime = Math.random() * 4000
+  let obstaclePosition = 1000
+  const obstacle = document.createElement('div')
+  if (!isGameOver) obstacle.classList.add('obstacle')
+  grid.appendChild(obstacle)
+  obstacle.style.left = obstaclePosition + 'px'
+
+  let timerId = setInterval(function() {
+    if (obstaclePosition > 0 && obstaclePosition < 60 && position < 60) {
+      clearInterval(timerId)
+      alert.innerHTML = 'Game Over'
+      isGameOver = true
+      //remove all children
+      body.removeChild(body.firstChild)
+      while (grid.firstChild) {
+        grid.removeChild(grid.lastChild)
+      }
+      
+    }
+    obstaclePosition -=10
+    obstacle.style.left = obstaclePosition + 'px'
+  },20)
+  if (!isGameOver) setTimeout(generateObstacles, randomTime)
+}
+generateObstacles()
+})
+
+
+HTML VECCHIO:
+<div class="game" >
+    
+
+  <p *ngIf="isPaused">IL GIOCO È IN PAUSA</p>
+  <p *ngIf="isPaused">PORCO</p>
+  <p *ngIf="isPaused">DIO</p>
+  <div  [ngClass]="{'jump': jump_status, 'dino': !isPaused}"></div>
+  <div  [ngClass]="{'cactus': !isPaused}"></div>
+
+<button type="button" class="btn btn-secondary buttone" (click)="isPaused = !isPaused">Pausa</button>
+<button type="button" class="btn btn-secondary buttone"  (keyup.Space)="jump()" (click)="jump()">Salta!</button>
+</div>
 */
-
-

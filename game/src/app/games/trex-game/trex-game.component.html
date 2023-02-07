@@ -1,0 +1,11 @@
+<div  id="desert">
+    <h2 #alert id="alert"></h2>
+    <h4>Points: {{this.points}}</h4>
+    <div #grid class="grid">
+      <p *ngIf="this.isGameOver">HAI PERSO</p>
+      <p *ngIf="this.isGameOver">MONGOLOIDE</p>
+      
+      <div *ngIf="!this.isGameOver" #dino class="dino"></div>
+      <div *ngIf="!this.isGameOver" class="obstacle" [ngStyle]="{left: this.obstaclePosition + 'px'}"></div>
+    </div>
+  </div>

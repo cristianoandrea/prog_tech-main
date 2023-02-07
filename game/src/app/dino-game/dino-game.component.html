@@ -1,6 +1,13 @@
+<p>Points:{{points}}</p>
 <div class="game" >
-    <div class="dino" [ngClass]="{'jump':jump_status}" #dino_el ></div>
-    <div class="cactus" #cactus_el></div>
+    
+
+        <p *ngIf="isPaused">IL GIOCO È IN PAUSA</p>
+        <p *ngIf="isPaused">PORCO</p>
+        <p *ngIf="isPaused">DIO</p>
+        <div  [ngClass]="{'jump': jump_status, 'dino': !isPaused}"></div>
+        <div  [ngClass]="{'cactus': !isPaused}"></div>
+   
     <br/>
     <br/>
     <br/>
@@ -8,5 +15,7 @@
     <br/>
     <br/>
     <br/>
+
+    <button type="button" class="btn btn-secondary buttone" (click)="isPaused = !isPaused">Pausa</button>
     <button type="button" class="btn btn-secondary buttone"  (keyup.Space)="jump()" (click)="jump()">Salta!</button>
 </div>
