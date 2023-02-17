@@ -1,6 +1,6 @@
 .game {
     width: 500px;
-    height: 200px;
+    height: 210px;
     border: 2px solid black;
     margin: auto;
     background-image: url('./img/t-rex-background.png');
@@ -70,8 +70,7 @@
 
 
 #desert {
-    position: absolute;
-    bottom: 0px;
+    
     background-image: url('./img/t-rex-background.png');
     background-repeat: repeat-x;
     animation: slideright 600s infinite linear;

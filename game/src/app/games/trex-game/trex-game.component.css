@@ -4,6 +4,7 @@
     height: 60px;
     background-image: url(img/t-rex.png);
     bottom: 0px;
+    
   }
   
   .obstacle {
@@ -33,7 +34,7 @@
   }
   
   #desert {
-    position: absolute;
+    position: relative;
     bottom: 0px;
     background-image: url('img/t-rex-background.png');
     background-repeat: repeat-x;
@@ -42,3 +43,17 @@
     width: 100%;
     height: 200px;
   }
+
+  .game {
+    width: 100%;
+    height: 240px;
+    border: 2px solid black;
+    margin: auto;
+    background-image: url('./img/t-rex-background.png');
+}
+  
+  
+
+.buttone{
+  width: 200px;
+}

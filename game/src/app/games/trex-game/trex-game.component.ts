@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef, ViewContainerRef, Renderer2 } from '@angular/core';
 import { throwIfEmpty } from 'rxjs';
 
 @Component({
@@ -14,24 +14,27 @@ export class TrexGameComponent implements OnInit {
   public position: number
   public obstaclePosition: number
   public points: number
+  public obstacleSpeed: number = 10;
 
   @ViewChild("dino") dino: ElementRef | undefined;
   @ViewChild("grid") grid: ElementRef | undefined;
   @ViewChild("body") body: ElementRef | undefined;
   @ViewChild("alert") alert: ElementRef | undefined;
 
-  constructor( private viewContainerRef: ViewContainerRef ) { 
+  constructor( 
+    private viewContainerRef: ViewContainerRef, 
+    private renderer:Renderer2) { 
     this.isJumping = false
     this.gravity = 0.9
     this.isGameOver = false
     this.position=0
-    this.obstaclePosition=2000
+    this.obstaclePosition=1500
     this.points=0
     
   }
 
   ngOnInit(): void {
-    this.generateObstacles()
+    this.generateObstacles_1()
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -40,6 +43,7 @@ export class TrexGameComponent implements OnInit {
         
         console.log("freccia sx")
       } else if (event.key === 'ArrowRight') {
+        this.game()
         console.log("freccia dx")
       } else if (event.keyCode === 32) {
         if(!this.isJumping){
@@ -49,14 +53,13 @@ export class TrexGameComponent implements OnInit {
       } 
   }
 
-  public game(){
-    
-    while (!this.isGameOver) {
-      this.generateObstacles()
-    }
+  public game() {
+    const d2 = this.renderer.createElement('div');
+    this.renderer.addClass(d2, 'obstacle');
+    if (this.grid != null) this.renderer.appendChild(this.grid.nativeElement, d2);
   }
 
-  private jump() {
+  public jump() {
     let count=0
     let timerId = setInterval(()=>{
       if(this.dino!=null){
@@ -91,111 +94,68 @@ export class TrexGameComponent implements OnInit {
   public setPoints= setInterval(()=>{
     if(!this.isGameOver){
 
-      console.log(this.points)
+      //console.log(this.points)
       this.points+=100
     }
   },1000)
   
   public generateObstacles () {
-    let pippo= setInterval(()=>{
-      
+    
+    let randomTime = Math.random() * 4000
       if(!this.isGameOver){
         this.obstaclePosition=1500
-  
-        let i=0
+        const obstacle = this.renderer.createElement('div');
+        this.renderer.addClass(obstacle, 'obstacle');
+        if (this.grid != null) {
+          this.renderer.appendChild(this.grid.nativeElement, obstacle);
+          obstacle.style.left = this.obstaclePosition + 'px'
+        }
+        
         let timerId = setInterval(()=>{
           //l'if che segue regola le condizioni per il gameover
           if(this.obstaclePosition > 0 && this.obstaclePosition < 60 && this.position <60) {
             //funzione che stoppa l'esecuzione di setinterval, e quindi del movimento degli ostacoli
             clearInterval(timerId)
-            
-            this.isGameOver=true
-            console.log("posizione dinosauro" ,this.position)
-            console.log("posizione cactus" ,this.obstaclePosition)        
-            //alert("game over")
-    
+            //this.isGameOver=true
+            this.renderer.removeChild(this.grid, obstacle)
           }
           
-          this.obstaclePosition-=10
+          this.obstaclePosition -= this.obstacleSpeed;
+          obstacle.style.left = this.obstaclePosition + 'px'
         }, 20)
-        //this.obstacles.splice(0)
-      //setTimeout(this.generateObstacles, randomTime)
+      console.log(randomTime)
+      setTimeout(this.generateObstacles.bind(this), randomTime)
       }
-    }, 3000)
-}
+    
+  }
+
+  public generateObstacles_1() {
+    let randomTime = Math.random() * 4000;
+    let intervalId = setInterval(() => {
+      if (!this.isGameOver) {
+        this.obstaclePosition = 1500;
+        const obstacle = this.renderer.createElement('div');
+        this.renderer.addClass(obstacle, 'obstacle');
+        if (this.grid != null) {
+          this.renderer.appendChild(this.grid.nativeElement, obstacle);
+          obstacle.style.left = this.obstaclePosition + 'px';
+        }
   
-
-}
-
-/*
-const obstacle=document.createElement('div')
-obstacle.classList.add('obstacle')
-this.grid.nativeElement.appendChild(obstacle)
-obstacle.style.left = this.obstaclePosition + 'px'
-*/
-
-/*
-.dino {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background-image: url(img/t-rex.png);
-    bottom: 0px;
-}
+        let timerId = setInterval(() => {
+          if (this.obstaclePosition > 0 && this.obstaclePosition < 60 && this.position < 60) {
+            clearInterval(timerId);
+            this.renderer.removeChild(this.grid, obstacle);
+            this.isGameOver=true
+          }
   
-.obstacle {
-position: absolute;
-width: 60px;
-height: 60px;
-background-image: url(img/cacti.png);
-bottom: 0px;
+          this.obstaclePosition -= this.obstacleSpeed;
+          obstacle.style.left = this.obstaclePosition + 'px';
+        }, 20);
+      } else {
+        clearInterval(intervalId);
+      }
+    }, randomTime);
+  }
+
 }
 
-@keyframes slideright {
-    from {
-        background-position: left 70000%;
-    }
-    to {
-        background-position: left 0%;
-    }
-}
-
-@-webkit-keyframes slideright {
-    from {
-        background-position: left 70000%;
-    }
-    to {
-        background-position: left 0%;
-    }
-}
-
-#desert {
-position: absolute;
-bottom: 0px;
-background-image: url('img/t-rex-background.png');
-background-repeat: repeat-x;
-animation: slideright 600s infinite linear;
--webkit-animation: slideright 600s infinite linear;
-width: 100%;
-height: 200px;
-}
-*/
-
-/*
-.dino {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background-color: red;
-    bottom: Opx;
-}
-
-.obstacle {
-    position: absolute;
-    left:100px;
-    width: 60px;
-    height: 60px;
-    background-color: rgb(255, 166, 0);
-    bottom: Opx;
-}
-*/

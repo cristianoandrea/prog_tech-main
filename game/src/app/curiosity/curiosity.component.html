@@ -1,0 +1,40 @@
+<div class="container font">
+    <h1>Curiosità sui tuoi animali preferiti</h1>
+    
+
+    <div class="input-group mb-3">
+        <input class="form-control testo" [(ngModel)]="name" placeholder="Enter animal name">
+        <button class="btn btn-secondary" (click)="search(name)">Search</button>
+    </div>
+
+    <div *ngIf="my_animals" id="own_pets">
+        <button *ngFor="let pet of this.my_animals" class="btn btn-secondary" (click)="search(pet)">{{pet}}</button>
+    </div>
+
+    <div *ngIf="animalInfo">
+        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" *ngFor="let animal of this.animalInfo">
+            <ngb-panel title={{animal.name}}>
+            <ng-template ngbPanelContent>
+                <h4>Location:</h4> {{animal.locations}}
+                <br>
+                <h4>Taxonomy: </h4>
+                <ul>
+                    <li *ngFor="let item of animal.taxonomy | keyvalue">
+                        <strong>{{transform(item.key)}}:</strong> {{item.value}}
+                      </li>
+                </ul>
+                <br>
+                <h4>Characteristics: </h4>
+                <ul>
+                    <li *ngFor="let item of animal.characteristics | keyvalue">
+                        <strong>{{transform(item.key)}}: </strong> {{item.value}}
+                      </li>
+                </ul>
+
+            </ng-template>
+        </ngb-panel>
+        </ngb-accordion>
+    
+    
+  </div>
+</div>
