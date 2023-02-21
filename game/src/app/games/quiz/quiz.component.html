@@ -1,11 +1,9 @@
 <div class="tot">
-    <h1>Trivia Game!</h1>
-    <h4>Choose which animal you want questions about</h4>
-    <div class="input-group mb-3">
-      <input class="form-control testo" [(ngModel)]="name" placeholder="Enter animal name">
-      
-    </div>
-
+    <h1>Who wants to be a good boi</h1>
+    <h4 *ngIf="!started">Choose which animal you want questions about</h4>
+    
+    <input class="form-control testo" *ngIf="!started" [(ngModel)]="name" placeholder="Enter animal name">
+  
     <button class="btn btn-secondary start_button" *ngIf="!started" (click)="start(name)">Inizia</button>
     <div class="game" *ngIf="questions">
       <div class="question_block" *ngFor="let domanda of questions; let i = index">

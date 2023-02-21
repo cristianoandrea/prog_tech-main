@@ -226,7 +226,7 @@ private chooseRandomElements(correctAnswer: string, type:string): string[] {
   }
 
   private lifespanQuestion(animal:any){
-    let question_text= "What is the average lifespan of the"+ animal.name +"?"
+    let question_text= "What is the average lifespan of the "+ animal.name +"?"
     let correctAnswer=animal.characteristics.lifespan
     let all_answers=this.chooseRandomSpecies(correctAnswer, "Lifespan")
     let trivia_question = {

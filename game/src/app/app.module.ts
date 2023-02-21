@@ -15,6 +15,10 @@ import { CuriosityComponent } from './curiosity/curiosity.component';
 import { FormsModule } from '@angular/forms';
 import {  HttpClientModule } from '@angular/common/http';
 import { QuizComponent } from './games/quiz/quiz.component';
+import { FooterComponent } from './footer/footer.component';
+import { ProductsComponent } from './pages/products/products.component';
+import { CardComponent } from './card/card.component';
+import { ServicesComponent } from './pages/services/services.component';
 //import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -29,6 +33,10 @@ import { QuizComponent } from './games/quiz/quiz.component';
     TrexGameComponent,
     CuriosityComponent,
     QuizComponent,
+    FooterComponent,
+    ProductsComponent,
+    CardComponent,
+    ServicesComponent,
 
   ],
   imports: [

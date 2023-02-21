@@ -1,6 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgIf } from '@angular/common';
+
+export interface Slide {
+  p: string;
+  h1: string;
+  button: string;
+  img: string;
+}
+
 
 @Component({
   selector: 'app-carousel',
@@ -9,10 +17,11 @@ import { NgIf } from '@angular/common';
 })
 export class CarouselComponent implements OnInit {
   
-  public button;
+  
+  @Input() slides: Slide[] | undefined;
 
   constructor() { 
-    this.button="Gioca Ora!";
+    
   }
 
   images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
