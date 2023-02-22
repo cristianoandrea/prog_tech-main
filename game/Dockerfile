@@ -1,19 +1,29 @@
-FROM node:16 as build
-# Set the working directory
-WORKDIR /usr/local/app
-# Copy the package.json and package-lock.json files
-COPY package*.json ./
-# Install all the dependencies
-RUN npm install
-# Add the source code to app
-COPY ./ ./
-# Generate the build of the application
-RUN npm run build
+# Base image
+FROM node:14-alpine as build
 
-# Stage 2: Serve app with nginx server
-# Use official nginx image as the base image
-FROM nginx:latest
-# Copy the build output to replace the default nginx contents.
-COPY --from=build /usr/local/app/dist/game /usr/share/nginx/html
+# Set the working directory
+WORKDIR /app
+
+# Copy the package.json and package-lock.json files to the container
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application files to the container
+COPY . .
+
+# Build the application
+RUN npm run build --prod
+
+# Create a new stage with a smaller image
+FROM nginx:alpine
+
+# Copy the built application files to the nginx directory
+COPY --from=build /app/dist/game /usr/share/nginx/html
+
 # Expose port 80
-EXPOSE 4200
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

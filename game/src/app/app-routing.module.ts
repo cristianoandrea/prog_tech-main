@@ -10,7 +10,7 @@ import { ServicesComponent } from './pages/services/services.component';
 const routes: Routes = [
   { path: "", component: HomeComponent},
   { path: "games", component: GamesComponent},
-  { path: "games/quiz", component: QuizComponent},
+  { path: "quiz", component: QuizComponent},
   { path: "curiosity", component: CuriosityComponent},
   { path: "products", component: ProductsComponent},
   { path: "services", component: ServicesComponent},
