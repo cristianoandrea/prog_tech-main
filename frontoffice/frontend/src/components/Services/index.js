@@ -25,13 +25,13 @@ const Services = () => {
                 <ServicesIcon src={Icon1}/>
                 <ServicesH2>Cani</ServicesH2>
                 <ServicesP>La migliore selezione</ServicesP>
-                <Button1 to="/store/prodotti?animale=Cane">Acquista Ora!</Button1>
+                <Button1 to="/store/prodotti?animale=cane">Acquista Ora!</Button1>
             </ServicesCard>
             <ServicesCard>
                 <ServicesIcon src={Icon2}/>
                 <ServicesH2>Gatti</ServicesH2>
                 <ServicesP>La migliore selezione</ServicesP>
-                <Button1 to="/store/prodotti?animale=Gatto">Acquista Ora!</Button1>
+                <Button1 to="/store/prodotti?animale=gatto">Acquista Ora!</Button1>
             </ServicesCard>
             <ServicesCard>
                 <ServicesIcon src={Icon3}/>

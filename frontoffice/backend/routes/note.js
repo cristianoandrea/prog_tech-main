@@ -5,7 +5,7 @@ const {requireAuth} = require('../middlewares/authMiddleware')
 const {postNote} = require('../controllers/noteController')
 
 //Protect all routes
-router.use(requireAuth)
+//router.use(requireAuth)
 
 
 //GET all note
@@ -27,8 +27,8 @@ router.post('/create', async (req,res)=>{
     const {descrizione,image,tipo} = req.body
     //console.log(req.user._id)
     try {
-        const user_id= req.user._id
-        const note = await Note.create({user_id,descrizione,image,tipo})
+        //const user_id= req.user._id
+        const note = await Note.create({descrizione,image,tipo})
         res.status(200).json({note})
     } catch(error){  
         res.status(400).json({error: error.message})
@@ -37,9 +37,15 @@ router.post('/create', async (req,res)=>{
 
 
 //DELETE Note
-router.delete('/:id', (req,res) => {
-    res.json({mssg: 'DELETE Note'})
-})
+router.delete('/:id', async(req,res) => {
+    const {id} = req.params
+    const note = await Note.findByIdAndDelete(id)
+
+    if (!note){ 
+        return res.status(404).json ({error: 'no such item'})
+    }
+
+    res.status(200).json(note)})
 
 //UPDATE Note
 router.patch('/:id', (req,res) => {

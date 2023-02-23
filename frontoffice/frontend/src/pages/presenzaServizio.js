@@ -5,6 +5,8 @@ import FiltriServices from '../components/filtriServices';
 import dayjs from 'dayjs';
 import axios from 'axios'
 import Products from '../components/StorePage/PopProducts';
+import Footer from '../components/Footer'
+
 
 export const ServicesH1= styled.h1`
     font-size: 2.5rem;
@@ -16,17 +18,16 @@ export const ServicesH1= styled.h1`
     }
 `
 export const ServicesContainer= styled.div`
-margin-top:150px;
-width: 100%
-    height: 800px;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: white;
-    flex-wrap: wrap;
-
+margin-top: 80px;
+margin-left: 2em;
+margin-right: 2em;
+display:flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
 `
+
+
 //uso uno stesso componente per dogsitting e veterinario:
 //prendo in input un valore (service) che uso per renderizzare 
 //il componente in maniera specifica
@@ -34,31 +35,44 @@ const PresenzaServizio = ({service, time}) => {
 
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
-  var pippo={time}
+  const type_visualization = service
+  const [dataFiltrata, setDataFiltrata] = useState([])
+  const [dataFiltrataFin, setDataFiltrataFin] = useState([])
+
+
 
   useEffect(() => {
-    axios.post('http://localhost:4000/api/item/')
+    const tmp = {
+      data: dataFiltrata
+    }
+    setDataFiltrataFin(tmp)
+
+  }, [dataFiltrata]);
+  
+
+  useEffect(() => {
+    console.log(type_visualization)
+    axios.post('http://localhost:4000/api/service/visual/'+ type_visualization)
     .then(res=> {
      console.log(res)
-     setData(res.data)
+     const tmp = {
+      data: res.data
+    }
+     setData(tmp)
      setLoading(false)
     })
     .catch(err => {
      console.log (err)
     })
     console.log(data)
+  
    }, []);
 
-  var servizio= ""
-  if (service == 0) {
-
-    servizio="Veterinario";
-
-  } else if (service==1){
-    servizio="Dogsitting"
-    
+   function handleChangeFiltri(newValue) {
+    setDataFiltrata(prevDataFiltrata => {
+      return newValue;
+    });
   }
-
   
 
   return (
@@ -67,19 +81,26 @@ const PresenzaServizio = ({service, time}) => {
 
       {
         loading ?
-        
-        
-        <ServicesContainer></ServicesContainer>
+        " "
         :
+        <div>
 
       <ServicesContainer>
-        <ServicesH1>{servizio}</ServicesH1>
         
-        <FiltriServices time={pippo}/>
+        
+        <FiltriServices onSubmit={handleChangeFiltri}/>
 
-        <Products data = {data}/>
+        {dataFiltrata.length > 0?
+       
+       <Products data={dataFiltrataFin} tipo={true} />
+       :
+       <Products data={data} tipo={true}/>
+      }
 
       </ServicesContainer>
+      <Footer />  
+
+      </div>
       }
 
     </div>

@@ -147,7 +147,7 @@ const Navbar = ({ toggle }) => {
   
   const {openCart, cartQuantity, isOpen} = useShoppingCart()  
 
-  const [logged, setLogged]=useState(true);
+  const [logged, setLogged]=useState(false);
 
   const [scrollNav, setScrollNav] = useState(false);
 
@@ -202,10 +202,26 @@ const Navbar = ({ toggle }) => {
                 {
                     logged ?
                     (
+                        <NavBtn>
+                          
+                        <NavBtnLink to="/login" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Log In</NavBtnLink> 
+                       
+                        {cartQuantity > 0 && (
+                            <ShoppingCart isOpen={isOpen}>
+                                {cartQuantity}
+                            </ShoppingCart>
+                               
+                            )}
+                        
+                    </NavBtn>
+                        
+                    )
+                    :
+                    (
                         <>
                         <NavBtn>
-
-                        <Dropdown/>
+                        <NavBtnLink to="/signin" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Sign In</NavBtnLink> 
+                        
                         {cartQuantity > 0 && (
                             <ShoppingCart isOpen={isOpen}>
                                 {cartQuantity}
@@ -215,21 +231,6 @@ const Navbar = ({ toggle }) => {
                         </NavBtn>
                         </>
                         
-                    )
-                    :
-                    (
-                    <NavBtn>
-                          
-                        <NavBtnLink to="/login" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Log In</NavBtnLink> 
-                        <NavBtnLink to="/userprofile" smooth={true} duration={500} spy={true} exact='true' offset={-80}>userprofile</NavBtnLink>
-                        {cartQuantity > 0 && (
-                            <ShoppingCart isOpen={isOpen}>
-                                {cartQuantity}
-                            </ShoppingCart>
-                               
-                            )}
-                        
-                    </NavBtn>
                     )
                 }
                     

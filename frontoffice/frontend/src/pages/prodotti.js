@@ -15,16 +15,83 @@ const Container1= styled.div`
   margin-left: 2em;
   margin-right: 2em;
 `
-
+const Button1= styled.button`
+margin-top:10px;
+    border-radius: 50px;
+    background: #01bf71;
+    white-space: nowrap;
+    padding: 10px 22px;
+    color: #010606;
+    font-size: 16px;
+    outline: none;
+    border:none;
+    cursor:pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    &:hover {
+        background: #fff;
+        
+        transition: all 0.2s ease-in-out;
+        color: #010606;
+    }
+`
 
 const Prodotti = () => {
 
-  const theme = useTheme();
-  const [animalName, setAnimalName] = useState([]);
+
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
+  const [dataFiltrata, setDataFiltrata] = useState([])
+  const [dataFiltrataFin, setDataFiltrataFin] = useState([])
 
+
+
+  function handleChangeFiltri(newValue) {
+    setDataFiltrata(prevDataFiltrata => {
+      return newValue;
+    });
+  }
+  
+
+  useEffect(() => {
+    const tmp = {
+      data: dataFiltrata
+    }
+    setDataFiltrataFin(tmp)
+
+  }, [dataFiltrata]);
+ 
+
+  
+
+  async function ok(){
+    const queryString = window.location.search
+    if(queryString){
+      const urlParams = new URLSearchParams(queryString);
+      const Animal = urlParams.get('animale')
+      console.log(Animal)
+      const response = await fetch("http://localhost:4000/api/item/filter", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({Animal }),
+    });
+    const data = await response.json();
+    
+    setDataFiltrata(data)
+    }
+    const tmp = {
+      data: dataFiltrata
+    }
+    setDataFiltrataFin(tmp)
+  } 
+
+  useEffect(() => {
+    ok()
+  }, []);
+  
 
   const toggle = ()=> {
       setIsOpen(!isOpen)
@@ -42,7 +109,11 @@ const Prodotti = () => {
     })
     console.log(data)
    }, []);
+   
+   
 
+  
+  
   
 
   return (
@@ -53,12 +124,19 @@ const Prodotti = () => {
       : 
       <div>
 
-        <Container1>
+        <Container1> 
           
             
-        <FiltriProdotti />
-        <Products data={data}/>
-            
+        <FiltriProdotti onSubmit={handleChangeFiltri} />
+        
+        
+        {dataFiltrata.length > 0?
+       
+          <Products data={dataFiltrataFin} tipo={false} />
+          :
+          <Products data={data} tipo={false}/>
+         }
+         
         
         </Container1>
         <Footer />  

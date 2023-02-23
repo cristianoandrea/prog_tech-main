@@ -62,11 +62,11 @@ const MenuProps = {
 };
 
 const names = [
-  'Cane', 'Gatto', 'Orso', 'Topo', 'Diocane'
+  'cane', 'gatto', 'orso', 'topo'
 ];
 
 const tags = [
-    'cibo' , 'sanitari', 'accessori'
+    'cibi' , 'sanitari', 'accessori'
 ]
 
 const ordine= [
@@ -84,6 +84,10 @@ const ordine= [
     },
 ]
 
+const recensione = [
+  2 , 3, 4,
+]
+
 function getStyles(name, personName, theme) {
   return {
     fontWeight:
@@ -93,22 +97,20 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function FiltriProdotti() {
+export default function FiltriProdotti(props) {
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
-  
+  const [Animal, setAnimal] = React.useState([]);
   const handleChange = (event) => {
     const {
         target: { value },
     } = event;
-    setPersonName(
+    setAnimal(
         // On autofill we get a stringified value.
         typeof value === 'string' ? value.split(',') : value,
         );
     };
     
     const [order, setOrder] = React.useState('');
-
     const handleOrderChange = (event) => {
         setOrder(event.target.value);
     };
@@ -117,12 +119,35 @@ export default function FiltriProdotti() {
   const handleTagChange = (event) => {
     setTag(event.target.value);
   };
+  
+  const [recensioni,setRecensioni] =  React.useState([]);
+  const handleRecensioniChange = (event) => {
+    setRecensioni(event.target.value);
+  };
 
+  const [filtri,setFiltri] =  React.useState([]);
+  
+  
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const response = await fetch("http://localhost:4000/api/item/filter", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ Animal,tag,recensioni }),
+    });
+    const data = await response.json();
+    setFiltri(data)
+    props.onSubmit(data)
+};
 
   return (
     <FilterContainer>
 
-    <form method="GET" action="/store/prodotti">
+
+    <form onSubmit={handleSubmit}>
         <Filter>
             <FormControl sx={{ 
               m: 1, width:300, minWidth: 250, height: 70, }}
@@ -140,7 +165,7 @@ export default function FiltriProdotti() {
                 labelId="tipo_animale"
                 id="tipo_animale"
                 multiple
-                value={personName}
+                value={Animal}
                 onChange={handleChange}
                 input={<OutlinedInput id="tipo_animale" label="Tipo Animale" />}
                 renderValue={(selected) => (
@@ -177,7 +202,7 @@ export default function FiltriProdotti() {
                     <MenuItem
                         key={name}
                         value={name}
-                        style={getStyles(name, personName, theme)}
+                        style={getStyles(name, Animal, theme)}
                         sx={{
                             borderRadius:3,
                             typography:{
@@ -315,7 +340,7 @@ export default function FiltriProdotti() {
                     <MenuItem
                         key={name}
                         value={name}
-                        style={getStyles(name, personName, theme)}
+                        style={getStyles(name, Animal, theme)}
                         sx={{
                             borderRadius:3,
                             typography:{
@@ -330,21 +355,33 @@ export default function FiltriProdotti() {
             </Select>
         </FormControl>
 
-        <FormControl sx={{ m: 1, width: 300, height: 70 }} size="small">
-            <InputLabel
-            sx={{
+        <FormControl sx={{ 
+              m: 1, width:300, minWidth: 250, height: 70, }}
+              justifyContent="center" 
+              alignItems="center" >
+            <InputLabel 
+             sx={{
                 typography:{
                   fontFamily: 'Encode Sans Expanded',
                 }
               }}
-            id="demo-select-small">Recensioni</InputLabel>
+             id="tipo_animale">Recensioni</InputLabel>
             <Select
-                name="ordine"
-                labelId="demo-select-small"
-                id="demo-select-small"
-                value={order}
-                label="Order"
-                onChange={handleOrderChange}
+                name='recensione'
+                labelId="tipo_recensione"
+                id="tipo_recensione"
+                multiple
+                value={recensioni}
+                onChange={handleRecensioniChange}
+                input={<OutlinedInput id="tipo_recensione" label="Tipo Recensione" />}
+                renderValue={(selected) => (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                        {selected.map((value) => (
+                            <Chip key={value} label={value} />
+                        ))}
+                    </Box>
+                )}
+                MenuProps={MenuProps}
                 sx={{
                     height: 60,
                     menuStyle:{
@@ -367,51 +404,25 @@ export default function FiltriProdotti() {
                     }
                   }}
             >
-                <MenuItem value="">
-                <em>None</em>
-                </MenuItem>
-                <MenuItem 
-                
-                sx={{
-                    borderRadius:3,
-                    typography:{
-                      fontFamily: 'Encode Sans Expanded',
-                    },
-
-                  }}
-                value={'2'}>Maggiore di 2</MenuItem>
-                <MenuItem
-                
-                sx={{
-                    borderRadius:3,
-                    typography:{
-                      fontFamily: 'Encode Sans Expanded',
-                    },
-
-                  }}
-                value={'3'}>Maggiore di 3</MenuItem>
-                <MenuItem 
-                
-                sx={{
-                    borderRadius:3,
-                    typography:{
-                      fontFamily: 'Encode Sans Expanded',
-                    },
-
-                  }}
-                value={'4'}>Maggiore di 4</MenuItem>
-                <MenuItem 
-                
-                sx={{
-                    borderRadius:3,
-                    typography:{
-                      fontFamily: 'Encode Sans Expanded',
-                    },
-
-                  }}
-                value={'5'}>5 stelle</MenuItem>
+                {recensione.map((name) => (
+                    <MenuItem
+                        key={name}
+                        value={name}
+                        style={getStyles(name, recensioni, theme)}
+                        sx={{
+                            borderRadius:3,
+                            typography:{
+                              fontFamily: 'Encode Sans Expanded',
+                            },
+      
+                          }}
+                    >
+                        {name}
+                    </MenuItem>
+                ))}
             </Select>
         </FormControl>
+
 
 
 

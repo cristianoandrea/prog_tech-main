@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { count } = require('./userModel')
 const Schema = mongoose.Schema
 
 const itemSchema = new Schema({
@@ -6,29 +7,42 @@ const itemSchema = new Schema({
         type: String,
         required: true
     },
+    rating : Number,
+    tag: String,
+    producer: String,
     prezzo: {
         type: Number,
         required: true
     },
+    varianti: [{
+        value : String,
+        id : Number,
+        etichetta: String,
+        disponibilità :Number
+    }],
+    recensioni : [{
+        id : Number,
+        nome : String,
+        rating : Number,
+        txt: String
+    }],
     descrizione: {
         type: String,
         required: true
-        },
+        }, 
     animale: {
         type: String,
         required: true
         },
     image: {
-        type: String,
-    },
-    count: {
-        type: Number,
-        required: true
+        path : String,
+        alt: String
     }
 })
+    
 
-itemSchema.statics.pItem = async function(id, nome,prezzo,descrizione,image,tag,animale){
-    const item = await this.create({id, nome,prezzo,descrizione,image,tag,animale })
+itemSchema.statics.pItem = async function(id, nome,rating,producer,tag,prezzo,varianti,recensioni,descrizione,animale,image){
+    const item = await this.create({id, nome,rating,producer,tag,prezzo,varianti,recensioni,descrizione,animale,image })
 
     return item
 }

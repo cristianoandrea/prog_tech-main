@@ -28,11 +28,11 @@ function App() {
         <Route path='/login' caseSensitive={false} element={<LogInPage/>} />
         <Route path='/test' caseSensitive={false} element={<Test/>} />
         <Route path='/store' caseSensitive={false} element={<StorePage />} />
-        <Route path='/store/prodotti' caseSensitive={false} element={<Prodotti />} />
+        <Route path='/store/prodotti' caseSensitive={false} element={<Prodotti />} /> 
         <Route path='/store/prodotti/:id' caseSensitive={false} element={<SingleProduct />} />
         <Route path='/presenza' caseSensitive={false} element={<PresenzaPage />} />
-        <Route path='/presenza/veterinario' caseSensitive={false} element={<PresenzaServizio service={0} time={true} />} />
-        <Route path='/presenza/dogsitting' caseSensitive={false} element={<PresenzaServizio service={1} time={false}/>} />
+        <Route path='/presenza/veterinario' caseSensitive={false} element={<PresenzaServizio service={'Veterinario'} time={true} />} />
+        <Route path='/presenza/dogsitting' caseSensitive={false} element={<PresenzaServizio service={'Dogsitting'} time={false}/>} />
         <Route path='/online' caseSensitive={false} element={<OnlinePage />} />
         <Route path='/community' caseSensitive={false} element={<CommunityPage />} />
         <Route path='/userprofile' caseSensitive={false} element={<UserProfile />} />

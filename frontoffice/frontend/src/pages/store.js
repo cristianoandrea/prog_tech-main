@@ -57,8 +57,7 @@ margin-bottom: 64px;
 
 
 const StorePage = () => {
-
-  const [isOpen, setIsOpen] = useState(false)
+  const[isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   
@@ -95,7 +94,7 @@ const StorePage = () => {
       <Services />
       <PopContainer>
       <PopH1>Top Selling Products:</PopH1>
-      <Products data = {data}/>
+      <Products data = {data} tipo= {false}/>
       </PopContainer>
       <Footer />
       

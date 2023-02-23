@@ -2,6 +2,15 @@ import { useState } from "react"
 import { Button1 } from "../components/ButtonElement"
 import { useLogin } from "../hooks/useLogin"
 import { Buttone } from "./prodotto_singolo"
+import Navbar from '../components/Navbar'
+import styled, { useTheme } from 'styled-components'
+
+
+const Container1= styled.div`
+  margin-top: 80px;
+  margin-left: 2em;
+  margin-right: 2em;
+`
 
 const Login = () => {
     const [email, setEmail]= useState('')
@@ -15,6 +24,10 @@ const Login = () => {
 
     return (
         <>
+        <Navbar/>
+        <Container1> 
+        <Button1 to="/signin" >Registrati</Button1>
+        <Button1 to="/" >Home</Button1>
         <form className="login" onSubmit={handleSubmit}>
             <h3>log in</h3>
             <label>Email:</label>
@@ -33,8 +46,7 @@ const Login = () => {
               {error&& <div className="error">{error}</div>}
               
         </form>
-        <Button1 to="/signin" >Registrati</Button1>
-        <Button1 to="/" >Home</Button1>
+        </Container1> 
         </>
     )
 }
