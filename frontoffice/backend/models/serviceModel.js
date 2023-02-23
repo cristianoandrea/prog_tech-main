@@ -11,8 +11,8 @@ const serviceSchema = new Schema({
     },
     dottore : [{
         nome : String,
-        prezzo : Number,
-        slot : {
+        prezzo : Number, 
+        slot : { 
           n_grandi : Number, 
           n_medi : Number,
           n_piccoli : Number 
