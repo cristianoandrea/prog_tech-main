@@ -41,3 +41,37 @@ mongoose.connect(process.env.MONGO_UI)
     })
 
 
+/*
+version: '3.8'
+
+services:
+  backoffice:
+    build: ./backoffice
+    ports:
+      - "4020:4020"
+  frontoffice-frontend:
+    build: ./frontoffice/frontend
+    ports:
+      - "3000:3000"
+  frontoffice-backend:
+    build: ./frontoffice/backend
+    command: npm run dev
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./:/app/
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+  
+  game:
+    build: ./game
+    ports:
+      - "4200:80"
+
+*/
