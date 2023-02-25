@@ -106,31 +106,7 @@ import { formatCurrency } from "../../utilities/formatCurrency";
             alt=""
           />
         </AspectRatio>
-        <IconButton
-          aria-label="Like minimal photography"
-          variant="solid"
-          color="danger"
-          sx={{
-            position: 'absolute',
-            zIndex: 2,
-            borderRadius: '50%',
-            right: '1rem',
-            bottom: 0,
-            transform: 'translateY(50%)',
-          }}
-        >
-          <Favorite
-           size="md"
-           sx={{ 
-            color: 'white',
-            border: '3px solid red',
-            borderRadius: '50%',
-            right: '1rem',
-            bottom: 0,
-            backgroundColor: red[500]
-            
-            }} />
-        </IconButton>
+        
       </CardOverflow>
       <Typography level="h2" sx={{ fontSize: 'md', mt: 2 }}>
         <Link href="/store/prodotti/1" overlay underline="none">
@@ -165,73 +141,3 @@ import { formatCurrency } from "../../utilities/formatCurrency";
   };
   
   export default Product;
-
-  /*
-<Container >
-        <Circle />
-        <Image src={item.image} />
-        <Info>
-          <IconButton  
-            href="/store/prodotti?animale=gatto" 
-            sx={{
-              width: 40,
-              height: 40,
-              borderRadius: 50,
-              backgroundColor: '#FFFFFF',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: 3,
-              
-              '&:hover' :  {
-                backgroundColor: '#e9f5f5',
-                
-              }
-            }}
-            >
-            <ShoppingCartOutlined  />
-          </IconButton>
-          <IconButton
-            href="/store/prodotti?animale=gatto" 
-            sx={{
-              width: 40,
-              height: 40,
-              borderRadius: 50,
-              backgroundColor: '#FFFFFF',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: 3,
-              
-              '&:hover' :  {
-                backgroundColor: '#e9f5f5',
-                
-              }
-            }}
-          >
-            <SearchOutlined />
-          </IconButton>
-          <IconButton
-          href="/store/prodotti?animale=gatto" 
-          sx={{
-            width: 40,
-            height: 40,
-            borderRadius: 50,
-            backgroundColor: '#FFFFFF',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: 3,
-            
-            '&:hover' :  {
-              backgroundColor: '#e9f5f5',
-              
-            }
-          }}
-          >
-            <FavoriteBorderOutlined />
-          </IconButton>
-        </Info>
-      </Container>
-  */
-  

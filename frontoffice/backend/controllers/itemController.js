@@ -3,10 +3,10 @@ const {Item} = require('../models/itemModel')
 
 //POST di un item
 const postItem = async (req,res) => {
-    const {id,nome,prezzo,descrizione,tag,animale} = req.body
+    const {id, nome,rating,tag,prezzo,varianti,recensioni,descrizione,animale,image} = req.body
     try {
-        const item = await Item.pItem(id,nome,prezzo,descrizione,image,tag,animale)
-        res.status(200).json({id,nome,prezzo,descrizione,image,tag,animale})
+        const item = await Item.pItem(id, nome,producer,rating,tag,prezzo,varianti,recensioni,descrizione,animale,image)
+        res.status(200).json({id, nome,producer,rating,tag,prezzo,varianti,recensioni,descrizione,animale,image})
     } catch(error){
         res.status(400).json({error: error.message})
     }

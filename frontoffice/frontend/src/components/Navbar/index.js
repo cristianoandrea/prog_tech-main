@@ -191,9 +191,6 @@ const Navbar = ({ toggle }) => {
                         <NavLink1 to="/presenza" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Presenza</NavLink1>
                     </NavItem>
                     <NavItem>
-                        <NavLink1 to="/online" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Online</NavLink1>
-                    </NavItem>
-                    <NavItem>
                         <NavLink1 to="/community" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Community</NavLink1>
                     </NavItem>
                     

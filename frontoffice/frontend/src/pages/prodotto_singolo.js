@@ -44,26 +44,6 @@ export const data = [
     },
   ],
   prezzo: "125",
-  varianti: [ 
-    {
-      id: "0",
-      value: "azzurro",
-      etichetta: "Azzurro",
-      disponibilità: 4
-    },
-    {
-      id: '1',
-      value: "bianco",
-      etichetta: "Bianco",
-      disponibilità: 6
-    },
-    {
-      id: '2',
-      value: "grigio",
-      etichetta: "Grigio",
-      disponibilità: 8
-    }
-  ],
   recensioni: [
     {
       id: 0,
@@ -290,22 +270,19 @@ const SingleProduct = () => {
   //prodotto stiamo scegliendo (esempio il colore)
   //e di conseguenza cambia il numero di elementi riguardanti la
   //quantità acquistabile
-  var varianti= data[0].varianti
+  
 
   var id_prodotto=data[0].id
 
   
-  const [type, setType] = React.useState(varianti[0].id);
+  
 
   const handleChangeQuantity = (event) => {
     console.log(event.target.value)
     setQuantity(event.target.value);
   };
 
-  const handleChangeType = (event) => {
-    console.log(event.target.value)
-    setType(event.target.value);
-  };
+  
   
   var i=0;
   
@@ -341,57 +318,7 @@ const SingleProduct = () => {
           marginBottom: 10,
           
            }} >
-          <InputLabel 
           
-            id="demo-simple-select-label"
-            sx={{
-              typography:{
-                fontFamily: 'Encode Sans Expanded',
-              }
-            }}
-            >Type</InputLabel>
-          <Select
-          sx={{
-            borderRadius:3,
-            '.MuiOutlinedInput-notchedOutline': {
-              borderColor: 'black',
-           
-            },
-            listbox:{
-              borderRadius:3,
-            },
-            typography:{
-              fontFamily: 'Encode Sans Expanded',
-            }
-          }}
-          
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            defaultValue={'0'}
-            label="Type"
-            onChange={handleChangeType}
-            placeholder={"scegli un tipo"}
-          >
-            
-            {
-              varianti.map((tmp)=>{
-                return(
-                  <MenuItem
-                  
-                   value={tmp.id}
-                   sx={{
-                    borderRadius:1,
-                    borderColor: 'text.primary',
-                    typography:{
-                      fontFamily: 'Encode Sans Expanded',
-                    }
-                  }}>{tmp.etichetta}</MenuItem>
-                )
-              })
-            }
-            
-          </Select>
-
           <InputLabel sx={{
             typography:{
               fontFamily: 'Encode Sans Expanded',

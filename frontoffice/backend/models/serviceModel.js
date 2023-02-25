@@ -1,41 +1,47 @@
 const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
-const validator = require('validator')
 
 const Schema = mongoose.Schema
 
 const serviceSchema = new Schema({
-    type : {
-        type: String,
-        required: true
+    tipo: String,
+    luogo : String,
+    nome_struttura :{
+        nome: String,
+        img : String,
     },
-    descrizione : {
-        type: String,
-        required : true
-    },
-    sede : {
-        type: String,
-        required : true
-    },
-    disponibilità : {
-        type: Boolean,
-        required : true
-    },
-    num_cani : {
-        type: Number,
-        required : true
-    }
+    dottore : [{
+        nome : String,
+        prezzo : Number, 
+        slot : { 
+          n_grandi : Number, 
+          n_medi : Number,
+          n_piccoli : Number 
+      },
+        impegni : [{
+            dateiniz: Date,
+            datefin: Date,
+            animali : String,
+            n_grandi : Number,
+            n_medi : Number, 
+            n_piccoli : Number
+        }]
+    }]
+   
 })
 
-serviceSchema.static.gService = async function() {
-    const service = await this.find()
-    return service
-}
+const citySchema = new Schema({
+    name : {
+      type: String,
+      required: true
+    },
+    img : {
+      type: String,
+      required: true
+    }
+  })
+  
+  
+const City = mongoose.model('City', citySchema)
 
-serviceSchema.statics.pService = async function( type,sede,disponibilità,num_cani){
-    const item = await this.create({type,sede,disponibilità,num_cani})
-
-    return item
-}
-
-module.exports = mongoose.model('Service', serviceSchema)
+const Service = mongoose.model('Service', serviceSchema)
+module.exports= {Service,City}

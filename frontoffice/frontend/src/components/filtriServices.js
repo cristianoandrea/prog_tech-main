@@ -3,14 +3,9 @@ import { Grid, FormControl,Input, InputLabel, Select, MenuItem } from '@mui/mate
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
+import Button from '@mui/joy/Button';
 
-const names = [
-  'Cane', 'Gatto', 'Orso', 'Topo', 'Diocane'
-];
 
-const numbers=[
-  0,1,2,3,4
-]
 
 const Button1= styled.button`
 
@@ -32,30 +27,161 @@ const Button1= styled.button`
     }
 `
 
+const Button2= styled.button`
+
+    border-radius: 50px;
+    background: #01bf71;
+    white-space: nowrap;
+    padding: 5px 12px;
+    color: #010606;
+    font-size: 10px;
+    outline: none;
+    border:none;
+    cursor:pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    &:hover {
+        background: #fff;
+        transition: all 0.2s ease-in-out;
+        color: #010606;
+    }
+`
 
 const FilterContainer = styled.div`
 display: flex;
 justify-content: center;
 
 `;
-const FiltriServices = ({time}) => {
-  const [quantity, setQuantity] = useState('');
-  const [animal, setAnimals]= useState('')
-  const [startDate, setStartDate]=useState(new Date())
+
+
+
+
+
+
+const animalucci=[
+  { value: 'cane', label: 'Cani' },
+  { value: 'gatto', label: 'Gatti' },
+  { value: 'drago', label: 'Draghi di Komodo' },
+  { value: 'pesce', label: 'Pesci' },
+]
+
+const cities=[
+  'Bologna', 'Roma', 'Bari', 'Napoli', 'Milano', 'Foligno', 'Matera'
+]
+
+//se time è true => veterinairo
+//time = falso => dogsitter e daterange
+const FiltriServices = ({time}, props) => {
+  const [city, setCity] = useState("");
+  const [animal, setAnimals] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date(), 1);
-
-  const handleQuantityChange = (event) => {
-    setQuantity(event.target.value);
+  const [tipo, setTipo] = useState("");
+  const [animalQuantity, setAnimalQuantity] = useState(0);
+  const handleServizioChange = (event) => {
+    setTipo(event.target.value);
   };
 
-  const handleAnimalsChange = (event) => {
-    setAnimals(event.target.value);
+  const handleCityChange = (event) => {
+    setCity(event.target.value);
   };
 
+  //qui vengono salvati tutti gli animali con le relative quantità
+  const [pets, setPets] = useState(
+    [
+      {
+        name: "Cane", key: "medio", quantity: 0
+      },
+      {
+        name: "Gatto", key: "medio", quantity: 0
+      },
+      {
+        name: "Pesce", key: "piccolo", quantity: 0
+      },
+      {
+        name: "Tigre", key: "grande", quantity: 0
+      },
+    ]
+    )
+    
+  const [selectedPets, setSelectedPets] = useState(pets);
+  const handleQuantityChange = (event, index) => {
+    const newSelectedPets = [...selectedPets];
+    newSelectedPets[index].quantity = event.target.value;
+    setSelectedPets(newSelectedPets);
+  };
+
+  
+  const [filtri, setFiltri] = React.useState([]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log(tipo, city, animal, startDate);
+    const response = await fetch("http://localhost:4000/api/service/filter2", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ tipo, city, animal, startDate }),
+    });
+    const data = await response.json();
+    console.log(data);
+    setFiltri(data);
+
+    const originalDate = new Date(startDate);
+
+    const year = originalDate.getFullYear();
+    const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = originalDate.getDate().toString().padStart(2, "0");
+
+    const isoDateString = `${year}-${month}-${day}T00:00:00.000+00:00`;
+    const newParams = {
+      tipo: tipo,
+      city: city,
+      animal: animal,
+      date: isoDateString,
+    };
+
+    const currentSearchParams = new URLSearchParams(window.location.search);
+
+    Object.entries(newParams).forEach(([key, value]) => {
+      currentSearchParams.set(key, value);
+    });
+
+    const newUrl = `${window.location.origin}${
+      window.location.pathname
+    }?${currentSearchParams.toString()}`;
+
+    window.history.replaceState({}, "", newUrl);
+    props.onSubmit(data);
+  };
+
+  const [animali, setAnimali] = useState([])
+
+  const [animaliPiccoli, setPiccoli]= useState(0)
+  const [animaliMedi, setMedi]= useState(0)
+  const [animaliGrandi, setGrandi]= useState(0)
+  
+  const handleAnimalItemClick = (key, quantity, animali, setAnimali) => {
+    // Check if the key already exists in the array
+    const existingIndex = animali.findIndex(item => item.key === key);
+    if (existingIndex !== -1) {
+      // If it exists, update the quantity
+      const updatedAnimali = [...animali];
+      updatedAnimali[existingIndex] = { key, quantity };
+      setAnimali(updatedAnimali);
+    } else {
+      // If it doesn't exist, add it to the array
+      setAnimali([...animali, { key, quantity }]);
+    }
+    console.log(animali)
+  };
+  
+  const { options, ...rest } = props;
 
   return (
     <FilterContainer>
-      <form method="GET" action="/presenza/veterinario">
+      <form onSubmit={handleSubmit}>
 
       <Grid 
         container 
@@ -66,65 +192,76 @@ const FiltriServices = ({time}) => {
         style={{margin:10}}
        >
         <Grid item xs={12} sm={6} md={3}>
+        <InputLabel
+          sx={{
+            typography:{
+              fontFamily: 'Encode Sans Expanded',
+            }
+          }} id="label-animali">Animali</InputLabel>
           <FormControl  size="small">
-                <InputLabel
-                sx={{
-                    typography:{
-                      fontFamily: 'Encode Sans Expanded',
-                    }
-                  }}
-                id="demo-select-small">Animale</InputLabel>
-                <Select
-                    name="animale"
-                    labelId="demo-select-small"
-                    id="demo-select-small"
-                    value={animal}
-                    label="Animale"
-                    onChange={handleAnimalsChange}
-                    sx={{
-                        
-                        height: 60,
-                        menuStyle:{
-                          borderRadius:5,
-                        },
-                        '.MuiList-root-MuiMenu-list' :{
-                          borderRadius:3,
-                        },
-                        minWidth: 300,
-                        borderRadius:3,
-                        borderColor: 'text.primary',
-                        '.MuiOutlinedInput-notchedOutline': {
-                          borderColor: 'black',
-                        },
-                        listbox:{
-                          borderRadius:3,
-                        },
-                        typography:{
-                          fontFamily: 'Encode Sans Expanded',
-                        }
-                      }}
-                >
-                  {
-                    names.map((name)=>{
-                      return(
+            <Select
+            labelId="label-animali"
+            name="animali"
+            value={animalQuantity}
+            sx={{
+              height: 60,
+              menuStyle:{
+                borderRadius:5,
+              },
+              '.MuiList-root-MuiMenu-list' :{
+                borderRadius:3,
+              },
+              minWidth: 300,
+              borderRadius:3,
+              borderColor: 'text.primary',
+              '.MuiOutlinedInput-notchedOutline': {
+                borderColor: 'black',
+              },
+              listbox:{
+                borderRadius:3,
+              },
+              typography:{
+                fontFamily: 'Encode Sans Expanded',
+              }
+            }}>
 
-                      <MenuItem
-                      value={name}
-                      key={name}
-                      sx={{
-                        borderRadius:3,
-                        typography:{
-                          fontFamily: 'Encode Sans Expanded',
-                        },
-                      }}
-                      >
-                      {name}
-                      </MenuItem>
-                      )
-                    })
-                  }
-                    
-                </Select>
+           {
+            pets.map((pet, index)=>{
+              return(
+                <MenuItem >
+                  <Grid container alignItems="center">
+                    <Grid item xs={6}>
+                      {pet.name}
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Button onClick={() => {
+                        if (pet.quantity > 1) {
+                          //setAnimalQuantity(animalQuantity +1)
+                          setPets(prevPets => {
+                            const newPets = [...prevPets];
+                            newPets[index].quantity -= 1;
+                            return newPets;
+                          });
+                        }
+                      }}>-</Button>
+                      <span>{pet.quantity}</span>
+                      <Button onClick={() => {
+                        setPets(prevPets => {
+                          const newPets = [...prevPets];
+                          newPets[index].quantity += 1;
+                          return newPets;
+                        });
+                        setAnimalQuantity(animalQuantity +1)
+                        console.log(pets)
+                      }}>+</Button>
+                    </Grid>
+                  </Grid>
+                </MenuItem>
+              )
+            })
+           }     
+            </Select>
+          
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
@@ -135,14 +272,13 @@ const FiltriServices = ({time}) => {
                     fontFamily: 'Encode Sans Expanded',
                   }
                 }}
-              id="demo-select-small">Quantità</InputLabel>
+              id="demo-select-small">Città</InputLabel>
               <Select
-                  name="quantity"
+                  name="city"
                   labelId="demo-select-small"
                   id="demo-select-small"
-                  value={quantity}
-                  label="Order"
-                  onChange={handleQuantityChange}
+                  value={city}
+                  onChange={handleCityChange}
                   sx={{
                       height: 60,
                       menuStyle:{
@@ -166,11 +302,11 @@ const FiltriServices = ({time}) => {
                     }}
               >
                   {
-                    numbers.map((num)=>{
+                    cities.map((city)=>{
                       return(
                         <MenuItem
-                    value={num}
-                    key={num}
+                    value={city}
+                    key={city}
                     sx={{
                       borderRadius:3,
                       typography:{
@@ -178,7 +314,7 @@ const FiltriServices = ({time}) => {
                       },
                     }}
                     >
-                    {num}
+                    {city}
                     </MenuItem>
                       )
                     })
@@ -210,7 +346,7 @@ const FiltriServices = ({time}) => {
                     borderColor:'black', 
                     backgroundColor:"white",
                     fontFamily: 'Encode Sans Expanded',
-                    marginBottom: "10px"
+                    
                   }}
             />
             )}
@@ -233,7 +369,7 @@ const FiltriServices = ({time}) => {
             customInput={(
               <Input
                   style={{ 
-                    width:'620px',
+                    width:'300px',
                     height:"60px", 
                     borderRadius: "10px",
                     borderStyle:' solid', 
@@ -258,7 +394,7 @@ const FiltriServices = ({time}) => {
               customInput={(
                 <Input
                     style={{ 
-                      width:'620px',
+                      width:'300px',
                       height:"60px", 
                       borderRadius: "10px",
                       borderStyle:' solid', 
@@ -298,4 +434,18 @@ unica variabile in input è lì per dirmi se è dogsitting o
 servizio giornaliero tipo veterinario. L'inica differenza diventa
 quindi la presenza della data di fine trattamento nei filtri.
 Per il resto ho bisogno di Animale e numero, e data di inizio
-*/
+
+
+<MenuItem
+  value={name}
+  key={name}
+  sx={{
+    borderRadius:3,
+    typography:{
+      fontFamily: 'Encode Sans Expanded',
+    },
+  }}
+  >
+  {name}
+  </MenuItem>
+  */

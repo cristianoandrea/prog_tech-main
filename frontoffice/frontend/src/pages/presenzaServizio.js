@@ -34,7 +34,44 @@ const PresenzaServizio = ({service, time}) => {
 
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
-  var pippo={time}
+  const type_visualization = service
+  const [dataFiltrata, setDataFiltrata] = useState([])
+  const [dataFiltrataFin, setDataFiltrataFin] = useState([])
+
+
+
+  useEffect(() => {
+    const tmp = {
+      data: dataFiltrata
+    }
+    setDataFiltrataFin(tmp)
+
+  }, [dataFiltrata]);
+  
+
+  useEffect(() => {
+    console.log(type_visualization)
+    axios.post('http://localhost:4000/api/service/visual/'+ type_visualization)
+    .then(res=> {
+     console.log(res)
+     const tmp = {
+      data: res.data
+    }
+     setData(tmp)
+     setLoading(false)
+    })
+    .catch(err => {
+     console.log (err)
+    })
+    console.log(data)
+  
+   }, []);
+
+   function handleChangeFiltri(newValue) {
+    setDataFiltrata(prevDataFiltrata => {
+      return newValue;
+    });
+  }
 
   useEffect(() => {
     axios.post('http://localhost:4000/api/item/')
@@ -73,11 +110,17 @@ const PresenzaServizio = ({service, time}) => {
         :
 
       <ServicesContainer>
+        
         <ServicesH1>{servizio}</ServicesH1>
         
-        <FiltriServices time={pippo}/>
+        <FiltriServices onSubmit={handleChangeFiltri} time={time}/>
 
-        <Products data = {data}/>
+        {dataFiltrata.length > 0?
+       
+       <Products data={dataFiltrataFin} tipo={true} />
+       :
+       <Products data={data} tipo={true}/>
+        }
 
       </ServicesContainer>
       }
