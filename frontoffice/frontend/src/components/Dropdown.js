@@ -43,10 +43,12 @@ export default function Dropdown() {
           border: "2px solid black"
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <a href="/userprofile">
+          <MenuItem>Profile</MenuItem>
+        </a>
         <ListDivider />
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <ListDivider />
+        
+        
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>
     </div>

@@ -1,3 +1,4 @@
+import { Box } from "@mui/material"
 import { useState } from "react"
 import { Button1 } from "../components/ButtonElement"
 import { useLogin } from "../hooks/useLogin"
@@ -15,8 +16,15 @@ const Login = () => {
 
     return (
         <>
+        <Box sx={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center',
+        marginTop:20
+        }}>
+        <h1>Accedi</h1>
         <form className="login" onSubmit={handleSubmit}>
-            <h3>log in</h3>
+            
             <label>Email:</label>
             <input
               type='email'
@@ -29,12 +37,14 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               value={password}
               />
-              <button disabled= {isLoading}>Log in</button>
+              <Buttone style={{margin:10}} disabled={isLoading}>Log in</Buttone>
               {error&& <div className="error">{error}</div>}
               
         </form>
-        <Button1 to="/signin" >Registrati</Button1>
+        <p>Non hai un account? Mongoloide!! <span><Button1 to="/signin">Registrati</Button1></span></p>
+        
         <Button1 to="/" >Home</Button1>
+        </Box>
         </>
     )
 }

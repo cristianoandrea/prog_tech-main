@@ -15,6 +15,7 @@ import SingleProduct from './pages/prodotto_singolo';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PresenzaServizio from './pages/presenzaServizio';
 import { ShoppingCartProvider } from './context/shoppingCartContext';
+import Checkout from './pages/checkout';
 
 function App() { 
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path='/online' caseSensitive={false} element={<OnlinePage />} />
         <Route path='/community' caseSensitive={false} element={<CommunityPage />} />
         <Route path='/userprofile' caseSensitive={false} element={<UserProfile />} />
+        <Route path='/checkout' caseSensitive={false} element={<Checkout />} />
 
       </Routes>
 
