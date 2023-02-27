@@ -1,4 +1,69 @@
 import * as React from 'react';
+import Button from '@mui/joy/Button';
+import Menu from '@mui/joy/Menu';
+import MenuItem from '@mui/joy/MenuItem';
+import { NavBtnLink } from './Navbar';
+import { ListDivider } from '@mui/joy';
+import { useLogout } from '../hooks/useLogout';
+
+export default function Dropdown() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const {logout} = useLogout()
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    logout()
+  }
+
+  return (
+    <div>
+      <NavBtnLink
+        id="basic-demo-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        variant="outlined"
+        color="neutral"
+        onClick={handleClick}
+      >
+        Dashboard
+      </NavBtnLink>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="basic-demo-button"
+        color="primary"
+        variant="soft"
+        size="lg"
+        sx={{
+          backgroundColor: "white",
+          outlineColor: "black",
+          border: "2px solid black"
+        }}
+      >
+        <a href="/userprofile">
+          <MenuItem>Profile</MenuItem>
+        </a>
+        <ListDivider />
+        
+        
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
+    </div>
+  );
+}
+
+
+/*
+import * as React from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -105,3 +170,5 @@ const Dropdown = () => {
 }
 
 export default Dropdown
+
+*/

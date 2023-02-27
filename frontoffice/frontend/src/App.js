@@ -1,6 +1,6 @@
 
 import './App.css';
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom'
 import Home from './pages';
 import SignInPage from './pages/Signup';
 import LogInPage from './pages/Login';
@@ -15,8 +15,11 @@ import SingleProduct from './pages/prodotto_singolo';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PresenzaServizio from './pages/presenzaServizio';
 import { ShoppingCartProvider } from './context/shoppingCartContext';
+import { useAuthContext } from './hooks/useAuthContext';
 
 function App() { 
+  const {user} = useAuthContext()
+
   return (
     <ShoppingCartProvider>
 
@@ -24,8 +27,8 @@ function App() {
       <div className='pages'>
       <Routes>     
         <Route path='/' caseSensitive={false} element={<Home />} />
-        <Route path='/signin' caseSensitive={false} element={<SignInPage />} />
-        <Route path='/login' caseSensitive={false} element={<LogInPage/>} />
+        <Route path='/signin' caseSensitive={false} element={!user ? <SignInPage /> : <Navigate to="/"/>} />
+        <Route path='/login' caseSensitive={false} element={!user ? <LogInPage/> : <Navigate to="/"/>} />
         <Route path='/test' caseSensitive={false} element={<Test/>} />
         <Route path='/store' caseSensitive={false} element={<StorePage />} />
         <Route path='/store/prodotti' caseSensitive={false} element={<Prodotti />} /> 

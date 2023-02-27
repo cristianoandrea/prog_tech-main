@@ -1,35 +1,35 @@
+import { Box } from "@mui/material"
 import { useState } from "react"
 import { Button1 } from "../components/ButtonElement"
 import { useLogin } from "../hooks/useLogin"
 import { Buttone } from "./prodotto_singolo"
-import Navbar from '../components/Navbar'
-import styled, { useTheme } from 'styled-components'
+import { useNavigate } from "react-router-dom";
 
-
-const Container1= styled.div`
-  margin-top: 80px;
-  margin-left: 2em;
-  margin-right: 2em;
-`
 
 const Login = () => {
     const [email, setEmail]= useState('')
     const [password, setPassword]= useState('')
     const{login,error,isLoading} = useLogin()
+    let navigate = useNavigate();
 
     const handleSubmit = async (e)=> {
         e.preventDefault()
         await login(email,password)
-    }
+        //navigate('http://localhost:3000/');
+  }
+    
 
     return (
         <>
-        <Navbar/>
-        <Container1> 
-        <Button1 to="/signin" >Registrati</Button1>
-        <Button1 to="/" >Home</Button1>
+        <Box sx={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center',
+        marginTop:20
+        }}>
+        <h1>Accedi</h1>
         <form className="login" onSubmit={handleSubmit}>
-            <h3>log in</h3>
+            
             <label>Email:</label>
             <input
               type='email'
@@ -42,11 +42,14 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               value={password}
               />
-              <button disabled= {isLoading}>Log in</button>
+              <Buttone style={{margin:10}} disabled={isLoading}>Log in</Buttone>
               {error&& <div className="error">{error}</div>}
               
         </form>
-        </Container1> 
+        <p>Non hai un account? Mongoloide!! <span><Button1 to="/signin">Registrati</Button1></span></p>
+        
+        <Button1 to="/" >Home</Button1>
+        </Box>
         </>
     )
 }

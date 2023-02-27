@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Product Card UI Design</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+     
+      body {
+        background: #111 !important;   
+      }
+      .container {
+        display: flex;
+        width: 1040px;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+      }
+      .card {
+        margin: 10px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        width: 300px;
+      }
+      .card-header img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 20px;
+        min-height: 250px;
+      }
+
+      .tag {
+        background: #cccccc;
+        border-radius: 50px;
+        font-size: 12px;
+        margin: 0;
+        color: #fff;
+        padding: 2px 10px;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+      .tag-teal {
+        background-color: #47bcd4;
+      }
+      .tag-purple {
+        background-color: #5e76bf;
+      }
+      .tag-pink {
+        background-color: #cd5b9f;
+      }
+
+      .card-body p {
+        font-size: 13px;
+        margin: 0 0 40px;
+      }
+      .user {
+        display: flex;
+        margin-top: auto;
+      }
+
+      .user img {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+      .user-info h5 {
+        margin: 0;
+      }
+      .user-info small {
+        color: #545d7a;
+      }
+
+      @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+
+      a {
+      color: #0da9ef;
+      text-decoration: none !important;
+    }
+
+      .btn-group-sm>.btn,
+    .btn-sm {
+      padding: 0.45rem 0.5rem !important;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      border-radius: 0.2rem;
+    }
+
+      h1 {
+   
+        
+      margin-bottom: 10px;
+      color: #c9d0d4;
+      font-family: Georgia, serif;
+      font-size: 46px;
+      font-weight: 100;
+      line-height: 50px;
+      letter-spacing: 1px;
+      padding: 0 0 40px;
+      border-bottom: double #555;
+    }
+
+    form {
+      max-width: 300px;
+      margin: 80px auto;
+    }
+
+    .feedback-input {
+      color: rgb(239, 230, 230);
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 500;
+      font-size: 18px;
+      border-radius: 5px;
+      line-height: 16px;
+      background-color: transparent;
+      border: 2px solid #5fb9dd;
+      transition: all 0.3s;
+      padding: 13px;
+      margin-bottom: 15px;
+      width: 100%;
+      box-sizing: border-box;
+      outline: 0;
+    }
+
+    .feedback-input:focus {
+      border: 2px solid #308db5;
+    }
+
+    textarea {
+      height: 100px;
+      line-height: 150%;
+      resize: vertical;
+    }
+
+    [type="submit"] {
+      font-family: "Montserrat", Arial, Helvetica, sans-serif;
+      width: 100%;
+      background: #2348e0;
+      border-radius: 5px;
+      border: 0;
+      cursor: pointer;
+      color: rgb(251, 244, 244);
+      font-size: 24px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      transition: all 0.3s;
+      margin-top: -4px;
+      font-weight: 700;
+    }
+
+    [type="submit"]:hover {
+      background: #cc4949;
+    }
+
+    
+    </style>
+  </head>
+
+  <body>
+    <!--Navigation bar-->
+    <div id="nav-placeholder"></div>
+    <script>
+      $(function () {
+        $("#nav-placeholder").load("nav.html");
+      });
+    </script>
+    <!--end of Navigation bar-->
+    <h1></h1>
+    <div class="container">
+      <div class="row" id="app"></div>
+    </div>
+    <script>
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const city = urlParams.get("name");
+      console.log(city);
+
+      const api_url = "http://localhost:4000/api/service/filter";
+      async function getService(input) {
+        const response = await fetch(api_url, {
+          method: "POST",
+          body: JSON.stringify({
+            ok: input,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+        const data = await response.json();
+        console.log(data);
+
+        const html = data.map((service) => {
+          return `
+                  <div class=""col-3">
+                  <div class="card">
+    <div class="card-header">
+      <img src="${service.nome_struttura.img}" alt="rover" />
+    </div>
+    <div class="card-body">
+      <span class="tag tag-teal">${service.tipo}</span>
+      <h4>
+        ${service.nome_struttura.nome}
+      </h4>
+      <p>
+        An exploration into the truck's polarising design
+      </p>
+      <a class="btn btn-outline-primary btn-sm" data-abc="true" name="${service._id}" onClick="deleteService(this.name)">delete Service</a>
+    </div>
+  </div>
+</div>
+
+                `;
+        });
+
+        document.querySelector("#app").insertAdjacentHTML("afterbegin", html);
+      }
+
+      getService(city);
+
+      async function deleteService(id) {
+      fetch("http://localhost:4000/api/service/" + id, {
+        method: "DELETE",
+      });
+
+      window.location.reload();
+    }
+    </script>
+    <h1>ADD A SERVICE TO DB</h1>
+
+    <form name="createService">
+      <input name="nome" type="text" class="feedback-input" placeholder="Name of service" />
+      <input name="tipo" type="text" class="feedback-input" placeholder="Type of service" />
+      <input name="luogo" type="text" class="feedback-input" placeholder="City of the service" />
+      <input name="dottore" type="text" class="feedback-input" placeholder="Doctor's name" />
+      <input name="prezzo" type="number" step="0.01" class="feedback-input" placeholder="Doctor's price" />
+      <input name="grandi" type="number" step="0.01" class="feedback-input" placeholder="max big animals" />
+      <input name="medi" type="number" step="0.01" class="feedback-input" placeholder="max medium animals" />
+      <input name="piccoli" type="number" step="0.01" class="feedback-input" placeholder="max small animals" />
+      <input name="image" type="text" class="feedback-input" placeholder="Image Url" />
+      <input type="submit" value="SUBMIT" />
+    </form>
+    <script>
+      //create element handler
+    function handleSubmit(event) {
+      const data = new FormData(event.target);
+      const value = Object.fromEntries(data.entries());
+
+      const json = {
+        nome_struttura:{
+          nome:value.nome,
+          img: value.image
+        },
+        tipo: value.tipo,
+        luogo: value.luogo,
+        dottore:{ 
+          nome:value.dottore,
+          prezzo:value.prezzo,
+          slot:{
+            n_grandi:value.grandi,
+            n_medi:value.medi,
+            n_piccoli:value.piccoli
+          }
+        }
+        
+      };
+
+      fetch("http://localhost:4000/api/service/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(json),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+
+    const form = document.forms.namedItem("createService");
+    form.addEventListener("submit", handleSubmit);
+    
+
+    </script>
+  </body>
+</html>

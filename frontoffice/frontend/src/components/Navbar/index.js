@@ -9,7 +9,7 @@ import styled from 'styled-components'
 import { Link as LinkRouter } from 'react-router-dom'
 import { Link as LinkScroll } from 'react-scroll'
 import ShoppingCart from '../ShoppingCart'
-
+import { useAuthContext  } from '../../hooks/useAuthContext'
 
     
     
@@ -144,10 +144,10 @@ const NavLink1 = styled(LinkRouter)`
 
 const Navbar = ({ toggle }) => {
   
+  const {user} = useAuthContext()
+
   
   const {openCart, cartQuantity, isOpen} = useShoppingCart()  
-
-  const [logged, setLogged]=useState(false);
 
   const [scrollNav, setScrollNav] = useState(false);
 
@@ -166,6 +166,8 @@ const Navbar = ({ toggle }) => {
   const toggleHome = () => {
     scroll.scrollToTop();
   };
+
+  
 
   return (
     <div>
@@ -191,18 +193,33 @@ const Navbar = ({ toggle }) => {
                         <NavLink1 to="/presenza" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Presenza</NavLink1>
                     </NavItem>
                     <NavItem>
-                        <NavLink1 to="/online" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Online</NavLink1>
-                    </NavItem>
-                    <NavItem>
                         <NavLink1 to="/community" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Community</NavLink1>
                     </NavItem>
                     
                 </NavMenu>
 
                 {
-                    logged ?
+                    user ?
                     (
+                        <>
+                      
                         <NavBtn>
+
+                        <Dropdown/>
+                        
+                        {cartQuantity > 0 && (
+                            <ShoppingCart isOpen={isOpen}>
+                                {cartQuantity}
+                            </ShoppingCart>
+                               
+                            )}
+                        </NavBtn>
+                        </>
+                        
+                    )
+                    :
+                    (
+                    <NavBtn>
                           
                         <NavBtnLink to="/login" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Log In</NavBtnLink> 
                        
@@ -214,23 +231,6 @@ const Navbar = ({ toggle }) => {
                             )}
                         
                     </NavBtn>
-                        
-                    )
-                    :
-                    (
-                        <>
-                        <NavBtn>
-                        <NavBtnLink to="/signin" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Sign In</NavBtnLink> 
-                        
-                        {cartQuantity > 0 && (
-                            <ShoppingCart isOpen={isOpen}>
-                                {cartQuantity}
-                            </ShoppingCart>
-                               
-                            )}
-                        </NavBtn>
-                        </>
-                        
                     )
                 }
                     

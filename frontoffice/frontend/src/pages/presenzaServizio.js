@@ -68,7 +68,7 @@ const PresenzaServizio = ({service, time}) => {
   
    }, []);
 
-   function handleChangeFiltri(newValue) {
+   function onPass(newValue) {
     setDataFiltrata(prevDataFiltrata => {
       return newValue;
     });
@@ -88,7 +88,7 @@ const PresenzaServizio = ({service, time}) => {
       <ServicesContainer>
         
         
-        <FiltriServices onSubmit={handleChangeFiltri}/>
+        <FiltriServices time={time} onPass={onPass} />
 
         {dataFiltrata.length > 0?
        

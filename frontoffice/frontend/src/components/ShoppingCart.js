@@ -74,7 +74,9 @@ export default function ShoppingCart({isOpen}) {
             }</b>
         </h5>
       </List>
-      
+      <a href="/checkout">
+        <Buttone>Checkout</Buttone>
+      </a>
     </Box>
   );
 

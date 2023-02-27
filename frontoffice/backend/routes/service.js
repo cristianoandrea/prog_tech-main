@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
 
 router.post("/filter", async (req, res) => {
   const city = String(req.body.ok);
-  let result = await Service.find({ "luogo.nome": city });
+  let result = await Service.find({ "luogo": city });
   if (!result) {
     return res.status(404).json({ error: "no such item" });
   }
@@ -22,7 +22,15 @@ router.post("/filter", async (req, res) => {
 });
 
 //GET one service
-router.get("/:id", async (req, res) => {});
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  const service = await Service.findByIdAndDelete(id);
+
+  if (!service) {
+    return res.status(404).json({ error: "no such service" });
+  }
+  res.status(200).json(service);
+});
 
 //GET only certain service(veterinario||dogsitting)
 router.post("/visual/:id", async (req, res) => {
@@ -54,41 +62,38 @@ router.delete("/:id", (req, res) => {
 });
 
 //find filtered services for either veterinario or dogsitting
-router.post("/filter2", async (req, res) => {
+router.post("/filter/veterinario", async (req, res) => {
   console.log(req.body);
-  const animale = req.body.animal;
-  const tipo = req.body.tipo;
-  const quantity = req.body.quantity;
+  const tipo = 'Veterinario'
   const start_date = req.body.startDate;
-  //const end_date = req.body.endddate
+  const city = req.body.city
   let service = {};
   let filteredServices = [];
-  if (
-    animale.length > 0 ||
+  if (   
     tipo.length > 0 ||
-    quantity.length > 0 ||
+    city.length > 0 ||
     start_date.length > 0
   ) {
     let query = { $and: [] };
-    if (animale && animale.length > 0)
-      query.$and.push({ animale: { $in: animale } });
+    if (city && city.length > 0)
+      query.$and.push({ luogo: { $in: city } });
     if (tipo && tipo.length > 0) query.$and.push({ tipo: { $in: tipo } });
-    if (quantity && quantity.length > 0)
-      query.$and.push({ quantity: { $in: quantity.map(Number) } });
-
+    
     service = await Service.find(query).lean();
     const inputDate = new Date(start_date);
     const midnightUTC = new Date(
       Date.UTC(
         inputDate.getUTCFullYear(),
         inputDate.getUTCMonth(),
-        inputDate.getUTCDate()
+        inputDate.getUTCDate(),
+        inputDate.getUTCHours(),
+        inputDate.getUTCMinutes()
       )
     );
     console.log(midnightUTC);
     console.log("///////////////////////////////");
     
-    function filterServicesByDateAndAnimal(
+    function filterServicesByDate(
       services,
       inputDate
     ) {
@@ -120,10 +125,9 @@ router.post("/filter2", async (req, res) => {
       });
       return final;
     }
-    filteredServices = filterServicesByDateAndAnimal(
+    filteredServices = filterServicesByDate(
       service,
-      midnightUTC,
-      animale
+      midnightUTC
     );
     if(filteredServices.length === 0)
     filteredServices = await Service.find();
@@ -137,29 +141,24 @@ router.post("/filter2", async (req, res) => {
 });
 
 //function adds an impegni array to a specified doctor of a service and removes the old impegni
-router.patch("/addReservation", async (req, res) => {
+router.patch("/addVetReservation", async (req, res) => {
   const id = req.body.id;
   const date = req.body.param.date;
   const finaldate = new Date(date);
   const dottoreId = req.body.doc_id;
 
-  const currentDate = new Date(); // Get the current date and time
-  // Define the filter for the query
-  const filter = {
-    "dottore.impegni.dateiniz": { $lt: currentDate }, // Match impegni with dateiniz < current date
-  };
-  // Define the update operation for the query
-  const update = {
-    $pull: { "dottore.$[].impegni": { dateiniz: { $lt: currentDate } } },
-  };
-
-  await Service.findByIdAndUpdate(id, update, function(err, result) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(result);
-    }
-  });
+  //remove all the dottore.impegni which are previous to the current date ( serve per ripulire il db)
+  const currentDate = new Date();
+  await Service.findOneAndUpdate(
+    { _id: id },
+    {
+      $pull: {
+        'dottore.$[].impegni': {
+          dateiniz: { $lt: currentDate }
+        }
+      }
+    },
+  );
 
   await Service.updateOne(
     { _id: id, "dottore._id": dottoreId },
@@ -174,60 +173,118 @@ router.patch("/addReservation", async (req, res) => {
   );
 });
 
-router.post("/filter/dogsitting", async (req, res) => {
-    //const start_date = req.body.startDate
-    //const end_date = req.body.endDate
-    const piccolo = req.body.piccoli
-    const medio = req.body.medi
-    const grande = req.body.grandi
+router.post("/filter/dogsitter", async (req, res) => {
+    const start_date = req.body.startDate
+    const end_date = req.body.endDate
+    const piccolo = req.body.animaliPiccoli
+    const medio = req.body.animaliMedi
+    const grande = req.body.animaliGrandi
+    const città = req.body.city
     const tipo = 'Dogsitting'
+    console.log(start_date,end_date,piccolo,medio,grande,città)
+    const input_start_date = new Date(start_date);
+    const start_midnightUTC = new Date(
+      Date.UTC(
+        input_start_date.getUTCFullYear(),
+        input_start_date.getUTCMonth(),
+        input_start_date.getUTCDate()
+      )
+    );
+    const input_end_date = new Date(end_date);
+    const end_midnightUTC = new Date(
+      Date.UTC(
+        input_end_date.getUTCFullYear(),
+        input_end_date.getUTCMonth(),
+        input_end_date.getUTCDate()
+      )
+    );
 
-    if (
-    quantity_g.length > 0 ||
-    quantity_p.length > 0 ||
-    quantity_m.length > 0 /*||
-    start_date.length > 0 ||
-    end_date.length > 0*/
+    if ((
+    grande.length > 0 ||
+    piccolo.length > 0 ||
+    medio.length > 0) 
+    &&
+    (start_date.length > 0 && end_date.length > 0)
   ) {
-    const pipeline = [
-  {
-    $match: { tipo } // Match documents with the specified tipo value
-  },
-  {
-    $addFields: {
-      dottore: {
-        $filter: {
-          input: "$dottore",
-          as: "d",
-          cond: {
+      const service = await Service.find({
+      tipo: tipo,
+      luogo: città,
+      'dottore.impegni': {
+        $not: {
+          $elemMatch: {
+            dateiniz: { $lte: end_midnightUTC },
+            datefin: { $gte: start_midnightUTC }
+          }
+        }
+      },
+      $or: [
+        {
+          'dottore.impegni': {
+            $elemMatch: {
+              dateiniz: { $gte: start_midnightUTC, $lte: end_midnightUTC  },
+              datefin: { $gte: start_midnightUTC, $lte: end_midnightUTC  }
+            }
+          },
+          $expr: {
             $and: [
-              { $gte: ["$$d.slot.n_grandi", grande] },
-              { $gte: ["$$d.slot.n_medi", medio] },
-              { $gte: ["$$d.slot.n_piccoli", piccolo] }
+              { $gte: ['$dottore.slot.n_grandi', { $sum: ['$dottore.impegni.n_grandi', grande] }] },
+              { $gte: ['$dottore.slot.n_medi', { $sum: ['$dottore.impegni.n_medi', medio] }] },
+              { $gte: ['$dottore.slot.n_piccoli', { $sum: ['$dottore.impegni.n_piccoli', piccolo] }] }
+            ]
+          }
+        },
+        {
+          'dottore.impegni': { $not: { $elemMatch: { dateiniz: { $lte: start_midnightUTC }, datefin: { $gte: end_midnightUTC } } } },
+          $expr: {
+            $and: [
+              { $gte: ['$dottore.slot.n_grandi', grande] },
+              { $gte: ['$dottore.slot.n_medi', medio] },
+              { $gte: ['$dottore.slot.n_piccoli', piccolo] }
             ]
           }
         }
-      }
-    }
-  }
-];
-
-const service = Service.aggregate(pipeline, function(err, result) {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(result);
-  }})
-
+      ]
+    });
+    
 if (!service) {
     return res.status(404).json({ error: "no such item" });
   }
   res.status(200).json(service);
 
-    
-
-
 }})
+
+router.patch("/addDogReservation", async (req, res) => {
+  const id = req.body.id;
+  const start_date = req.body.param.start_date;
+  const final_start_date = new Date(start_date);
+  const end_date = req.body.param.end_date;
+  const final_end_date = new Date(end_date)
+  const stanzaId = req.body.stanza_id;
+  const grandi = req.body.grandi
+  const medi = req.body.medi
+  const piccoli = req.body.piccoli
+
+  const query = {
+    _id: id,
+    "dottore._id": stanzaId
+  };
+  
+  const update = {
+    $push: {
+      "dottore.$.impegni": {
+        dateiniz: final_start_date,
+        datefin: final_end_date,
+        animali: "",
+        n_grandi: grandi,
+        n_medi: medi,
+        n_piccoli: piccoli
+      }
+    }
+  };
+  
+ await Service.updateOne(query, update);
+  
+})
 
 
 

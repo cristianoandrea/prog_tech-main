@@ -135,7 +135,7 @@ const Product = ({ item, tipo }) => {
     //const struct_name = name
     const param = getQueryVariables()
     console.log(param) 
-    fetch("http://localhost:4000/api/service/addReservation", {
+    fetch("http://localhost:4000/api/service/addVetReservation", {
       method: "PATCH",
         headers: {
             "Content-Type": "application/json"

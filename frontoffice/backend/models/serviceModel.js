@@ -20,7 +20,6 @@ const serviceSchema = new Schema({
         impegni : [{
             dateiniz: Date,
             datefin: Date,
-            animali : String,
             n_grandi : Number,
             n_medi : Number, 
             n_piccoli : Number

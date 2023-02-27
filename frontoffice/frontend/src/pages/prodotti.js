@@ -1,151 +1,127 @@
-import {Grid, Box, Link } from '@mui/material'
-import axios from 'axios'
-import React, { useEffect } from 'react'
-import { useState } from 'react'
-import { Stack } from 'react-bootstrap'
-import styled, { useTheme } from 'styled-components'
-import Footer from '../components/Footer'
-import Navbar from '../components/Navbar'
-import { popularProducts } from '../components/StorePage/data'
-import FiltriProdotti from '../components/StorePage/filtri_chiavica'
-import Products from '../components/StorePage/PopProducts'
+import { Grid, Box, Link } from "@mui/material";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { Stack } from "react-bootstrap";
+import styled, { useTheme } from "styled-components";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import { popularProducts } from "../components/StorePage/data";
+import FiltriProdotti from "../components/StorePage/filtri_chiavica";
+import Products from "../components/StorePage/PopProducts";
 
-const Container1= styled.div`
+const Container1 = styled.div`
   margin-top: 80px;
   margin-left: 2em;
   margin-right: 2em;
-`
-const Button1= styled.button`
-margin-top:10px;
-    border-radius: 50px;
-    background: #01bf71;
-    white-space: nowrap;
-    padding: 10px 22px;
-    color: #010606;
-    font-size: 16px;
-    outline: none;
-    border:none;
-    cursor:pointer;
+`;
+const Button1 = styled.button`
+  margin-top: 10px;
+  border-radius: 50px;
+  background: #01bf71;
+  white-space: nowrap;
+  padding: 10px 22px;
+  color: #010606;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  &:hover {
+    background: #fff;
+
     transition: all 0.2s ease-in-out;
-    text-decoration: none;
-    &:hover {
-        background: #fff;
-        
-        transition: all 0.2s ease-in-out;
-        color: #010606;
-    }
-`
+    color: #010606;
+  }
+`;
 
 const Prodotti = () => {
-
-
   const [isOpen, setIsOpen] = useState(false);
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [dataFiltrata, setDataFiltrata] = useState([])
-  const [dataFiltrataFin, setDataFiltrataFin] = useState([])
-
-
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [dataFiltrata, setDataFiltrata] = useState([]);
+  const [dataFiltrataFin, setDataFiltrataFin] = useState([]);
 
   function handleChangeFiltri(newValue) {
-    setDataFiltrata(prevDataFiltrata => {
+    setDataFiltrata((prevDataFiltrata) => {
       return newValue;
     });
   }
-  
 
   useEffect(() => {
     const tmp = {
-      data: dataFiltrata
-    }
-    setDataFiltrataFin(tmp)
-
+      data: dataFiltrata,
+    };
+    setDataFiltrataFin(tmp);
   }, [dataFiltrata]);
- 
 
-  
-
-  async function ok(){
-    const queryString = window.location.search
-    if(queryString){
+  async function ok() {
+    const queryString = window.location.search;
+    if (queryString) {
       const urlParams = new URLSearchParams(queryString);
-      const Animal = urlParams.get('animale')
-      console.log(Animal)
+      const Animal = urlParams.get("animale");
+      console.log(Animal);
       const response = await fetch("http://localhost:4000/api/item/filter", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({Animal }),
-    });
-    const data = await response.json();
-    
-    setDataFiltrata(data)
+        body: JSON.stringify({ Animal }),
+      });
+      const data = await response.json();
+
+      setDataFiltrata(data);
     }
     const tmp = {
-      data: dataFiltrata
-    }
-    setDataFiltrataFin(tmp)
-  } 
-
-  useEffect(() => {
-    ok()
-  }, []);
-  
-
-  const toggle = ()=> {
-      setIsOpen(!isOpen)
+      data: dataFiltrata,
+    };
+    setDataFiltrataFin(tmp);
   }
 
   useEffect(() => {
-    axios.post('http://localhost:4000/api/item/')
-    .then(res=> {
-     console.log(res)
-     setData(res.data)
-     setLoading(false)
-    })
-    .catch(err => {
-     console.log (err)
-    })
-    console.log(data)
-   }, []);
-   
-   
+    ok();
+  }, []);
 
-  
-  
-  
+  const toggle = () => {
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/api/item/")
+      .then((res) => {
+        console.log(res);
+        setData(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log(data);
+  }, []);
 
   return (
     <div>
       <Navbar />
-      {loading ?
-      ''
-      : 
-      <div>
+      {loading ? (
+        ""
+      ) : (
+        <div>
+          <Container1>
+            <FiltriProdotti onSubmit={handleChangeFiltri} />
 
-        <Container1> 
-          
-            
-        <FiltriProdotti onSubmit={handleChangeFiltri} />
-        
-        
-        {dataFiltrata.length > 0?
-       
-          <Products data={dataFiltrataFin} tipo={false} />
-          :
-          <Products data={data} tipo={false}/>
-         }
-         
-        
-        </Container1>
-        <Footer />  
-      </div>
-      }
-      
-      
+            {dataFiltrata.length > 0 ? (
+              <Products data={dataFiltrataFin} tipo={false} />
+            ) : (
+              <Products data={data} tipo={false} />
+            )}
+          </Container1>
+          <Footer />
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Prodotti
+export default Prodotti;
