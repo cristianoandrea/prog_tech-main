@@ -16,7 +16,7 @@ const serviceSchema = new Schema({
           n_grandi : Number, 
           n_medi : Number,
           n_piccoli : Number 
-      },
+      }, 
         impegni : [{
             dateiniz: Date,
             datefin: Date,
