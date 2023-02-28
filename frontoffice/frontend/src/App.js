@@ -16,8 +16,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PresenzaServizio from './pages/presenzaServizio';
 import { ShoppingCartProvider } from './context/shoppingCartContext';
 import { useAuthContext } from './hooks/useAuthContext';
+import { useEffect } from 'react';
+
 
 function App() { 
+  
   const {user} = useAuthContext()
 
   return (
@@ -38,7 +41,7 @@ function App() {
         <Route path='/presenza/dogsitting' caseSensitive={false} element={<PresenzaServizio service={'Dogsitting'} time={false}/>} />
         <Route path='/online' caseSensitive={false} element={<OnlinePage />} />
         <Route path='/community' caseSensitive={false} element={<CommunityPage />} />
-        <Route path='/userprofile' caseSensitive={false} element={<UserProfile />} />
+        <Route path='/userprofile' caseSensitive={false} element={user? <UserProfile />:  '' } />
 
       </Routes>
 

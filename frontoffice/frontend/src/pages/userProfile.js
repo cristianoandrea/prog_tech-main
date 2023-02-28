@@ -19,6 +19,7 @@ import Typography from '@mui/joy/Typography';
 import Input from '@mui/joy/Input';
 import SearchRounded from '@mui/icons-material/SearchRounded';
 import CartItem from "../components/CartItem";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 let profilo={
   nome: 'Andrea',
@@ -87,6 +88,8 @@ const UserProfile = () => {
       //logout()
     }
     const [index, setIndex] = useState(0);
+
+    const {user} = useAuthContext()
 
    return(
     <div>
@@ -192,18 +195,18 @@ const UserProfile = () => {
             >
               <h3>I Miei dati:</h3>
               <ul>
-                <li><strong>Nome: </strong>{profilo.nome}</li>
-                <li><strong>Cognome: </strong>{profilo.cognome}</li>
-                <li><strong>Data di nascita: </strong>{profilo.nascita}</li>
-                <li><strong>Sesso: </strong>{profilo.sesso}</li>
+                <li><strong>Nome: </strong>{user.name}</li>
+                <li><strong>Cognome: </strong>{user.cognome}</li>
+                <li><strong>Data di nascita: </strong>{user.dataNascita}</li>
+                <li><strong>Sesso: </strong>{user.sesso}</li>
                 <li>
                   <strong>Animali preferiti:</strong>
                   <ul>
                     {profilo.animali_preferiti.map(animal => <li key={animal}>{animal}</li>)}
                   </ul>
                 </li>
-                <li><strong>Email: </strong>{profilo.mail}</li>
-                <li><strong>Password: </strong>{profilo.password}</li>
+                <li><strong>Email: </strong>{user.email}</li>
+                <li><strong>Password: </strong>{user.token}</li>
               </ul>
 
             </Typography>
