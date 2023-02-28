@@ -10,7 +10,7 @@ const serviceSchema = new Schema({
         img : String,
     },
     dottore : [{
-        nome : String,
+        nome : String, 
         prezzo : Number, 
         slot : { 
           n_grandi : Number, 
