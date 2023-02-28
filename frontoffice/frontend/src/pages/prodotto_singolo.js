@@ -1,11 +1,10 @@
 import { Accordion, AccordionDetails, AccordionSummary,  Grid, InputLabel, MenuItem, Paper, Rating, Select } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Navbar from '../components/Navbar'
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import FormHelperText from '@mui/joy/FormHelperText';
-//import Select from '@mui/joy/Select';
 import { borders } from '@mui/system';
 import Option from '@mui/joy/Option';
 import Button from '@mui/joy/Button';
@@ -23,218 +22,15 @@ import Slider from '../components/StorePage/Slider';
 import { formatCurrency } from '../utilities/formatCurrency';
 import { useShoppingCart } from '../context/shoppingCartContext';
 import ShoppingCart from '../components/ShoppingCart';
+import { useParams } from "react-router-dom";
+import Link from "@mui/joy/Link";
+import Favorite from "@mui/icons-material/Favorite";
+import { red } from "@mui/material/colors";
+import AspectRatio from "@mui/joy/AspectRatio";
+import Card from "@mui/joy/Card";
+import CardOverflow from "@mui/joy/CardOverflow";
+import IconButton from "@mui/joy/IconButton";
 
-export const data = [
-  {
-  id: 1,
-  producer: "SSC Napoli",
-  name: "Maglia Home 2022/2023",
-  description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris viverra, erat accumsan auctor fringilla, enim ipsum aliquet lectus, eu finibus turpis enim eu mauris. ",
-  rating: 3.5,
-  images: [
-    {
-      path: "//v2.grommet.io/assets/Wilderpeople_Ricky.jpg",
-      alt: 'Garfield'
-    },
-    {
-      path: "//v2.grommet.io/assets/IMG_4245.jpg",
-      alt: 'Leone'
-    },
-  ],
-  prezzo: "125",
-  varianti: [
-    {
-      id: "0",
-      value: "azzurro",
-      etichetta: "Azzurro",
-      disponibilità: 4
-    },
-    {
-      id: '1',
-      value: "bianco",
-      etichetta: "Bianco",
-      disponibilità: 6
-    },
-    {
-      id: '2',
-      value: "grigio",
-      etichetta: "Grigio",
-      disponibilità: 8
-    }
-  ],
-  recensioni: [
-    {
-      id: 0,
-      nome: "Lellosan",
-      rating: 1.5,
-      testo: "terrificante, disgustoso non acquistate"
-    },
-    {
-      id: 1,
-      nome: "Libanese",
-      rating: 4.5,
-      testo: "Un devasto senza fine"
-    }
-  ]
-},
-
-{
-  id: 2,
-  producer: "Real Madrid",
-  name: "Maglia Away 2021/2022",
-  description: " Proin id tempus odio. Curabitur auctor, augue vel vestibulum euismod, nulla felis ullamcorper magna, eu gravida nibh velit eu velit. ",
-  rating: 4.2,
-  images: [
-    {
-      path: "//v2.grommet.io/assets/IMG_1234.jpg",
-      alt: 'Real Madrid Crest'
-    },
-    {
-      path: "//v2.grommet.io/assets/IMG_5678.jpg",
-      alt: 'Real Madrid Players'
-    },
-  ],
-  prezzo: "140",
-  varianti: [
-    {
-      id: "0",
-      value: "bianco",
-      etichetta: "Bianco",
-      disponibilità: 3
-    },
-    {
-      id: '1',
-      value: "nero",
-      etichetta: "Nero",
-      disponibilità: 5
-    },
-    {
-      id: '2',
-      value: "rosso",
-      etichetta: "Rosso",
-      disponibilità: 7
-    }
-  ],
-  recensioni: [
-    {
-      id: 0,
-      nome: "Juan",
-      rating: 3.5,
-      testo: "Buono, ma un po' caro"
-    },
-    {
-      id: 1,
-      nome: "Pedro",
-      rating: 5,
-      testo: "Eccellente, ne voglio un altro!"
-    }
-  ]
-},
-{
-  id: 3,
-  producer: "Barcelona FC",
-  name: "Maglia Third 2020/2021",
-  description: " Sed eget nisl id magna feugiat blandit. Sed euismod, est eget euismod iaculis, magna orci feugiat magna, eget convallis magna ipsum a ipsum. ",
-  rating: 4.8,
-  images: [
-    {
-      path: "//v2.grommet.io/assets/IMG_2345.jpg",
-      alt: 'Barcelona Crest'
-    },
-    {
-      path: "//v2.grommet.io/assets/IMG_6789.jpg",
-      alt: 'Barcelona Players'
-    },
-  ],
-  prezzo: "110",
-  varianti: [
-    {
-      id: "0",
-      value: "verde",
-      etichetta: "Verde",
-      disponibilità: 2
-    },
-    {
-      id: '1',
-      value: "giallo",
-      etichetta: "Giallo",
-      disponibilità: 4
-    },
-    {
-      id: '2',
-      value: "blu",
-      etichetta: "Blu",
-      disponibilità: 6
-    }
-  ],
-  recensioni: [
-    {
-      id: 0,
-      nome: "Sergio",
-      rating: 4,
-      testo: "Molto bello, ma un po' stretto"
-    },
-    {
-      id: 1,
-      nome: "Andres",
-      rating: 5,
-      testo: "Perfetto per mostrare il mio supporto al Barca!"
-    }
-  ]
-},
-{
-  id: 4,
-  producer: "Chelsea FC",
-  name: "Maglia Home 2019/2020",
-  description: " Sed eget nisl id magna feugiat blandit. Sed euismod, est eget euismod iaculis, magna orci feugiat magna, eget convallis magna ipsum a ipsum. ",
-  rating: 4.5,
-  images: [
-    {
-      path: "//v2.grommet.io/assets/IMG_3456.jpg",
-      alt: 'Juventus Crest'
-    },
-    {
-      path: "//v2.grommet.io/assets/IMG_7890.jpg",
-      alt: 'Juventus Players'
-    },
-  ],
-  prezzo: "120",
-  varianti: [
-    {
-      id: "0",
-      value: "bianco",
-      etichetta: "Bianco",
-      disponibilità: 3
-    },
-    {
-      id: '1',
-      value: "nero",
-      etichetta: "Nero",
-      disponibilità: 5
-    },
-    {
-      id: '2',
-      value: "viola",
-      etichetta: "Viola",
-      disponibilità: 7
-    }
-  ],
-  recensioni: [
-    {
-      id: 0,
-      nome: "Gianluca",
-      rating: 4.5,
-      testo: "Maglia di qualità, soddisfatto"
-    },
-    {
-      id: 1,
-      nome: "Francesco",
-      rating: 3.5,
-      testo: "Buona maglia, ma un po' costosa"
-    }
-  ]
-}
-]
 
 
 const Container1= styled.div`
@@ -273,6 +69,41 @@ width: 100%
 `
 
 const SingleProduct = () => {
+  const [data,setData]=useState([])
+  const [consigliati,setConsigliati] = useState([])
+  const [loading, setLoading] = useState(true);
+  
+  const { id } = useParams();
+  async function find_p(){
+    const response =await fetch("http://localhost:4000/api/item/"+id, {
+      method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    const product = await response.json(); 
+    setData(product)
+    const tag = data.tag
+
+    const response2 =await fetch("http://localhost:4000/api/item/filter/tipo", {
+      method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body:JSON.stringify({tag}),
+    })
+    const prod_consigliati =await response2.json()
+     setConsigliati(prod_consigliati)
+     setLoading(false) 
+    console.log(data)
+    console.log(consigliati)
+  }
+
+  useEffect(()=>{
+      console.log(id)
+      find_p()
+    }, [id])
+    
 
   const {
     isOpen, 
@@ -283,51 +114,43 @@ const SingleProduct = () => {
   const [valutazione, setValutazione] = React.useState(0); //la valutazione media del prodotto
   const [open, setOpen] = React.useState(false);
   //indica la quantità che si desidera acquistare
-  const [quantity, setQuantity] = React.useState('');
+  const [quantity, setQuantity] = React.useState(0);
   //selected è la variabile che indica quale variante del
   //prodotto stiamo scegliendo (esempio il colore)
   //e di conseguenza cambia il numero di elementi riguardanti la
   //quantità acquistabile
-  var varianti= data[0].varianti
-
-  var id_prodotto=data[0].id
 
   
-  const [type, setType] = React.useState(varianti[0].id);
+
 
   const handleChangeQuantity = (event) => {
     console.log(event.target.value)
     setQuantity(event.target.value);
   };
 
-  const handleChangeType = (event) => {
-    console.log(event.target.value)
-    setType(event.target.value);
-  };
+ 
   
-  var i=0;
-  
-  var recensioni=data[0].recensioni
  
   return (
     <>
     <Navbar/>
+    {loading? (""):
     <Container1>
     <Grid container spacing={2}>
       <Grid item xs={12} md={5}>
-       <Slider testo={false} data={data[0]}/>
+      
       </Grid>
 
       <Grid item xs={12} md={7}>
         <ColonnaDestra>
         <div>
 
-          <h2>{data[0].producer}</h2>
-          <h1>{data[0].name}</h1>
-          <h5>{formatCurrency(data[0].prezzo)}</h5>
+          <h2>{data.producer}</h2>
+          <h1>{data.nome}</h1>
+          <h5>{formatCurrency(data.prezzo)}</h5>
           <label for="read-only">Recensioni:</label>
-          <Rating name="read-only" value={data[0].rating} readOnly />
-          <p>{data[0].description}</p>
+          <Rating name="read-only" value={data.rating} readOnly />
+          <p>{data.descrizione}</p>
           
           <br/>
         </div>
@@ -348,48 +171,7 @@ const SingleProduct = () => {
               }
             }}
             >Type</InputLabel>
-          <Select
-          sx={{
-            borderRadius:3,
-            '.MuiOutlinedInput-notchedOutline': {
-              borderColor: 'black',
-           
-            },
-            listbox:{
-              borderRadius:3,
-            },
-            typography:{
-              fontFamily: 'Encode Sans Expanded',
-            }
-          }}
           
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            defaultValue={'0'}
-            label="Type"
-            onChange={handleChangeType}
-            placeholder={"scegli un tipo"}
-          >
-            
-            {
-              varianti.map((tmp)=>{
-                return(
-                  <MenuItem
-                  
-                   value={tmp.id}
-                   sx={{
-                    borderRadius:1,
-                    borderColor: 'text.primary',
-                    typography:{
-                      fontFamily: 'Encode Sans Expanded',
-                    }
-                  }}>{tmp.etichetta}</MenuItem>
-                )
-              })
-            }
-            
-          </Select>
-
           <InputLabel sx={{
             typography:{
               fontFamily: 'Encode Sans Expanded',
@@ -438,12 +220,8 @@ const SingleProduct = () => {
           <br/>
 
           <Buttone type='button' onClick={()=>{
-            console.log("id_prodotto:");
-            console.log(id_prodotto);
-            console.log("quantity:");
-            console.log(quantity);
             
-            addToCart(quantity, id_prodotto);
+            addToCart(quantity,data._id);
             
           }} >Add to cart</Buttone>
 
@@ -471,7 +249,7 @@ const SingleProduct = () => {
             <br/>
 
               {
-                recensioni.map((recensione)=>{
+                data.recensioni.map((recensione)=>{
                   return(
                   <Recensione
                     key={recensione.id}
@@ -493,7 +271,81 @@ const SingleProduct = () => {
           </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                Qui idealmente si fa una chiamata per cercare prodotti con stesso tag
+              {
+                consigliati.map((item)=>{
+                  return(
+                    <Card variant="outlined" sx={{ width: 320, marginBottom: 0.1 }}>
+                    <CardOverflow>
+                      <AspectRatio ratio="1">
+                       
+                          <img src={item.image.path} loading="lazy" alt="" />
+                      
+                      </AspectRatio>
+                      <IconButton
+                        aria-label="Like minimal photography"
+                        variant="solid"
+                        color="danger"
+                        sx={{
+                          position: "absolute",
+                          zIndex: 2,
+                          borderRadius: "50%",
+                          right: "1rem",
+                          bottom: 0,
+                          transform: "translateY(50%)",
+                        }}
+                      >
+                        <Favorite
+                          size="md"
+                          sx={{
+                            color: "white",
+                            border: "3px solid red",
+                            borderRadius: "50%",
+                            right: "1rem",
+                            bottom: 0,
+                            backgroundColor: red[500],
+                          }}
+                        />
+                      </IconButton>
+                    </CardOverflow>
+                    <Typography level="h2" sx={{ fontSize: "md", mt: 2 }}>
+                      <Link href="/store/prodotti/{item._id}" overlay underline="none">
+                        {item.nome}
+                      </Link>
+                    </Typography>
+                        <Typography level="body2" sx={{ mt: 0.5, mb: 2 }}>
+                          {formatCurrency(item.prezzo)}
+                        </Typography>
+                    <Rating value={3} readOnly />
+                    <Divider inset="context" />
+                    <CardOverflow
+                      variant="soft"
+                      sx={{
+                        display: "flex",
+                        gap: 1.5,
+                        py: 1.5,
+                        px: "var(--Card-padding)",
+                        bgcolor: "background.level1",
+                      }}
+                    >
+                      <Typography
+                        level="body3"
+                        sx={{ fontWeight: "md", color: "text.secondary" }}
+                      >
+                        Tags:
+                      </Typography>
+                      <Divider orientation="vertical" />
+                      <Typography
+                        level="body3"
+                        sx={{ fontWeight: "md", color: "text.secondary" }}
+                      >
+                        {item.tag}
+                      </Typography>
+                    </CardOverflow>
+                  </Card>
+                  )
+                })
+              }
+                
               </Typography>
             </AccordionDetails>
         </Accordion>
@@ -572,6 +424,7 @@ const SingleProduct = () => {
     <br/>
     <Footer />
     </Container1>
+    }
    
     </>
   )

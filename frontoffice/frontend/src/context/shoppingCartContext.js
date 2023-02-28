@@ -27,7 +27,7 @@ export function ShoppingCartProvider( {children} ) {
 
     function getItemQuantity(id) {
         return cartItems.find(
-            item=>item.id==id//se a quella roba corrisponde qualcosa
+            item=>item.id===id//se a quella roba corrisponde qualcosa
             )?.quantity || 0 //allora ritornane la quantità, altrimenti ritorna 0
     }
 
@@ -35,11 +35,11 @@ export function ShoppingCartProvider( {children} ) {
         
         
         setCartItems(currItems =>{
-            if(currItems.find(item => item.id ==id)==null) {
+            if(currItems.find(item => item.id ===id)==null) {
                 return [...currItems, {id, quantity: it_quantity}]
             } else {
                 return currItems.map(item=>{
-                    if(item.id==id) {
+                    if(item.id===id) {
                         
                         var tmp= parseInt(item.quantity) + parseInt(it_quantity)
                         return {...item, quantity: tmp}
@@ -56,11 +56,11 @@ export function ShoppingCartProvider( {children} ) {
         console.log("increase... ");
         setCartItems(currItems=>{ //è la lista di ciò che al momento è nel carrello
             //e dobbiamo modificarla
-            if(currItems.find(item => item.id ==id)==null) {
+            if(currItems.find(item => item.id ===id)==null) {
                 return [...currItems, {id, quantity: 1}]
             } else {
                 return currItems.map(item=>{
-                    if(item.id==id) {
+                    if(item.id===id) {
                         return {...item, quantity: item.quantity +1}
                     } else {
                         return item;
@@ -73,11 +73,11 @@ export function ShoppingCartProvider( {children} ) {
     function decreaseCartQuantity(id) {
         setCartItems(currItems=>{ //è la lista di ciò che al momento è nel carrello
             //e dobbiamo modificarla
-            if(currItems.find(item => item.id ==id)?.quantity ==1) {
+            if(currItems.find(item => item.id ===id)?.quantity ===1) {
                 return currItems.filter(item=>item.id !==id)
             } else {
                 return currItems.map(item=>{
-                    if(item.id==id) {
+                    if(item.id===id) {
                         return {...item, quantity: item.quantity - 1}
                     } else {
                         return item

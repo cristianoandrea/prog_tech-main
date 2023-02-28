@@ -131,6 +131,17 @@ router.post("/filter", async (req, res) => {
   }
 
   res.status(200).json(items);
+}); 
+
+router.post("/filter/tipo", async (req, res) => {
+  console.log(req.body);
+  const tag = req.body.tag;
+ 
+  const items = await Item.find({tag:tag})  
+  if (!items) {
+    return res.status(404).json({ error: "no such item" });
+  }
+  res.status(200).json(items);
 });
 
 module.exports = router;

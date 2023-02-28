@@ -36,7 +36,7 @@ export default function ShoppingCart({isOpen}) {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-    if(open==true) {openCart()}
+    if(open===true) {openCart()}
     else closeCart();
     setState({ ...state, [anchor]: open });
   };
@@ -59,20 +59,22 @@ export default function ShoppingCart({isOpen}) {
         {
             cartItems.map((item)=>{
                 return(
-                    <CartItem key={item.id} {...item} />
+                    <CartItem id={item.id} quantity={item.quantity} />
                 )
             })
         }
         <br />
-        <h5 
+        <h1>
+        {/*<h5 
             style={{textAlign: 'right', marginRight: 1}}
-        ><b> Total: {formatCurrency(
+        > <b> Total: {formatCurrency(
               cartItems.reduce((total, cartItem) => {
                 const item = data.find(i => i.id === cartItem.id)
                 return total + (item?.prezzo || 0) * cartItem.quantity
               }, 0))
             }</b>
-        </h5>
+          </h5>*/}
+          </h1>
       </List>
       <a href="/checkout">
         <Buttone>Checkout</Buttone>

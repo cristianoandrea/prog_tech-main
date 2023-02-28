@@ -21,7 +21,7 @@ router.post("/filter", async (req, res) => {
   res.status(200).json(result);
 });
 
-//GET one service
+//DELETE  one service
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   const service = await Service.findByIdAndDelete(id);
@@ -56,9 +56,15 @@ router.post("/create", (req, res) => {
   });
 });
 
-//DELETE service
-router.delete("/:id", (req, res) => {
-  res.json({ mssg: "DELETE item" });
+//GET one service
+router.post("/:id", async(req, res) => {
+  const { id } = req.params;
+  const service = await Service.findById(id);
+
+  if (!service) {
+    return res.status(404).json({ error: "no such service" });
+  }
+  res.status(200).json(service);
 });
 
 //find filtered services for either veterinario or dogsitting
@@ -201,7 +207,7 @@ router.post("/filter/dogsitter", async (req, res) => {
 
     if ((
     grande.length > 0 ||
-    piccolo.length > 0 ||
+    piccolo.length > 0 || 
     medio.length > 0) 
     &&
     (start_date.length > 0 && end_date.length > 0)
@@ -212,7 +218,7 @@ router.post("/filter/dogsitter", async (req, res) => {
       'dottore.impegni': {
         $not: {
           $elemMatch: {
-            dateiniz: { $lte: end_midnightUTC },
+            dateiniz: { $lte: end_midnightUTC }, 
             datefin: { $gte: start_midnightUTC }
           }
         }
@@ -232,7 +238,7 @@ router.post("/filter/dogsitter", async (req, res) => {
               { $gte: ['$dottore.slot.n_piccoli', { $sum: ['$dottore.impegni.n_piccoli', piccolo] }] }
             ]
           }
-        },
+        }, 
         {
           'dottore.impegni': { $not: { $elemMatch: { dateiniz: { $lte: start_midnightUTC }, datefin: { $gte: end_midnightUTC } } } },
           $expr: {

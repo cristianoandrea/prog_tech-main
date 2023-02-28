@@ -187,8 +187,8 @@ const Product = ({ item, tipo }) => {
         </IconButton>
       </CardOverflow>
       <Typography level="h2" sx={{ fontSize: "md", mt: 2 }}>
-        <Link href="/store/prodotti/1" overlay underline="none">
-          {render ? item.nome_struttura.nome : item.nome}
+        <Link href={`/store/prodotti/${item._id}`} overlay underline="none">
+          {render ? item.nome_struttura.nome : item.nome+ item._id}
         </Link>
       </Typography>
 

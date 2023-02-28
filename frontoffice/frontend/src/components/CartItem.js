@@ -1,6 +1,5 @@
 import { Stack } from '@mui/material';
 import { useShoppingCart } from '../context/shoppingCartContext'
-import { data } from '../pages/prodotto_singolo';
 import * as React from 'react';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Card from '@mui/joy/Card';
@@ -12,23 +11,44 @@ import { Button, IconButton } from '@mui/joy';
 import Link from '@mui/joy/Link';
 import { formatCurrency } from '../utilities/formatCurrency';
 import { Delete } from '@material-ui/icons';
-
+import { useState,useEffect } from 'react';
 
 const CartItem = ({id, quantity}) => {
-  
+  const [Item,setItem]= useState()
   const {removeFromCart, increaseCartQuantity, deleteFromCart} = useShoppingCart();
-  const item  = data.find(i => i.id == id)
-  if(item==null) return null
+  const [loading, setLoading] = useState(true);
+ 
+
+  async function find_p(){
+   
+    const response = await fetch("http://localhost:4000/api/item/"+ id, {
+      method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    const item  = await response.json()
+    setItem(item)
+    setLoading(false) 
+  }
+
+  useEffect(()=>{
+    console.log(id)
+     find_p()
+  },[id])
+  
+  
   const link= "/store/prodotti/" + id
 
   return (
-    <div>
+  <div> 
+    {loading? ( "" ): 
+    
         <Card row variant="outlined" sx={{ width: 430 }}>
         <CardOverflow>
           <AspectRatio ratio="1" sx={{ width: 90 }}>
             <img
-              src="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90"
-              srcSet="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90&dpr=2 2x"
+              src={Item.image.path}
               loading="lazy"
               alt=""
             />
@@ -36,9 +56,9 @@ const CartItem = ({id, quantity}) => {
         </CardOverflow>
         <CardContent sx={{ px: 2 }}>
           <Link href={link} fontWeight="md" textColor="success" mb={0.5}>
-            {item.name}
+            {Item.nome}
           </Link>
-          <Typography level="body2">{formatCurrency(item.prezzo)} , x {quantity}</Typography>
+          <Typography level="body2">{formatCurrency(Item.prezzo)} , x {quantity}</Typography>
         </CardContent>
         <Divider />
         <CardOverflow
@@ -56,7 +76,9 @@ const CartItem = ({id, quantity}) => {
 
         </CardOverflow>
       </Card>
-    </div>
+    }
+        </div>
+
   )
 }
 
