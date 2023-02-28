@@ -23,7 +23,7 @@ const itemSchema = new Schema({
     recensioni : [{
         id : Number,
         nome : String,
-        rating : Number,
+        rating : Number, 
         txt: String
     }],
     descrizione: {
