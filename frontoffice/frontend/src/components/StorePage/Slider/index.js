@@ -3,12 +3,14 @@ import {React, useState,useEffect } from "react";
 import Button from '@mui/joy/Button';
 import { sliderItems } from "../data";
 import { Button1 } from "../../ButtonElement";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import Garfield from './garfield.jpg'
 import { withStyles } from '@material-ui/core/styles';
 import styled from "styled-components";
-import { Grommet, Carousel, Image, Box } from 'grommet';
+import { Grommet, Carousel, Image } from 'grommet';
 import { Buttone } from "../../../pages/prodotto_singolo";
+import { AspectRatio } from "@mui/joy";
+
 
 /*
 struttura unica per due usi:
@@ -95,23 +97,35 @@ const Slider = ({data, testo}) => {
     <div>
         {
             testo ?
-            <Container>
+            <Box sx={{
+                width:'100%',
+                marginTop: '80px',
+                height: '100%'
+            }}>
                 <Carousel fill>
                         {
                             data.images.map((item)=>{
                                 return(
-                                    <Grid container spacing={2}>
+                                    <Grid container spacing={5}>
                                     
                                     <Grid item xs={12} md={7} >
-                                        <Image1 src={item.path} alt={item.alt} />
+                                        <AspectRatio
+                                         ratio="4/3"
+                                         objectFit="fill">
+                                            <Image1 src={item.path} alt={item.alt} />
+                                        </AspectRatio>
                                     </Grid>
                                     <Grid item xs={12} md={5} >
-                                        <Testo>
+                                        <Box sx={{
+                                            marginTop:{md:8, xs:0},
+                                            marginLeft:{md:1, xs:1},
+                                            marginBottom:{xs:10}
+                                        }}>
                                         <h1>{item.title}</h1>
                                         <h4>{item.description}</h4>
-                                        <br/>
                                         <Buttone>{item.button}</Buttone>
-                                        </Testo>
+                                        
+                                        </Box>
                                     </Grid>
                                     </Grid>
                                     
@@ -121,7 +135,7 @@ const Slider = ({data, testo}) => {
                         }
                 
                 </Carousel>
-            </Container>
+            </Box>
             :
             <Carousel fill>
                 <Container2>

@@ -17,6 +17,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { NavBtnLink } from './Navbar';
 import { formatCurrency } from '../utilities/formatCurrency';
 import { Typography } from '@mui/joy';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 
@@ -44,7 +45,7 @@ export default function ShoppingCart({isOpen}) {
   const list = (anchor) => (
     <Box
       sx={{ 
-        width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 450,
+        maxWidth: anchor === 'top' || anchor === 'bottom' ? 'auto' : 450,
         marginTop: 2, 
         marginLeft: 1,
         
@@ -53,13 +54,14 @@ export default function ShoppingCart({isOpen}) {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
+      <Button onClick={toggleDrawer(anchor, false)}><CloseIcon/></Button>
       <h3><b>Carrello</b></h3>
       <Divider />
       <List>
         {
             cartItems.map((item)=>{
                 return(
-                    <CartItem key={item.id} {...item} />
+                    <CartItem key={item.id} {...item} old={false} />
                 )
             })
         }
@@ -82,18 +84,15 @@ export default function ShoppingCart({isOpen}) {
 
   return (
     <div>
-      
-    
-    
     <React.Fragment key={'right'}>
-        <NavBtnLink onClick={toggleDrawer('right', true)}><ShoppingCartIcon/></NavBtnLink>
-        <Drawer
-        anchor={'right'}
-        open={state['right']}
-        onClose={toggleDrawer('right', false)}
-        >
-        {list('right')}
-        </Drawer>
+      <NavBtnLink onClick={toggleDrawer('right', true)}><ShoppingCartIcon/></NavBtnLink>
+      <Drawer
+      anchor={'right'}
+      open={state['right']}
+      onClose={toggleDrawer('right', false)}
+      >
+      {list('right')}
+      </Drawer>
     </React.Fragment>
     
     </div>

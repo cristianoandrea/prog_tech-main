@@ -103,15 +103,6 @@ const FiltriServices = ({time}, props) => {
       },
     ]
     )
-    
-  const [selectedPets, setSelectedPets] = useState(pets);
-  const handleQuantityChange = (event, index) => {
-    const newSelectedPets = [...selectedPets];
-    newSelectedPets[index].quantity = event.target.value;
-    setSelectedPets(newSelectedPets);
-  };
-
-  
   const [filtri, setFiltri] = React.useState([]);
 
   const handleSubmit = async (event) => {
@@ -155,26 +146,16 @@ const FiltriServices = ({time}, props) => {
     window.history.replaceState({}, "", newUrl);
     props.onSubmit(data);
   };
-
-  const [animali, setAnimali] = useState([])
-
   const [animaliPiccoli, setPiccoli]= useState(0)
   const [animaliMedi, setMedi]= useState(0)
   const [animaliGrandi, setGrandi]= useState(0)
   
-  const handleAnimalItemClick = (key, quantity, animali, setAnimali) => {
-    // Check if the key already exists in the array
-    const existingIndex = animali.findIndex(item => item.key === key);
-    if (existingIndex !== -1) {
-      // If it exists, update the quantity
-      const updatedAnimali = [...animali];
-      updatedAnimali[existingIndex] = { key, quantity };
-      setAnimali(updatedAnimali);
-    } else {
-      // If it doesn't exist, add it to the array
-      setAnimali([...animali, { key, quantity }]);
-    }
-    console.log(animali)
+  const handleAnimalQuantityChange = (animalIndex, quantity) => {
+    const newPets = [...pets];
+    const newQuantity = newPets[animalIndex].quantity + quantity;
+    newPets[animalIndex].quantity = newQuantity;
+    //setAnimalQuantity((animalQuantity - newPets[animalIndex].quantity) + newQuantity);
+    setPets(newPets);
   };
   
   const { options, ...rest } = props;
@@ -202,7 +183,7 @@ const FiltriServices = ({time}, props) => {
             <Select
             labelId="label-animali"
             name="animali"
-            value={animalQuantity}
+            
             sx={{
               height: 60,
               menuStyle:{
@@ -236,22 +217,26 @@ const FiltriServices = ({time}, props) => {
                     <Grid item xs={6}>
                       <Button onClick={() => {
                         if (pet.quantity > 1) {
-                          //setAnimalQuantity(animalQuantity +1)
-                          setPets(prevPets => {
-                            const newPets = [...prevPets];
-                            newPets[index].quantity -= 1;
-                            return newPets;
-                          });
+                          if(pet.key=="piccolo")setPiccoli(animaliPiccoli -1)
+                          else if(pet.key=="medio")setMedi(animaliMedi -1)
+                          else if(pet.key=="grande")setGrandi(animaliGrandi -1)
+                          
+                          handleAnimalQuantityChange(index, 1)
+                        console.log("piccoli", animaliPiccoli)
+                        console.log("medi", animaliMedi)
+                        console.log("grandi", animaliGrandi)
                         }
                       }}>-</Button>
                       <span>{pet.quantity}</span>
                       <Button onClick={() => {
-                        setPets(prevPets => {
-                          const newPets = [...prevPets];
-                          newPets[index].quantity += 1;
-                          return newPets;
-                        });
-                        setAnimalQuantity(animalQuantity +1)
+                        if(pet.key=="piccolo")setPiccoli(animaliPiccoli + 1)
+                        else if(pet.key=="medio")setMedi(animaliMedi + 1)
+                        else if(pet.key=="grande")setGrandi(animaliGrandi + 1)
+                        handleAnimalQuantityChange(index, 1)
+                        
+                        console.log("piccoli", animaliPiccoli)
+                        console.log("medi", animaliMedi)
+                        console.log("grandi", animaliGrandi)
                         console.log(pets)
                       }}>+</Button>
                     </Grid>
@@ -430,6 +415,41 @@ export default FiltriServices
 //se time è true => veterinairo
 //time = falso => dogsitter e daterange
 /*
+<Button onClick={() => {
+                        if (pet.quantity > 1) {
+                          if(pet.key=="piccolo")setPiccoli(animaliPiccoli -1)
+                          else if(pet.key=="medio")setMedi(animaliMedi -1)
+                          else if(pet.key=="grande")setGrandi(animaliGrandi -1)
+                          setPets(prevPets => {
+                            console.log("-")
+                            const newPets = [...prevPets];
+                            newPets[index].quantity -= 1;
+                            return newPets;
+                          });
+                        console.log("piccoli", animaliPiccoli)
+                        console.log("medi", animaliMedi)
+                        console.log("grandi", animaliGrandi)
+                        }
+                      }}>-</Button>
+                      <span>{pet.quantity}</span>
+                      <Button onClick={() => {
+                        if(pet.key=="piccolo")setPiccoli(animaliPiccoli + 1)
+                        else if(pet.key=="medio")setMedi(animaliMedi + 1)
+                        else if(pet.key=="grande")setGrandi(animaliGrandi + 1)
+                        setPets(prevPets => {
+                          console.log("+")
+                          const newPets = [...prevPets];
+                          newPets[index].quantity += 1;
+                          return newPets;
+                        });
+                        
+                        console.log("piccoli", animaliPiccoli)
+                        console.log("medi", animaliMedi)
+                        console.log("grandi", animaliGrandi)
+                        console.log(pets)
+                      }}>+</Button>
+
+
 unica variabile in input è lì per dirmi se è dogsitting o 
 servizio giornaliero tipo veterinario. L'inica differenza diventa
 quindi la presenza della data di fine trattamento nei filtri.

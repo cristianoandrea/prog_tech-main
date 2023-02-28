@@ -14,7 +14,7 @@ import { formatCurrency } from '../utilities/formatCurrency';
 import { Delete } from '@material-ui/icons';
 
 
-const CartItem = ({id, quantity}) => {
+const CartItem = ({id, quantity, old}) => {
   
   const {removeFromCart, increaseCartQuantity, deleteFromCart} = useShoppingCart();
   const item  = data.find(i => i.id == id)
@@ -23,7 +23,7 @@ const CartItem = ({id, quantity}) => {
 
   return (
     <div>
-        <Card row variant="outlined" sx={{ width: 430 }}>
+        <Card row variant="outlined" sx={{ maxWidth: 430 }}>
         <CardOverflow>
           <AspectRatio ratio="1" sx={{ width: 90 }}>
             <img
@@ -39,6 +39,14 @@ const CartItem = ({id, quantity}) => {
             {item.name}
           </Link>
           <Typography level="body2">{formatCurrency(item.prezzo)} , x {quantity}</Typography>
+          {
+            old?
+            <>
+              {item.data_acquisto}
+            </>
+            :
+            ""
+          }
         </CardContent>
         <Divider />
         <CardOverflow
@@ -52,7 +60,13 @@ const CartItem = ({id, quantity}) => {
             textTransform: 'uppercase',
           }}
         >
-          <Button onClick={()=>deleteFromCart(id)} sx={{color: "red"}} ><Delete/></Button>
+          {
+            old?
+            <></>
+            :
+            <Button onClick={()=>deleteFromCart(id)} sx={{color: "red"}} ><Delete/></Button>
+          }
+          
 
         </CardOverflow>
       </Card>

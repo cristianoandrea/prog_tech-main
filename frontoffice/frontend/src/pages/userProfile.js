@@ -112,7 +112,7 @@ const UserProfile = () => {
         onChange={(event, value) => setIndex(value)}
         sx={{ 
           '--Tabs-gap': '5px',
-          marginTop: 2,
+          marginTop: 3,
           
          }}
       >
@@ -209,20 +209,16 @@ const UserProfile = () => {
             </Typography>
           </TabPanel>
           <TabPanel value={1}>
-            <Typography
-              level="h2"
-              component="div"
-              fontSize="lg"
-              mb={2}
-              textColor="text.primary"
-            >
+            
               <h3>I miei acquisti:</h3>
               {
                 profilo.acquisti.map((acquisto)=>{
-                  <CartItem key={acquisto.id} {...acquisto} />
+                  return(
+                    <CartItem key={acquisto.id} {...acquisto} old={true} />
+                  )
                 })
               }
-            </Typography>
+            
           </TabPanel>
           <TabPanel value={2}>
             
