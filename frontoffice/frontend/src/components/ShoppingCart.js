@@ -61,7 +61,7 @@ export default function ShoppingCart({isOpen}) {
         {
             cartItems.map((item)=>{
                 return(
-                    <CartItem key={item.id} {...item} old={false} />
+                    <CartItem key={item} {...item} />
                 )
             })
         }

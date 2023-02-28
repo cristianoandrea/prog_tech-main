@@ -19,6 +19,8 @@ import Typography from '@mui/joy/Typography';
 import Input from '@mui/joy/Input';
 import SearchRounded from '@mui/icons-material/SearchRounded';
 import CartItem from "../components/CartItem";
+import { formatCurrency } from "../utilities/formatCurrency";
+import { AspectRatio, Card } from "@mui/joy";
 
 let profilo={
   nome: 'Andrea',
@@ -37,6 +39,7 @@ let profilo={
       prezzo: "125",
       quantity: 2,
       img:"",
+      alt:"",
       tag:"accessori",
       animale:"gatto",
       data_acquisto: "12/01/2023"
@@ -45,7 +48,7 @@ let profilo={
       id:4,
       name:"Purina cibo cane",
       prezzo: "15",
-      quantita: 2,
+      quantity: 2,
       img:"",
       tag:"cibo",
       animale:"cane",
@@ -61,9 +64,127 @@ let profilo={
       qualita_servizio:"vip",
       spesa_totale: 250,
       citta: "Bologna"
+    },
+    {
+      servizio: "Toelettatura",
+      data_inizio:"19/03/2023",
+      data_fine:"",
+      nome_struttura:"Villa Floridiana",
+      qualita_servizio:"vip",
+      spesa_totale: 250,
+      citta: "Napoli"
     }
   ]
 }
+
+const CardAcquisto = ({item}) =>{
+
+  const link="item/prodotti/" + item.id
+
+  return(
+    <Card
+    variant="outlined"
+    orientation="horizontal"
+    sx={{
+      width: 320,
+      gap: 2,
+      '&:hover': { boxShadow: 'md', borderColor: 'neutral.outlinedHoverBorder' },
+    }}
+  >
+      <AspectRatio ratio="1" sx={{ width: 90 }}>
+      <img
+        src="item.img"
+        srcSet="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90&dpr=2 2x"
+        loading="lazy"
+        alt="item.alt"
+      />
+      </AspectRatio>
+    <div>
+      <a href={link} >
+
+        <Typography level="h2" fontSize="lg" id="card-description" mb={0.5}>
+          {item.name}
+        </Typography>
+      </a>
+      <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
+        {formatCurrency(item.prezzo)} , x {item.quantity}
+      </Typography>
+      <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
+        Data di Acquisto:{item.data_acquisto}
+      </Typography>
+      <Chip
+        variant="outlined"
+        color="primary"
+        size="sm"
+        sx={{ pointerEvents: 'none' }}
+      >
+        Animali: {item.animali}
+      </Chip>
+      <Chip
+        variant="outlined"
+        color="primary"
+        size="sm"
+        sx={{ pointerEvents: 'none' }}
+      >
+        Tag: {item.tag}
+      </Chip>
+
+    </div>
+  </Card>
+  )
+}
+
+const CardServizio = ({item}) =>{
+
+  const link="item/prodotti/" + item.id
+
+  let lungo=true
+  if (item.data_fine=="") lungo=false
+
+  return(
+    <Card
+    variant="outlined"
+    orientation="horizontal"
+    sx={{
+      width: 320,
+      gap: 2,
+      '&:hover': { boxShadow: 'md', borderColor: 'neutral.outlinedHoverBorder' },
+    }}
+  >
+      
+    <div>
+      <a href={link} >
+
+        <Typography level="h2" fontSize="lg" id="card-description" mb={0.5}>
+          {item.nome_struttura} ,  {item.citta}
+        </Typography>
+      </a>
+        <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
+        Tipologia di servizio:  {item.servizio}
+      </Typography>
+      <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
+        Data : {
+          lungo ?
+          <>{item.data_inizio} - {item.data_fine}</>
+          :
+          <>
+          {item.data_inizio} 
+          </>
+        }
+      </Typography>
+      <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
+        Dottore/modalità servizio:  {item.qualita_servizio}
+      </Typography>
+      <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
+        Spesa: {formatCurrency(item.spesa_totale)} 
+      </Typography>
+      
+
+    </div>
+  </Card>
+  )
+}
+
 
 const UserProfile = () => {
 
@@ -211,17 +332,31 @@ const UserProfile = () => {
           <TabPanel value={1}>
             
               <h3>I miei acquisti:</h3>
+              <Box sx={{ display: 'flex', flexDirection: {md:'row', sx:'column'}, alignItems: 'center', gap: '16px' }}>
+
               {
                 profilo.acquisti.map((acquisto)=>{
                   return(
-                    <CartItem key={acquisto.id} {...acquisto} old={true} />
+                    <CardAcquisto item={acquisto}  />
                   )
                 })
               }
+              </Box>
             
           </TabPanel>
           <TabPanel value={2}>
-            
+
+            <h3>Le mie prenotazioni:</h3>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '16px' }}>
+
+            {
+              profilo.prenotazioni.map((service)=>{
+                return(
+                  <CardServizio item={service}  />
+                )
+              })
+            }
+            </Box>
           </TabPanel>
         </Box>
       </Tabs>
