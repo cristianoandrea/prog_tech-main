@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Service } = require("../models/serviceModel");
 const { query } = require("express");
+const { find } = require("../models/userModel");
 
 //GET all service
 router.post("/", async (req, res) => {
@@ -80,13 +81,16 @@ router.post("/filter/veterinario", async (req, res) => {
     city.length > 0 ||
     start_date.length > 0
   ) {
+    console.log('inside fisrt if')
     let query = { $and: [] };
     if (city && city.length > 0)
       query.$and.push({ luogo: { $in: city } });
     if (tipo && tipo.length > 0) query.$and.push({ tipo: { $in: tipo } });
     
     service = await Service.find(query).lean();
+    console.log(service)
     const inputDate = new Date(start_date);
+    console.log(inputDate)
     const midnightUTC = new Date(
       Date.UTC(
         inputDate.getUTCFullYear(),
@@ -96,34 +100,43 @@ router.post("/filter/veterinario", async (req, res) => {
         inputDate.getUTCMinutes()
       )
     );
-    console.log(midnightUTC);
+
     console.log("///////////////////////////////");
+
+    midnightUTC.setHours(midnightUTC.getHours() + 1);
+    console.log(midnightUTC)
     
-    function filterServicesByDate(
-      services,
-      inputDate
-    ) {
+    function filterServicesByDate(services, inputDate) {
       const final = [];
       services.forEach((service) => {
         const filteredDottore = service.dottore
           .filter((d) => {
             const hasMatch = d.impegni.some((i) => {
-              const date = new Date(i.dateiniz);
-              return date.getTime() === inputDate.getTime();
+              const startDate = new Date(i.dateiniz);
+              const inputStart = new Date(inputDate);
+              const inputEnd = new Date(inputDate);
+              inputEnd.setHours(inputEnd.getHours() + 1);
+              const isOverlapping =
+                inputStart >= startDate &&
+                inputStart < new Date(startDate.getTime() + 60 * 60 * 1000);
+              if (isOverlapping) {
+                console.log(
+                  `Match found for input date ${inputDate} with impegni ${JSON.stringify(
+                    i
+                  )}`
+                );
+              }
+              return isOverlapping;
             });
-            return !hasMatch;
+            return !hasMatch || d.impegni.length === 0;
           })
           .map((d) => {
             const filteredImpegni = d.impegni.filter((i) => {
               const date = new Date(i.dateiniz);
-              return (
-                date.getTime() !==
-                inputDate.getTime() /*&& i.animali == inputAnimal*/
-              );
+              return date.getTime() !== inputDate.getTime();
             });
             return { ...d, impegni: filteredImpegni };
-          })
-          .filter((d) => d.impegni.length > 0); // Remove any dottore without impegni after filter
+          });
         if (filteredDottore.length > 0) {
           // Add service only if there are filteredDottore
           final.push({ ...service, dottore: filteredDottore });
@@ -131,16 +144,22 @@ router.post("/filter/veterinario", async (req, res) => {
       });
       return final;
     }
+    
     filteredServices = filterServicesByDate(
       service,
       midnightUTC
     );
-    if(filteredServices.length === 0)
-    filteredServices = await Service.find();
+
+    if(filteredServices.length === 0){
+    console.log(filteredServices)
+    console.log('inside second if')
+    filteredServices = await Service.find({tipo:tipo});
+    }
   } else {
-    filteredServices = await Service.find();
+    filteredServices = await Service.find({tipo:tipo});
   }
   if (!service) {
+    console.log('inside !service')
     return res.status(404).json({ error: "no such item" });
   }
   res.status(200).json(filteredServices);
@@ -148,24 +167,33 @@ router.post("/filter/veterinario", async (req, res) => {
 
 //function adds an impegni array to a specified doctor of a service and removes the old impegni
 router.patch("/addVetReservation", async (req, res) => {
-  const id = req.body.id;
+  const id = req.body.id; 
   const date = req.body.param.date;
-  const finaldate = new Date(date);
   const dottoreId = req.body.doc_id;
+  const dateParts = date.split('-');
+  const year = parseInt(dateParts[0]);
+  const month = parseInt(dateParts[1]) - 1;
+  const day = parseInt(dateParts[2]);
+  const hours = parseInt(dateParts[3]);
+  const minutes = parseInt(dateParts[4].split(':')[0]);
+  const finaldate = new Date(Date.UTC(year, month, day, hours, minutes));
+
 
   //remove all the dottore.impegni which are previous to the current date ( serve per ripulire il db)
   const currentDate = new Date();
+
   await Service.findOneAndUpdate(
-    { _id: id },
+    { _id: id }, 
     {
-      $pull: {
+      $pull: { 
         'dottore.$[].impegni': {
           dateiniz: { $lt: currentDate }
         }
       }
-    },
+    }, 
   );
-
+  
+ // aggiunge l'appuntamento agli impegni
   await Service.updateOne(
     { _id: id, "dottore._id": dottoreId },
     { $push: { "dottore.$.impegni": { dateiniz: finaldate } } },
@@ -187,7 +215,7 @@ router.post("/filter/dogsitter", async (req, res) => {
     const grande = req.body.animaliGrandi
     const città = req.body.city
     const tipo = 'Dogsitting'
-    console.log(start_date,end_date,piccolo,medio,grande,città)
+
     const input_start_date = new Date(start_date);
     const start_midnightUTC = new Date(
       Date.UTC(
@@ -204,14 +232,14 @@ router.post("/filter/dogsitter", async (req, res) => {
         input_end_date.getUTCDate()
       )
     );
-
-    if ((
-    grande.length > 0 ||
-    piccolo.length > 0 || 
-    medio.length > 0) 
+    
+    if ((grande || piccolo ||  medio) 
     &&
     (start_date.length > 0 && end_date.length > 0)
   ) {
+
+
+      console.log(start_midnightUTC,end_midnightUTC)
       const service = await Service.find({
       tipo: tipo,
       luogo: città,
@@ -252,24 +280,48 @@ router.post("/filter/dogsitter", async (req, res) => {
       ]
     });
     
+    console.log(service)
+    if(service.length) console.log(service[0].dottore[0].impegni)
 if (!service) {
-    return res.status(404).json({ error: "no such item" });
+    console.log('no service with that criteria')
+    const all = await Service.find({tipo:tipo})
+    res.status(200).json(all)
   }
+  else{
   res.status(200).json(service);
+  }
 
 }})
 
 router.patch("/addDogReservation", async (req, res) => {
+  console.log("dogsitting")
+  console.log(req.body)
   const id = req.body.id;
-  const start_date = req.body.param.start_date;
+  const start_date = req.body.param.date;
   const final_start_date = new Date(start_date);
-  const end_date = req.body.param.end_date;
+  const end_date = req.body.param.endDate;
   const final_end_date = new Date(end_date)
-  const stanzaId = req.body.stanza_id;
-  const grandi = req.body.grandi
-  const medi = req.body.medi
-  const piccoli = req.body.piccoli
-
+  const stanzaId = req.body.doc_id;
+  const grandi = req.body.param.grandi
+  const medi = req.body.param.medi
+  const piccoli = req.body.param.piccoli
+// convert start_date in right format
+  const dateParts = start_date.split('-');
+  const year = parseInt(dateParts[0]);
+  const month = parseInt(dateParts[1]) - 1;
+  const day = parseInt(dateParts[2]);
+  const hours = parseInt(dateParts[3]);
+  const minutes = parseInt(dateParts[4].split(':')[0]);
+  const finalStartdate = new Date(Date.UTC(year, month, day, hours, minutes));
+// convert end_date in right format
+  const dateParts1 = end_date.split('-');
+  const year1 = parseInt(dateParts1[0]);
+  const month1 = parseInt(dateParts1[1]) - 1;
+  const day1 = parseInt(dateParts1[2]);
+  const hours1 = parseInt(dateParts1[3]);
+  const minutes1 = parseInt(dateParts1[4].split(':')[0]);
+  const finalEnddate = new Date(Date.UTC(year1, month1, day1, hours1, minutes1));
+//making the query  
   const query = {
     _id: id,
     "dottore._id": stanzaId
@@ -278,8 +330,8 @@ router.patch("/addDogReservation", async (req, res) => {
   const update = {
     $push: {
       "dottore.$.impegni": {
-        dateiniz: final_start_date,
-        datefin: final_end_date,
+        dateiniz: finalStartdate,
+        datefin: finalEnddate,
         animali: "",
         n_grandi: grandi,
         n_medi: medi,
