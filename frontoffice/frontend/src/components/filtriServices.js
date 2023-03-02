@@ -66,7 +66,7 @@ const animalucci=[
 ]
 
 const cities=[
-  'Bologna', 'Roma', 'Bari', 'Napoli', 'Milano', 'Foligno', 'Matera'
+  'Bologna', 'Roma', 'Bari', 'Napoli', 'Milano', 'Foligno', 'Matera',"Firenze",'Torino',"Venezia"
 ]
 
 //se time è true => veterinairo
@@ -130,20 +130,6 @@ const FiltriServices = ( {time,onPass} ) => {
     });
     data = await response.json(); 
     console.log(data);
-  }
-  else{
-    console.log(city,startDate,endDate,animaliPiccoli,animaliMedi,animaliGrandi)
-    const response = await fetch("http://localhost:4000/api/service/filter/dogsitter",{
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({city, startDate,endDate,animaliPiccoli,animaliMedi,animaliGrandi}),
-    })
-    data = await response.json()
-    console.log(data)
-  }
-  
     const originalDate = new Date(startDate);
 
     const year = originalDate.getFullYear();
@@ -171,6 +157,59 @@ const FiltriServices = ( {time,onPass} ) => {
     }?${currentSearchParams.toString()}`;
 
     window.history.replaceState({}, "", newUrl);
+  }
+  else{
+    console.log(city,startDate,endDate,animaliPiccoli,animaliMedi,animaliGrandi)
+    const response = await fetch("http://localhost:4000/api/service/filter/dogsitter",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({city, startDate,endDate,animaliPiccoli,animaliMedi,animaliGrandi}),
+    })
+    data = await response.json()
+    console.log(data)
+
+    const originalDate = new Date(startDate);
+    const year = originalDate.getFullYear();
+    const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = originalDate.getDate().toString().padStart(2, "0");
+    const hours =  originalDate.getHours().toString().padStart(2, "0");
+    const minutes =  originalDate.getMinutes().toString().padStart(2, "0");
+    const isoDateString = `${year}-${month}-${day}-${hours}-${minutes}:00.000+00:00`;
+    const originalEndDate = new Date(endDate);
+    const year1 = originalEndDate.getFullYear();
+    const month1 = (originalEndDate.getMonth() + 1).toString().padStart(2, "0");
+    const day1 = originalEndDate.getDate().toString().padStart(2, "0");
+    const hours1 =  originalEndDate.getHours().toString().padStart(2, "0");
+    const minutes1 =  originalEndDate.getMinutes().toString().padStart(2, "0");
+    const isoDateString1 = `${year1}-${month1}-${day1}-${hours1}-${minutes1}:00.000+00:00`;
+    console.log(originalDate,originalEndDate,isoDateString,isoDateString1)
+    const newParams = {
+      tipo: tipo,
+      city: city,
+      animal: animal,
+      date: isoDateString,
+      endDate: isoDateString1,
+      piccoli: animaliPiccoli,
+      medi: animaliMedi,
+      grandi: animaliGrandi
+    };
+
+    const currentSearchParams = new URLSearchParams(window.location.search);
+
+    Object.entries(newParams).forEach(([key, value]) => {
+      currentSearchParams.set(key, value);
+    });
+
+    const newUrl = `${window.location.origin}${
+      window.location.pathname
+    }?${currentSearchParams.toString()}`;
+
+    window.history.replaceState({}, "", newUrl);
+  }
+  
+    
     onPass(data);
    
   };
@@ -209,6 +248,7 @@ const FiltriServices = ( {time,onPass} ) => {
         alignItems="center"
         style={{margin:10}}
        >
+        {time? "" :
         <Grid item xs={12} sm={6} md={3}>
         <InputLabel
           sx={{
@@ -295,6 +335,7 @@ const FiltriServices = ( {time,onPass} ) => {
           
           </FormControl>
         </Grid>
+         }
         <Grid item xs={12} sm={6} md={3}>
         <FormControl  size="small">
         <InputLabel

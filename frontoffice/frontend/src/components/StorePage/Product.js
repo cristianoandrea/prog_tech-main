@@ -105,6 +105,8 @@ const Icon1 = styled(IconButton)`
 const Product = ({ item, tipo }) => {
   const [render, setRender] = useState();
   const [open, setOpen] = React.useState('');
+  //se servicetype true allora è dositting
+  const [serviceType,setServiceType]= useState()
   
   function getQueryVariables() {
     const query = window.location.search.substring(1);
@@ -130,7 +132,12 @@ const Product = ({ item, tipo }) => {
     setRender(tipo);
   }, [tipo]);
 
-  const Register = (_id,doc_id) =>{
+  useEffect(()=>{
+    if(item.tipo)
+    setServiceType(true)
+  },[item])
+
+  const RegisterVet = (_id,doc_id) =>{
     const id = _id
     //const struct_name = name
     const param = getQueryVariables()
@@ -141,9 +148,21 @@ const Product = ({ item, tipo }) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({param,id,doc_id}),
-    }) 
-    
-    
+    })   
+  }
+
+  const RegisterSitter = (_id,doc_id) =>{
+    const id = _id
+    //const struct_name = name
+    const param = getQueryVariables()
+    console.log(param) 
+    fetch("http://localhost:4000/api/service/addDogReservation", {
+      method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({param,id,doc_id}),
+    })   
   }
 
   if (render === undefined) {
@@ -188,7 +207,7 @@ const Product = ({ item, tipo }) => {
       </CardOverflow>
       <Typography level="h2" sx={{ fontSize: "md", mt: 2 }}>
         <Link href={`/store/prodotti/${item._id}`} overlay underline="none">
-          {render ? item.nome_struttura.nome : item.nome+ item._id}
+          {render ? item.nome_struttura.nome : item.nome}
         </Link>
       </Typography>
 
@@ -251,16 +270,28 @@ const Product = ({ item, tipo }) => {
           </Typography>
           
           <Typography id={elem._id} textColor="inherit">
-            Price for this service is {elem.prezzo} $.
+            Price for this service is {elem.prezzo} 
           </Typography>
+          
+         { setServiceType? 
+         <Button
+         variant="solid"
+         color="neutral"
+         onClick={() => RegisterSitter(item._id,elem._id)}
+       >
+         make a reservation
+       </Button>
+         :
           <Button
-            variant="solid"
-            color="neutral"
-            onClick={() => Register(/*item.nome_struttura.nome,*/item._id,elem._id)}
-          >
-            make a reservation
-          </Button>
-          </div>
+          variant="solid"
+          color="neutral"
+          onClick={() => RegisterVet(item._id,elem._id)}
+        >
+          make a reservation
+        </Button>
+}
+        </div>
+          
           ))}
           
         </ModalDialog>
