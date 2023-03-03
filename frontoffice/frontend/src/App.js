@@ -11,7 +11,7 @@ import OnlinePage from './pages/online';
 import CommunityPage from './pages/community';
 import Prodotti from './pages/prodotti';
 import UserProfile from './pages/userProfile';
-import SingleProduct from './pages/prodotto_singolo';
+import SingleProduct from './pages/prodotto_singolo'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PresenzaServizio from './pages/presenzaServizio';
 import { ShoppingCartProvider } from './context/shoppingCartContext';
