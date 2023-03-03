@@ -1,33 +1,25 @@
-<div class="row featurette" *ngIf="photoRight">
+<div class="row featurette my-6 ml-4 container" *ngIf="photoRight">
   <div class="col-sm-7 d-flex align-items-center">
-    <div>
+    <div class="my-4">
       <h1 class="featurette-heading fw-normal lh-1 justify-center">{{ info?.h1 }} </h1>
       <p class="lead">{{ info?.p }}</p>
-      <button type="button" class="btn btn-primary">{{info?.button}}</button>
+      <a href={{info?.href}} type="button" class="btn color">{{info?.button}}</a>
     </div>
   </div>
   <div class="col-sm-5 d-flex align-items-center">
-    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false">
-      <title>Placeholder</title>
-      <rect width="100%" height="100%" fill="#eee"></rect>
-      <text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
-    </svg>
+    <a href={{info?.href_img}} target='_blank'><img src={{info?.img}} width="100%" height="100%" alt={{info?.alt}}/></a>
   </div>
 </div>
 
-<div class="row featurette" *ngIf="!photoRight">
+<div class="row featurette my-6 ml-4 container " *ngIf="!photoRight">
   <div class="col-sm-5 d-flex align-items-center">
-    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false">
-      <title>Placeholder</title>
-      <rect width="100%" height="100%" fill="#eee"></rect>
-      <text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
-    </svg>
+    <a href={{info?.href_img}} target='_blank'><img src={{info?.img}} width="100%" height="100%" alt={{info?.alt}}/></a>
   </div>
   <div class="col-sm-7 d-flex align-items-center">
-    <div>
+    <div class="my-4">
       <h1 class="featurette-heading fw-normal lh-1">{{ info?.h1 }}</h1>
       <p class="lead">{{ info?.p }}</p>
-      <button type="button" class="btn btn-primary">{{info?.button}}</button>
+      <a type="button" href={{info?.href}} class="btn color">{{info?.button}}</a>
     </div>
   </div>
 </div>

@@ -1,0 +1,28 @@
+<form #signupForm="ngForm" (ngSubmit)="signup(username, email, password, [selectedAnimals])">
+    <h2>
+        Registrati!
+    </h2>
+  <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" [(ngModel)]="username" class="form-control" required>
+  </div>
+
+  <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" [(ngModel)]="email" class="form-control" required>
+  </div>
+
+  <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" [(ngModel)]="password" class="form-control" required>
+  </div>
+
+  <div class="form-group">
+      <label for="animals">Favorite Animals:</label>
+      <select id="animals" name="animals" class="form-control" [(ngModel)]="selectedAnimals" multiple>
+          <option *ngFor="let animal of animals" [value]="animal">{{animal}}</option>
+      </select>
+  </div>
+
+  <button type="submit" class="btn color">Sign up</button>
+</form>

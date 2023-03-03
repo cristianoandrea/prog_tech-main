@@ -1,4 +1,10 @@
 nav{
-    font-size: 1.5em;
-    font-family: 'VT323', monospace;
+    
+    font-family: 'Signika', sans-serif;
+
+}
+
+.color{
+    background-color: #5e30b8;
+    color: white
 }

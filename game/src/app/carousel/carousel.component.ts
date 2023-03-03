@@ -7,6 +7,9 @@ export interface Slide {
   h1: string;
   button: string;
   img: string;
+  href: string;
+  alt: string;
+  href_img:string;
 }
 
 
@@ -23,8 +26,6 @@ export class CarouselComponent implements OnInit {
   constructor() { 
     
   }
-
-  images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
 
   ngOnInit(): void {
   }

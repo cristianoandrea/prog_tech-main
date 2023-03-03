@@ -1,6 +1,7 @@
 import { Component, OnInit , Pipe, PipeTransform} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { KeyValue } from '@angular/common';
+import { AuthService } from '../auth.service';
 
 
 
@@ -19,9 +20,9 @@ export class CuriosityComponent  {
   animalInfo:any;
   public isCollapsed : boolean;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authService: AuthService) {
     this.isCollapsed = false;
-    this.my_animals=['dog', 'cat']
+    this.my_animals=this.authService.fav_animals
   }
 
   search(animal:string) {

@@ -1,0 +1,27 @@
+form {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  label {
+    margin-top: 10px;
+    font-family: 'Signika', sans-serif;
+
+
+  }
+  
+  button {
+    margin-top: 20px;
+  }
+
+  h2{
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .color{
+    background-color: #5e30b8;
+    color: white
+}

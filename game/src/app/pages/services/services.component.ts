@@ -9,17 +9,45 @@ export class ServicesComponent implements OnInit {
 
   public dogsitting: any
   public veterinarian:any
+  public psicologo:any
+  public toelettatura:any
 
   constructor() { 
     this.dogsitting={
-      h1: "Trova qui i migliori posti per mollare i tuoi problemi!",
-      p: "Tante sedi e manco troppo male",
-      button:"Daje"
+      h1: "Dogsitting",
+      p: "Scopri tutte le sedi messe a disposizione da Animal House",
+      button:"Vai!",
+      href: '/services/dogsitting',
+      href_img:'https://postimg.cc/ns5s5pmt',
+      img:'https://i.postimg.cc/T328RZZ0/dogsitter.jpg',
+      alt:'dogsitter'
     }
     this.veterinarian={
-      h1: "Il tuo problema sta male? oh noooo guarda",
-      p: "e come fai senza sto cosetto inutile che ti sporca casa",
-      button:"Mannaggia... proviamo a fixare va"
+      h1: "Veterinari",
+      p: "Metti nelle solide mani dei nostri esperti i tuoi cuccioli",
+      button:"Qui l'elenco",
+      href: '/services/veterinarian',
+      href_img:'https://postimg.cc/ns5s5pmt',
+      img:'https://i.postimg.cc/NGPbyZ9b/veterinario.jpg',
+      alt:'veterinario'
+    },
+    this.psicologo={
+      h1: "Psicologo per animali",
+      p: "Strizzacervelli per animalettucci",
+      button:"Scopri ora",
+      href: '/services/psicologo',
+      href_img:'https://postimg.cc/ns5s5pmt',
+      img:'https://i.postimg.cc/d3wV95x0/cane-cappello.jpg',
+      alt:'cane con cappello'
+    },
+    this.toelettatura={
+      h1: "Servizio di Toelettatura",
+      p: "Metti nelle solide mani dei nostri esperti i tuoi cuccioli",
+      button:"Qui l'elenco",
+      href: '/services/toelettatura',
+      href_img:'https://postimg.cc/ns5s5pmt',
+      img:'https://i.postimg.cc/76R768s2/toelettatura.jpg',
+      alt:'toelettatura'
     }
   }
 

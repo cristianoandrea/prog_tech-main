@@ -31,11 +31,14 @@
         </div>
         <div class="modal-body">
             <p>hai fatto: {{score}} punti.... disgraziato</p>
+            <form onsubmit="register_score(score)">
+              <input *ngIf="!registered" type="text" placeholder="Il tuo nome" name="game_name">
+              <button>Registra il tuo punteggio!</button>
+            </form>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
         </div>
       </ng-template>
-      
     </div>
   </div>

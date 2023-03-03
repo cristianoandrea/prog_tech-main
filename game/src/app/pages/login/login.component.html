@@ -1,0 +1,24 @@
+<div class="page">
+
+    <form (ngSubmit)="login(username, password)">
+
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" [(ngModel)]="username"  class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" [(ngModel)]="password" class="form-control">
+        </div>
+        
+        <button type="submit" class="btn color">Log in</button>
+        
+    </form>
+    <h6> Non sei registrato? <span><a href="/signup" class="btn color" >Embè registrati no?</a></span></h6>
+
+    <p *ngIf="!loggato"> Non loggato</p>
+    <p *ngIf="loggato">Loggato</p>
+</div>
+
+  

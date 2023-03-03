@@ -1,0 +1,15 @@
+<div>
+    <h1>Generatore casuali di immagini</h1>
+    <h3>Scegli qui l'animale che preferisci!</h3>
+    <button (click)="fetchDogs()">Cani</button>
+    <button (click)="fetchCats()">fetchCats</button>
+    <button (click)="fetchBunny()">fetchBunny</button>
+    <button (click)="fetchDuck()">fetchDuck</button>
+    <button (click)="fetchFox()">fetchFox</button>
+    <button (click)="fetchLizard()">fetchLizard</button>
+    <button (click)="fetchShiba()">fetchShiba</button>
+    <button (click)="fetchKoala()">fetchKoala</button>
+    <button (click)="fetchPanda()">fetchPanda</button>
+    <button (click)="fetchBird()">fetchBird</button>
+    <img *ngIf="url" [src]="url" alt="dog image">
+  </div>

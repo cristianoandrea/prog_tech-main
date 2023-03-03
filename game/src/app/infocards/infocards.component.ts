@@ -10,7 +10,7 @@ import { Component, OnInit, Input} from '@angular/core';
 
 export class InfocardsComponent implements OnInit {
   
-  @Input() info: { p: string, h1: string, button: string } | undefined;
+  @Input() info: { p: string, h1: string, button: string, href:string, alt:string, img:string, href_img:string } | undefined;
 
   @Input() photoRight:boolean|undefined;
    

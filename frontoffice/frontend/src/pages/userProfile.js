@@ -118,7 +118,7 @@ const CardAcquisto = ({item}) =>{
         size="sm"
         sx={{ pointerEvents: 'none' }}
       >
-        Animali: {item.animali}
+        Animali: {item.animale}
       </Chip>
       <Chip
         variant="outlined"
@@ -332,7 +332,7 @@ const UserProfile = () => {
           <TabPanel value={1}>
             
               <h3>I miei acquisti:</h3>
-              <Box sx={{ display: 'flex', flexDirection: {md:'row', sx:'column'}, alignItems: 'center', gap: '16px' }}>
+              <Box sx={{ display: 'flex', flexDirection: {md:'row', xs:'column'}, alignItems: 'center', gap: '16px' }}>
 
               {
                 profilo.acquisti.map((acquisto)=>{
@@ -347,7 +347,7 @@ const UserProfile = () => {
           <TabPanel value={2}>
 
             <h3>Le mie prenotazioni:</h3>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '16px' }}>
+            <Box sx={{ display: 'flex', flexDirection: {md:'row', xs:'column'}, alignItems: 'center', gap: '16px' }}>
 
             {
               profilo.prenotazioni.map((service)=>{

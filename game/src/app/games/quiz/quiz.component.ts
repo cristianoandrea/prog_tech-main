@@ -17,11 +17,12 @@ export class QuizComponent implements OnInit {
   private locations: string[]
   public questions: any
   private families: string[]
+  public registered: boolean
 
   constructor(
     private http: HttpClient, 
     private modalService: NgbModal) { 
-
+    this.registered=false
     this.started=false
     this.score=0
     this.animalInfo=[]
@@ -36,6 +37,10 @@ export class QuizComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  public register_score(score:number) {
+    //qui api post request per registrare
   }
 
   public start(animal:string) {

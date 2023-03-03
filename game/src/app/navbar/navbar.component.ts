@@ -1,6 +1,7 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 
 
@@ -12,7 +13,7 @@ import { RouterLink } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(public authService: AuthService) { }
 
   isMenuCollapsed=true
 
