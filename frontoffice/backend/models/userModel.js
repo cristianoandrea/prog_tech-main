@@ -17,14 +17,31 @@ const userSchema = new Schema({
   name : {
     type: String,
     required: true
-  }
+  },
+  cognome : {
+    type: String,
+    required: true
+  },
+  animali:[{ 
+    type:String
+  }],
+  nascita:{ 
+      type: String,
+      required: true 
+  },
+  sesso:{
+    type: String,
+    required: true 
+}
+
+
 })
 
 // static signup method
-userSchema.statics.signup = async function(email, password, name) {
+userSchema.statics.signup = async function(email, password, name, cognome, sesso,dataNascita,favoriteAnimal) {
 
   // validation
-  if (!email || !password || !name) {
+  if (!email || !password || !name || !cognome || !sesso || !dataNascita || !favoriteAnimal) {
     throw Error('All fields must be filled')
   }
   if (!validator.isEmail(email)) {
@@ -42,8 +59,9 @@ userSchema.statics.signup = async function(email, password, name) {
  
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(password, salt) 
+  const nascita = new Date(dataNascita)
 
-  const user = await this.create({ email, password: hash, name })
+  const user = await this.create({ email, password: hash, name, cognome, sesso ,nascita,animali:[favoriteAnimal]})
 
   return user
 }

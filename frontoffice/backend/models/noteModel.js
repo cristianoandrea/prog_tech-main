@@ -11,11 +11,11 @@ const noteSchema = new Schema({
         type: String,
         required: true,
         unique: false
-    },
+    }, 
     image: {
         type: String,
     }
-   /* user_id:{
+   /* user_id:{ 
         type: String,
         required: true
     }*/

@@ -8,7 +8,7 @@ const createToken = (_id) => {
 // login a user
 const loginUser = async (req, res) => {
   const {email, password } = req.body
-
+  
   try {
     const user = await User.login(email, password)
 
@@ -24,38 +24,46 @@ const loginUser = async (req, res) => {
 // signup a user
 const signupUser = async (req, res) => {
   console.log(req.body)
-  const {email, password, name} = req.body
+  const {email, password, name, cognome, sesso,dataNascita,favoriteAnimal } = req.body
 
   try {
-    const user = await User.signup(email, password, name)
-
+    const user = await User.signup(email, password, name, cognome, sesso,dataNascita,favoriteAnimal)
+    
     // create a token
     const token = createToken(user._id)
 
-    res.status(200).json({_id:user._id,name: user.name,email: user.email, token})
+    res.status(200).json({_id:user._id,name: user.name,email: user.email, token, cognome:user.cognome, sesso:user.sesso, dataNascita:user.nascita, favoriteAnimal:user.favoriteAnimal})
   } catch (error) {
     res.status(400).json({error: error.message})
   }
 }
 
 const updateUserProfile = async (req,res)=> {
-  const user = await User.findById(req.user._id)
+  console.log(req.body)
+  const user = await User.findById(req.body.user._id)
 
-  if(user){
+  if(user){ console.log('inside user')
     user.name = req.body.name || user.name
     user.email = req.body.email || user.email
+    user.cognome = req.body.cognome || user.cognome
+    user.favoriteAnimal = req.body.fav || user.favoriteAnimal
 
     if(req.body.password){
       user.password = req.body.password
     }
 
     const updatedUser = await user.save()
+    console.log(updatedUser)
 
     res.json ({
       _id: updatedUser._id,
       email: updatedUser.email,
       name: updatedUser.name,
-      token:createToken(updatedUser._id)
+      token:createToken(updatedUser._id),
+      cognome:updatedUser.cognome, 
+      sesso:updatedUser.sesso, 
+      dataNascita:updatedUser.nascita, 
+      //favoriteAnimal:user.favoriteAnimal
     })
   }
   else {

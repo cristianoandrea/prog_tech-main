@@ -105,18 +105,18 @@ router.patch("/add/:id", async (req, res) => {
 //find filtered items
 router.post("/filter", async (req, res) => {
   console.log(req.body);
-  console.log("hello")
+  console.log("hello") 
   const animale = req.body.Animal;
   const tag = req.body.tag;
   const recensione = req.body.recensioni;
   let items = {}
 
-  if (animale.length > 0 || tag.length > 0 || recensione.length > 0) {
-    let query = { $and: [] };
-    if (animale && animale.length > 0)
+  if (animale || tag || recensione) { 
+    let query = { $and: [] }; 
+    if (animale)
       query.$and.push({ animale: { $in: animale } });
-    if (tag && tag.length > 0) query.$and.push({ tag: { $in: tag } });
-    if (recensione && recensione.length > 0)
+    if (tag ) query.$and.push({ tag: { $in: tag } });
+    if (recensione)
       query.$and.push({ "recensioni.rating": recensione });
     //fare un check se qu0ery.lenght === 0 allora ritorniamo un json di 'una card che dice spiacenìti non ci sono prodotti richiesti
     items = await Item.find(query);
@@ -130,6 +130,17 @@ router.post("/filter", async (req, res) => {
     return res.status(404).json({ error: "no such item" });
   }
 
+  res.status(200).json(items);
+}); 
+
+router.post("/filter/tipo", async (req, res) => {
+  console.log(req.body);
+  const tag = req.body.tag;
+ 
+  const items = await Item.find({tag:tag})  
+  if (!items) {
+    return res.status(404).json({ error: "no such item" });
+  }
   res.status(200).json(items);
 });
 

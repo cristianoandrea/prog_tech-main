@@ -12,7 +12,7 @@ const postNote = async (req,res) => {
     } catch(error){  
         res.status(400).json({error: "ops"})
     }
-}
+} 
  
 
 //GET Note

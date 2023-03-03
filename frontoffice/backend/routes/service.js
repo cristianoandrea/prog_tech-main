@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Service } = require("../models/serviceModel");
 const { query } = require("express");
+const { find } = require("../models/userModel");
 
 //GET all service
 router.post("/", async (req, res) => {
@@ -14,15 +15,23 @@ router.post("/", async (req, res) => {
 
 router.post("/filter", async (req, res) => {
   const city = String(req.body.ok);
-  let result = await Service.find({ "luogo.nome": city });
+  let result = await Service.find({ "luogo": city });
   if (!result) {
     return res.status(404).json({ error: "no such item" });
   }
   res.status(200).json(result);
 });
 
-//GET one service
-router.get("/:id", async (req, res) => {});
+//DELETE  one service
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  const service = await Service.findByIdAndDelete(id);
+
+  if (!service) {
+    return res.status(404).json({ error: "no such service" });
+  }
+  res.status(200).json(service);
+});
 
 //GET only certain service(veterinario||dogsitting)
 router.post("/visual/:id", async (req, res) => {
@@ -48,71 +57,86 @@ router.post("/create", (req, res) => {
   });
 });
 
-//DELETE service
-router.delete("/:id", (req, res) => {
-  res.json({ mssg: "DELETE item" });
+//GET one service
+router.post("/:id", async(req, res) => {
+  const { id } = req.params;
+  const service = await Service.findById(id);
+
+  if (!service) {
+    return res.status(404).json({ error: "no such service" });
+  }
+  res.status(200).json(service);
 });
 
-//find filtered services for either veterinario or dogsitting
-router.post("/filter2", async (req, res) => {
+//find filtered services for either veterinario or toilettatura
+router.post("/filter/veterinario", async (req, res) => {
   console.log(req.body);
-  const animale = req.body.animal;
-  const tipo = req.body.tipo;
-  const quantity = req.body.quantity;
+  const tipo = req.body.service
   const start_date = req.body.startDate;
-  //const end_date = req.body.endddate
+  const city = req.body.city 
   let service = {};
   let filteredServices = [];
-  if (
-    animale.length > 0 ||
+  if (   
     tipo.length > 0 ||
-    quantity.length > 0 ||
+    city.length > 0 ||
     start_date.length > 0
-  ) {
+  ) { 
+    console.log('inside fisrt if')
     let query = { $and: [] };
-    if (animale && animale.length > 0)
-      query.$and.push({ animale: { $in: animale } });
+    if (city && city.length > 0)
+      query.$and.push({ luogo: { $in: city } });
     if (tipo && tipo.length > 0) query.$and.push({ tipo: { $in: tipo } });
-    if (quantity && quantity.length > 0)
-      query.$and.push({ quantity: { $in: quantity.map(Number) } });
-
+    
     service = await Service.find(query).lean();
+    console.log(service)
     const inputDate = new Date(start_date);
+    console.log(inputDate)
     const midnightUTC = new Date(
       Date.UTC(
         inputDate.getUTCFullYear(),
         inputDate.getUTCMonth(),
-        inputDate.getUTCDate()
+        inputDate.getUTCDate(),
+        inputDate.getUTCHours(),
+        inputDate.getUTCMinutes()
       )
     );
-    console.log(midnightUTC);
+
     console.log("///////////////////////////////");
+
+    midnightUTC.setHours(midnightUTC.getHours() + 1);
+    console.log(midnightUTC)
     
-    function filterServicesByDateAndAnimal(
-      services,
-      inputDate
-    ) {
+    function filterServicesByDate(services, inputDate) {
       const final = [];
       services.forEach((service) => {
         const filteredDottore = service.dottore
           .filter((d) => {
             const hasMatch = d.impegni.some((i) => {
-              const date = new Date(i.dateiniz);
-              return date.getTime() === inputDate.getTime();
+              const startDate = new Date(i.dateiniz);
+              const inputStart = new Date(inputDate);
+              const inputEnd = new Date(inputDate);
+              inputEnd.setHours(inputEnd.getHours() + 1);
+              const isOverlapping =
+                inputStart >= startDate &&
+                inputStart < new Date(startDate.getTime() + 60 * 60 * 1000);
+              if (isOverlapping) {
+                console.log(
+                  `Match found for input date ${inputDate} with impegni ${JSON.stringify(
+                    i
+                  )}`
+                );
+              }
+              return isOverlapping;
             });
-            return !hasMatch;
+            return !hasMatch || d.impegni.length === 0;
           })
           .map((d) => {
             const filteredImpegni = d.impegni.filter((i) => {
               const date = new Date(i.dateiniz);
-              return (
-                date.getTime() !==
-                inputDate.getTime() /*&& i.animali == inputAnimal*/
-              );
+              return date.getTime() !== inputDate.getTime();
             });
             return { ...d, impegni: filteredImpegni };
-          })
-          .filter((d) => d.impegni.length > 0); // Remove any dottore without impegni after filter
+          });
         if (filteredDottore.length > 0) {
           // Add service only if there are filteredDottore
           final.push({ ...service, dottore: filteredDottore });
@@ -120,47 +144,56 @@ router.post("/filter2", async (req, res) => {
       });
       return final;
     }
-    filteredServices = filterServicesByDateAndAnimal(
+    
+    filteredServices = filterServicesByDate(
       service,
-      midnightUTC,
-      animale
+      midnightUTC
     );
-    if(filteredServices.length === 0)
-    filteredServices = await Service.find();
+
+    if(filteredServices.length === 0){
+    console.log(filteredServices)
+    console.log('inside second if')
+    filteredServices = await Service.find({tipo:tipo});
+    }
   } else {
-    filteredServices = await Service.find();
+    filteredServices = await Service.find({tipo:tipo});
   }
   if (!service) {
+    console.log('inside !service')
     return res.status(404).json({ error: "no such item" });
   }
   res.status(200).json(filteredServices);
 });
 
 //function adds an impegni array to a specified doctor of a service and removes the old impegni
-router.patch("/addReservation", async (req, res) => {
-  const id = req.body.id;
+router.patch("/addVetReservation", async (req, res) => {
+  const id = req.body.id; 
   const date = req.body.param.date;
-  const finaldate = new Date(date);
   const dottoreId = req.body.doc_id;
+  const dateParts = date.split('-');
+  const year = parseInt(dateParts[0]);
+  const month = parseInt(dateParts[1]) - 1;
+  const day = parseInt(dateParts[2]);
+  const hours = parseInt(dateParts[3]);
+  const minutes = parseInt(dateParts[4].split(':')[0]);
+  const finaldate = new Date(Date.UTC(year, month, day, hours, minutes));
 
-  const currentDate = new Date(); // Get the current date and time
-  // Define the filter for the query
-  const filter = {
-    "dottore.impegni.dateiniz": { $lt: currentDate }, // Match impegni with dateiniz < current date
-  };
-  // Define the update operation for the query
-  const update = {
-    $pull: { "dottore.$[].impegni": { dateiniz: { $lt: currentDate } } },
-  };
 
-  await Service.findByIdAndUpdate(id, update, function(err, result) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(result);
-    }
-  });
+  //remove all the dottore.impegni which are previous to the current date ( serve per ripulire il db)
+  const currentDate = new Date();
 
+  await Service.findOneAndUpdate(
+    { _id: id }, 
+    {
+      $pull: { 
+        'dottore.$[].impegni': {
+          dateiniz: { $lt: currentDate }
+        }
+      }
+    }, 
+  );
+  
+ // aggiunge l'appuntamento agli impegni
   await Service.updateOne(
     { _id: id, "dottore._id": dottoreId },
     { $push: { "dottore.$.impegni": { dateiniz: finaldate } } },
@@ -174,60 +207,143 @@ router.patch("/addReservation", async (req, res) => {
   );
 });
 
-router.post("/filter/dogsitting", async (req, res) => {
-    //const start_date = req.body.startDate
-    //const end_date = req.body.endDate
-    const piccolo = req.body.piccoli
-    const medio = req.body.medi
-    const grande = req.body.grandi
+router.post("/filter/dogsitter", async (req, res) => {
+    const start_date = req.body.startDate
+    const end_date = req.body.endDate
+    const piccolo = req.body.animaliPiccoli
+    const medio = req.body.animaliMedi
+    const grande = req.body.animaliGrandi
+    const città = req.body.city
     const tipo = 'Dogsitting'
 
-    if (
-    quantity_g.length > 0 ||
-    quantity_p.length > 0 ||
-    quantity_m.length > 0 /*||
-    start_date.length > 0 ||
-    end_date.length > 0*/
-  ) {
-    const pipeline = [
-  {
-    $match: { tipo } // Match documents with the specified tipo value
-  },
-  {
-    $addFields: {
-      dottore: {
-        $filter: {
-          input: "$dottore",
-          as: "d",
-          cond: {
-            $and: [
-              { $gte: ["$$d.slot.n_grandi", grande] },
-              { $gte: ["$$d.slot.n_medi", medio] },
-              { $gte: ["$$d.slot.n_piccoli", piccolo] }
-            ]
-          }
-        }
-      }
-    }
-  }
-];
-
-const service = Service.aggregate(pipeline, function(err, result) {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(result);
-  }})
-
-if (!service) {
-    return res.status(404).json({ error: "no such item" });
-  }
-  res.status(200).json(service);
-
+    const input_start_date = new Date(start_date);
+    const start_midnightUTC = new Date(
+      Date.UTC(
+        input_start_date.getUTCFullYear(),
+        input_start_date.getUTCMonth(),
+        input_start_date.getUTCDate()
+      )
+    );
+    const input_end_date = new Date(end_date);
+    const end_midnightUTC = new Date(
+      Date.UTC(
+        input_end_date.getUTCFullYear(),
+        input_end_date.getUTCMonth(),
+        input_end_date.getUTCDate()
+      )
+    );
     
+    if ((grande || piccolo ||  medio) 
+    &&
+    (start_date.length > 0 && end_date.length > 0)
+  ) {
 
+
+      console.log(start_midnightUTC,end_midnightUTC,piccolo,medio,grande)
+      const service = await Service.find({
+        tipo: tipo,
+        luogo: città,
+        $or: [
+          {
+            'dottore.impegni': {
+              $elemMatch: {
+                dateiniz: { $lte: end_midnightUTC },
+                datefin: { $gte: start_midnightUTC }
+              }
+            },
+            $expr: {
+              $and: [
+                { $gte: ['$dottore.slot.n_grandi', { $sum: ['$dottore.impegni.n_grandi', grande] }] },
+                { $gte: ['$dottore.slot.n_medi', { $sum: ['$dottore.impegni.n_medi', medio] }] },
+                { $gte: ['$dottore.slot.n_piccoli', { $sum: ['$dottore.impegni.n_piccoli', piccolo] }] }
+              ]
+            }
+          },
+          {
+            'dottore.impegni': {
+              $not: {
+                $elemMatch: {
+                  dateiniz: { $lte: end_midnightUTC },
+                  datefin: { $gte: start_midnightUTC }
+                }
+              }
+            },
+            $expr: {
+              $and: [
+                { $gte: ['$dottore.slot.n_grandi', grande] },
+                { $gte: ['$dottore.slot.n_medi', { $sum: ['$dottore.impegni.n_medi', medio] }] },
+                { $gte: ['$dottore.slot.n_piccoli', piccolo] }
+              ]
+            }
+          }
+        ]
+      });
+      
+      
+    
+    console.log(service)
+    if(service.length) console.log(service[0].dottore[0].impegni)
+if (!service) {
+    console.log('no service with that criteria')
+    const all = await Service.find({tipo:tipo})
+    res.status(200).json(all)
+  }
+  else{
+  res.status(200).json(service);
+  }
 
 }})
+
+router.patch("/addDogReservation", async (req, res) => {
+  console.log("dogsitting")
+  console.log(req.body)
+  const id = req.body.id;
+  const start_date = req.body.param.date;
+  const final_start_date = new Date(start_date);
+  const end_date = req.body.param.endDate;
+  const final_end_date = new Date(end_date)
+  const stanzaId = req.body.doc_id;
+  const grandi = req.body.param.grandi
+  const medi = req.body.param.medi
+  const piccoli = req.body.param.piccoli
+// convert start_date in right format
+  const dateParts = start_date.split('-');
+  const year = parseInt(dateParts[0]);
+  const month = parseInt(dateParts[1]) - 1;
+  const day = parseInt(dateParts[2]);
+  const hours = parseInt(dateParts[3]);
+  const minutes = parseInt(dateParts[4].split(':')[0]);
+  const finalStartdate = new Date(Date.UTC(year, month, day, hours, minutes));
+// convert end_date in right format
+  const dateParts1 = end_date.split('-');
+  const year1 = parseInt(dateParts1[0]);
+  const month1 = parseInt(dateParts1[1]) - 1;
+  const day1 = parseInt(dateParts1[2]);
+  const hours1 = parseInt(dateParts1[3]);
+  const minutes1 = parseInt(dateParts1[4].split(':')[0]);
+  const finalEnddate = new Date(Date.UTC(year1, month1, day1, hours1, minutes1));
+//making the query  
+  const query = {
+    _id: id,
+    "dottore._id": stanzaId
+  };
+  
+  const update = {
+    $push: {
+      "dottore.$.impegni": {
+        dateiniz: finalStartdate,
+        datefin: finalEnddate,
+        animali: "",
+        n_grandi: grandi,
+        n_medi: medi,
+        n_piccoli: piccoli
+      }
+    }
+  };
+  
+ await Service.updateOne(query, update);
+  
+})
 
 
 

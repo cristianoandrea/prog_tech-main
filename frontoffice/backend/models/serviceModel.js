@@ -10,17 +10,16 @@ const serviceSchema = new Schema({
         img : String,
     },
     dottore : [{
-        nome : String,
-        prezzo : Number, 
-        slot : { 
-          n_grandi : Number, 
+        nome : String, 
+        prezzo : Number,
+        slot : {
+          n_grandi : Number,  
           n_medi : Number,
           n_piccoli : Number 
-      },
+      }, 
         impegni : [{
             dateiniz: Date,
             datefin: Date,
-            animali : String,
             n_grandi : Number,
             n_medi : Number, 
             n_piccoli : Number

@@ -10,11 +10,11 @@ const itemSchema = new Schema({
     rating : Number,
     tag: String,
     producer: String,
-    prezzo: {
+    prezzo: { 
         type: Number,
         required: true
     },
-    varianti: [{
+    varianti: [{ 
         value : String,
         id : Number,
         etichetta: String,
@@ -23,7 +23,7 @@ const itemSchema = new Schema({
     recensioni : [{
         id : Number,
         nome : String,
-        rating : Number,
+        rating : Number, 
         txt: String
     }],
     descrizione: {

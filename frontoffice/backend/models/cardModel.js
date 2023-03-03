@@ -10,11 +10,11 @@ const cardSchema = new Schema({
         type: String,
         required: true
         },
-    button: {
+    button: { 
         type: String,
         required: true
         },
-    img_path: {
+    img_path: { 
         type: String,
     }
 })

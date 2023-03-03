@@ -13,7 +13,7 @@ const cityRoutes = require('./routes/city')
 const cors = require('cors')
 
 app.use(cors())
-
+ 
 app.get('/', (req,res)=>{
     res.json({mssg: 'welcome' })
 })
