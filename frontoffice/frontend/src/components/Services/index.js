@@ -35,7 +35,7 @@ const Services = () => {
                 <ServicesH2>Gatti</ServicesH2>
                 <ServicesP>La migliore selezione</ServicesP> 
                 <Button1 to="/store/prodotti?animale=gatto">Acquista Ora!</Button1>
-            </ServicesCard>
+            </ServicesCard> 
             <ServicesCard>
                 <ServicesIcon src={icon3}/>
                 <ServicesH2>Visualizza tutti i prodotti</ServicesH2>

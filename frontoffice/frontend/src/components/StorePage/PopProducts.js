@@ -18,7 +18,7 @@ const Container = styled.div`
   } 
     
 `;
-
+ 
 const Contenitore = styled.div `
 margin: 10px;
 

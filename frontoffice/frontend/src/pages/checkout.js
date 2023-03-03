@@ -4,7 +4,6 @@ import Navbar from '../components/Navbar'
 import { useShoppingCart } from '../context/shoppingCartContext'
 import List from '@mui/material/List';
 import CartItem from '../components/CartItem';
-import { Buttone, data } from '../pages/prodotto_singolo';
 import { formatCurrency } from '../utilities/formatCurrency';
 import { Container } from '@mui/material';
 
@@ -23,7 +22,7 @@ const Checkout = () => {
         }}
         >
 
-        <h3>Che gusto fratè</h3>
+        <h3>Carrello</h3>
         <List>
         {
             cartItems.map((item)=>{
@@ -33,6 +32,7 @@ const Checkout = () => {
             })
         }
         <br />
+        {/* 
         <h5 
             style={{textAlign: 'right', marginRight: 1}}
         ><b> Total: {formatCurrency(
@@ -42,6 +42,7 @@ const Checkout = () => {
               }, 0))
             }</b>
         </h5>
+          */}
       </List>
         </Container>
         

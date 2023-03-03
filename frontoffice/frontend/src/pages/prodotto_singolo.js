@@ -83,7 +83,7 @@ const SingleProduct = () => {
     })
     const product = await response.json(); 
     setData(product)
-    const tag = data.tag
+    const tag = data.tag 
 
     const response2 =await fetch("http://localhost:4000/api/item/filter/tipo", {
       method: "POST",

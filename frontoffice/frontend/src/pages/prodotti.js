@@ -15,7 +15,7 @@ const Container1 = styled.div`
   margin-left: 2em;
   margin-right: 2em; 
 `;
-const Button1 = styled.button`
+const Button1 = styled.button` 
   margin-top: 10px;
   border-radius: 50px;
   background: #01bf71;

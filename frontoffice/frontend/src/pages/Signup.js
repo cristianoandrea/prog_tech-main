@@ -15,7 +15,7 @@ const GenderSelection = styled.div`
   align-items: center;
 `;
  
-const GenderLabel = styled.label`
+const GenderLabel = styled.label` 
   margin-right: 10px;
   font-weight: bold;
 `;

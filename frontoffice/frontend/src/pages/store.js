@@ -18,7 +18,7 @@ const slider={
         description:"Dai palloni alle palle da tennis, abbiamo tutto per tenere i tuoi animali domestici felici e attivi!",
         button: "Giocattoli ",
         filtro: "accessori" 
-      },
+      }, 
       {
         path: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBhWN_ayg8ASNNLUU3ALLvlbmTW9w2lNQrbKXI6xFsWLbOm6EzGOLZb-BcEDFhhlKgjAs&usqp=CAU",
         alt: 'Cibo',

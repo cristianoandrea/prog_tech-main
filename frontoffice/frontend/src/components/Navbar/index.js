@@ -15,7 +15,7 @@ import { useAuthContext  } from '../../hooks/useAuthContext'
      
 const Nav = styled.nav`
     //background: ${({scrollNav}) => (scrollNav ? '#000' : 'transparent')};
-    background: black;
+    background: black; 
     height: 80px;
     //margin-top: 80px;
     display: flex;

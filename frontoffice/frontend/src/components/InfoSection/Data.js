@@ -108,7 +108,7 @@ export const objToilettatura={
     buttonLabel: 'Clicca per maggiori informazioni',
     imgStart: true,
     img: Gatto2,
-    alt: 'cane', 
+    alt: 'cane',  
     dark: true,
     primary: true,
     darkText: false

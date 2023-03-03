@@ -17,7 +17,7 @@ const Categories = ({data}) => {
     <Container >
        {data.data.map((item) => (
         <CategoryItem item={item} />
-      ))}
+      ))} 
     </Container>
   );
 };

@@ -18,7 +18,7 @@ import { NavBtnLink } from './Navbar';
 import { formatCurrency } from '../utilities/formatCurrency';
 import { Typography } from '@mui/joy';
 
-
+ 
 
 
 export default function ShoppingCart({isOpen}) {

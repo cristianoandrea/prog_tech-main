@@ -111,7 +111,7 @@ router.post("/filter", async (req, res) => {
   const recensione = req.body.recensioni;
   let items = {}
 
-  if (animale || tag || recensione) {
+  if (animale || tag || recensione) { 
     let query = { $and: [] }; 
     if (animale)
       query.$and.push({ animale: { $in: animale } });

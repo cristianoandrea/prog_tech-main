@@ -13,7 +13,7 @@ const Contenitore = styled.div`
 const Container = styled.div` 
   padding: 10px;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap; 
   justify-content: space-between;
   align-items: center;
   @media screen and (max-width: 768px) {

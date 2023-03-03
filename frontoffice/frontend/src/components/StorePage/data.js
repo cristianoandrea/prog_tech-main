@@ -17,7 +17,7 @@ export const sliderItems = [
     },
     {
       id: 2,
-      img: Inutile1,
+      img: Inutile1, 
       title: "AAAAAAAA",
       desc: "SSSSSS",
       bg: "#9A2EFE",

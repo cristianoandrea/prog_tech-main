@@ -14,7 +14,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert"; 
 
 const Community = (item) => {
-  console.log(item.item.descrizione);
+  console.log(item.item.descrizione); 
   return (
     <div>
       <Card sx={{ maxWidth: 345 }}>

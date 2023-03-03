@@ -14,7 +14,7 @@ const itemSchema = new Schema({
         type: Number,
         required: true
     },
-    varianti: [{
+    varianti: [{ 
         value : String,
         id : Number,
         etichetta: String,

@@ -19,7 +19,7 @@ export function ShoppingCartProvider( {children} ) {
 
     const cartQuantity= cartItems.reduce(
         (quantity, item) => item.quantity + quantity,
-        0
+        
     )
 
     const openCart = ()=> setIsOpen(true)

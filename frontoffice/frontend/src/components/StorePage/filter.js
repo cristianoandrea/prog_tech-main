@@ -17,7 +17,7 @@ const Filtri = () => {
  
   const [age, setAge] = React.useState('');
 
-  const handleChange1 = (event) => {
+  const handleChange1 = (event) => { 
     setAge(event.target.value);
   };
 

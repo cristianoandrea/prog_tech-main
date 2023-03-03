@@ -23,7 +23,7 @@ const PresenzaPage = () => {
   return (
 
     <div> 
-      <Navbar />
+      <Navbar /> 
       
       <InfoSection {...objVeterinario} />
       <InfoSection {...objDogSitter} />

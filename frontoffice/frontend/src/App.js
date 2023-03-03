@@ -7,7 +7,6 @@ import LogInPage from './pages/Login';
 import Test from './pages/test';
 import StorePage from './pages/store';
 import PresenzaPage from './pages/presenza';
-import OnlinePage from './pages/online';
 import CommunityPage from './pages/community';
 import Prodotti from './pages/prodotti';
 import UserProfile from './pages/userProfile';
@@ -17,6 +16,7 @@ import PresenzaServizio from './pages/presenzaServizio';
 import { ShoppingCartProvider } from './context/shoppingCartContext';
 import { useAuthContext } from './hooks/useAuthContext';
 import { useEffect } from 'react';
+import Checkout from './pages/checkout';
 
 
 function App() { 
@@ -25,7 +25,7 @@ function App() {
 
   return (
     <ShoppingCartProvider>
-
+ 
     <Router >
       <div className='pages'>
       <Routes>     
@@ -40,10 +40,9 @@ function App() {
         <Route path='/presenza/veterinario' caseSensitive={false} element={<PresenzaServizio service={'Veterinario'} time={true}  />} />
         <Route path='/presenza/toilettatura' caseSensitive={false} element={<PresenzaServizio service={'Toilettatura'} time={true} />} />
         <Route path='/presenza/dogsitting' caseSensitive={false} element={<PresenzaServizio service={'Dogsitting'} time={false}/>} />
-        <Route path='/online' caseSensitive={false} element={<OnlinePage />} />
         <Route path='/community' caseSensitive={false} element={<CommunityPage />} />
         <Route path='/userprofile' caseSensitive={false} element={user? <UserProfile />:  '' } />
-
+        <Route path='/checkout' caseSensitive={false} element={<Checkout />} />
       </Routes>
 
       </div>

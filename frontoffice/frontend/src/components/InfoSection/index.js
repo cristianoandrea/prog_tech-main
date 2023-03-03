@@ -13,7 +13,7 @@ import{
     Subtitle,
     BtnWrap,
     ImgWrap,
-    Img
+    Img 
 } from './InfoElements'
  
 

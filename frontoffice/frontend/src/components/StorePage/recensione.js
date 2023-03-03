@@ -16,4 +16,4 @@ const Recensione = ({data}) => {
   )
 }
  
-export default Recensione
+export default Recensione 

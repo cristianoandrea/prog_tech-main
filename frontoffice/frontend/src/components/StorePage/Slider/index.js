@@ -115,7 +115,7 @@ const Slider = ({data, testo}) => {
                                         </Testo>
                                     </Grid>
                                     </Grid> 
-                                    
+                                     
 
                                 )
                             })

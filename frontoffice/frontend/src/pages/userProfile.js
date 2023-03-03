@@ -93,7 +93,7 @@ const CardAcquisto = ({item}) =>{
       gap: 2,
       '&:hover': { boxShadow: 'md', borderColor: 'neutral.outlinedHoverBorder' },
     }}
-  >
+  > 
       <AspectRatio ratio="1" sx={{ width: 90 }}>
       <img
         src="item.img"

@@ -80,7 +80,7 @@ router.post("/filter/veterinario", async (req, res) => {
     tipo.length > 0 ||
     city.length > 0 ||
     start_date.length > 0
-  ) {
+  ) { 
     console.log('inside fisrt if')
     let query = { $and: [] };
     if (city && city.length > 0)

@@ -19,7 +19,7 @@ margin-top:10px;
     padding: 10px 22px;
     color: #010606; 
     font-size: 16px;
-    outline: none;
+    outline: none; 
     border:none;
     cursor:pointer;
     transition: all 0.2s ease-in-out;

@@ -17,7 +17,7 @@ export default function Dropdown() {
   const {logout} = useLogout()
   const handleClose = () => {
     setAnchorEl(null);
-  };
+  }; 
 
   const handleLogout = () => {
     logout()

@@ -14,7 +14,7 @@ const cardSchema = new Schema({
         type: String,
         required: true
         },
-    img_path: {
+    img_path: { 
         type: String,
     }
 })

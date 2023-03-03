@@ -85,7 +85,7 @@ const PresenzaServizio = ({service, time}) => {
         : 
         <div>
 
-      <ServicesContainer>
+      <ServicesContainer> 
         
         
         <FiltriServices time={time} onPass={onPass} service={service} />

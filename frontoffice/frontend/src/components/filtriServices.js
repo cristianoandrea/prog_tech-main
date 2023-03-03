@@ -162,7 +162,7 @@ const FiltriServices = ( {time,onPass,service} ) => {
     console.log(city,startDate,endDate,animaliPiccoli,animaliMedi,animaliGrandi)
     const response = await fetch("http://localhost:4000/api/service/filter/dogsitter",{
       method: "POST",
-      headers: {
+      headers: { 
         "Content-Type": "application/json",
       },
       body: JSON.stringify({city, startDate,endDate,animaliPiccoli,animaliMedi,animaliGrandi}),

@@ -10,7 +10,7 @@ const {postNote} = require('../controllers/noteController')
 
 //GET all note
 router.post('/', (req,res) => {
-    //momentaneo faro una funz nel controller
+    //momentaneo faro una funz nel controller 
     Note.find().exec().then((data, error)=>{
         if(error) return res.status(400).json({error: error.message})
         return res.status(200).json({message:'Get note succesfully',data})
