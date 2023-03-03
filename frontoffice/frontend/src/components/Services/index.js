@@ -33,7 +33,7 @@ const Services = () => {
             <ServicesCard>
                 <ServicesIcon src={icon2}/>
                 <ServicesH2>Gatti</ServicesH2>
-                <ServicesP>La migliore selezione</ServicesP>
+                <ServicesP>La migliore selezione</ServicesP> 
                 <Button1 to="/store/prodotti?animale=gatto">Acquista Ora!</Button1>
             </ServicesCard>
             <ServicesCard>

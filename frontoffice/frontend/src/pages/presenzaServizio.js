@@ -79,10 +79,10 @@ const PresenzaServizio = ({service, time}) => {
     <div>
       <Navbar />
 
-      {
+      { 
         loading ?
         " "
-        :
+        : 
         <div>
 
       <ServicesContainer>

@@ -10,7 +10,7 @@ const cardSchema = new Schema({
         type: String,
         required: true
         },
-    button: {
+    button: { 
         type: String,
         required: true
         },

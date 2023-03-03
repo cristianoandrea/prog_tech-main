@@ -74,12 +74,12 @@ const SingleProduct = () => {
   const [loading, setLoading] = useState(true);
   
   const { id } = useParams();
-  async function find_p(){
+  async function find_p(){ 
     const response =await fetch("http://localhost:4000/api/item/"+id, {
       method: "GET",
         headers: {
             "Content-Type": "application/json"
-        }
+        } 
     })
     const product = await response.json(); 
     setData(product)

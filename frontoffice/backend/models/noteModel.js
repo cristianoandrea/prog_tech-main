@@ -11,7 +11,7 @@ const noteSchema = new Schema({
         type: String,
         required: true,
         unique: false
-    },
+    }, 
     image: {
         type: String,
     }

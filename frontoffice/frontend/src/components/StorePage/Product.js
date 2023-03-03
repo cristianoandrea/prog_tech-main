@@ -16,7 +16,7 @@ import Link from "@mui/joy/Link";
 import Favorite from "@mui/icons-material/Favorite";
 import { Rating } from "@mui/material";
 import { red } from "@mui/material/colors";
-import { formatCurrency } from "../../utilities/formatCurrency";
+import { formatCurrency } from "../../utilities/formatCurrency"; 
 import Button from "@mui/joy/Button";
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";

@@ -147,14 +147,14 @@ const FiltriServices = ( {time,onPass,service} ) => {
     };
 
     const currentSearchParams = new URLSearchParams(window.location.search);
-
+ 
     Object.entries(newParams).forEach(([key, value]) => {
       currentSearchParams.set(key, value);
     });
 
     const newUrl = `${window.location.origin}${
       window.location.pathname
-    }?${currentSearchParams.toString()}`;
+    }?${currentSearchParams.toString()}`; 
 
     window.history.replaceState({}, "", newUrl);
   }

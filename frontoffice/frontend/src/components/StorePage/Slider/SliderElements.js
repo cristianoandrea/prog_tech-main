@@ -14,7 +14,7 @@ margin-top: 80px
 export const Arrow = styled.div`
 width: 50px;
 height: 50px;
-background-color: #fff7f7;
+background-color: #fff7f7; 
 border-radius: 50%;
 display: flex;
 align-items: center;

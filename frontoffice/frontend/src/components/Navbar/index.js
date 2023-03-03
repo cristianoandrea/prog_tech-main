@@ -12,7 +12,7 @@ import ShoppingCart from '../ShoppingCart'
 import { useAuthContext  } from '../../hooks/useAuthContext'
 
     
-    
+     
 const Nav = styled.nav`
     //background: ${({scrollNav}) => (scrollNav ? '#000' : 'transparent')};
     background: black;

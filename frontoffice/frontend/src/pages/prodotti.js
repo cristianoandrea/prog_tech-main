@@ -13,7 +13,7 @@ import Products from "../components/StorePage/PopProducts";
 const Container1 = styled.div`
   margin-top: 80px;
   margin-left: 2em;
-  margin-right: 2em;
+  margin-right: 2em; 
 `;
 const Button1 = styled.button`
   margin-top: 10px;

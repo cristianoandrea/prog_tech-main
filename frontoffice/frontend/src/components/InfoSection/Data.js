@@ -96,7 +96,7 @@ export const objDogSitter = { //light
     darkText: true
 }
 
-export const objToilettatura={
+export const objToilettatura={ 
     id: 'toilettatura',
     link: "/presenza/toilettatura",
     lightBg:false,
@@ -108,7 +108,7 @@ export const objToilettatura={
     buttonLabel: 'Clicca per maggiori informazioni',
     imgStart: true,
     img: Gatto2,
-    alt: 'cane',
+    alt: 'cane', 
     dark: true,
     primary: true,
     darkText: false

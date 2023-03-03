@@ -10,14 +10,14 @@ import Services from '../components/Services';
 import styled from "styled-components";
 
 const slider={
-  images: [
+  images: [ 
       {
         path: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG87nXCQyLJmtoSR2otffGnyUcp2X3n5H-xQ&usqp=CAU",
         alt: 'Giocattoli',
         title: "Divertimento assicurato: Scopri la nostra vasta selezione di giocattoli per animali domestici!",
         description:"Dai palloni alle palle da tennis, abbiamo tutto per tenere i tuoi animali domestici felici e attivi!",
         button: "Giocattoli ",
-        filtro: "accessori"
+        filtro: "accessori" 
       },
       {
         path: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBhWN_ayg8ASNNLUU3ALLvlbmTW9w2lNQrbKXI6xFsWLbOm6EzGOLZb-BcEDFhhlKgjAs&usqp=CAU",

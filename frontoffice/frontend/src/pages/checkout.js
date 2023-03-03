@@ -15,7 +15,7 @@ const Checkout = () => {
   } = useShoppingCart()
 
   return (
-    <div>
+    <div> 
         <Navbar />
         <Container
         sx={{

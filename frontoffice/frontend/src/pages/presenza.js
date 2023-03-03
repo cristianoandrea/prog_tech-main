@@ -12,7 +12,7 @@ import { useState ,useEffect } from 'react'
 const Container1= styled.div`
   margin-top: 80px;
   margin-left: 2em;
-  margin-right: 2em;
+  margin-right: 2em; 
 
 `
 
@@ -22,7 +22,7 @@ const PresenzaPage = () => {
 
   return (
 
-    <div>
+    <div> 
       <Navbar />
       
       <InfoSection {...objVeterinario} />

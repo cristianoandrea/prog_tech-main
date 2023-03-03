@@ -73,7 +73,7 @@ router.post("/filter/veterinario", async (req, res) => {
   console.log(req.body);
   const tipo = req.body.service
   const start_date = req.body.startDate;
-  const city = req.body.city
+  const city = req.body.city 
   let service = {};
   let filteredServices = [];
   if (   

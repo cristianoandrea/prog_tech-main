@@ -13,7 +13,7 @@ import { formatCurrency } from '../utilities/formatCurrency';
 import { Delete } from '@material-ui/icons';
 import { useState,useEffect } from 'react';
 
-const CartItem = ({id, quantity}) => {
+const CartItem = ({id, quantity}) => { 
   const [Item,setItem]= useState()
   const {removeFromCart, increaseCartQuantity, deleteFromCart} = useShoppingCart();
   const [loading, setLoading] = useState(true);

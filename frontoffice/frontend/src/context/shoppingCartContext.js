@@ -9,7 +9,7 @@ export function useShoppingCart() {
 }
 
 
-
+ 
 export function ShoppingCartProvider( {children} ) {
 
     const [cartItems, setCartItems] = useLocalStorage("cartItems", []);

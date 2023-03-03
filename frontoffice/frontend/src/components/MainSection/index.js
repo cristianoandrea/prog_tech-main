@@ -12,7 +12,7 @@ import {
     } from './MainElements'
 
 const MainSection = () => {
-    const[hover,setHover] = useState(false)
+    const[hover,setHover] = useState(false) 
 
     const onHover= () =>{
         setHover(!hover)

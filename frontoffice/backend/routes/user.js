@@ -3,7 +3,7 @@ const {protect} = require('../middlewares/authMiddleware')
 const { loginUser, signupUser, updateUserProfile } = require('../controllers/userController')
 
 const router = express.Router()
-
+ 
 // login route
 router.post('/login', loginUser)
 

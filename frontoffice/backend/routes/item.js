@@ -105,14 +105,14 @@ router.patch("/add/:id", async (req, res) => {
 //find filtered items
 router.post("/filter", async (req, res) => {
   console.log(req.body);
-  console.log("hello")
+  console.log("hello") 
   const animale = req.body.Animal;
   const tag = req.body.tag;
   const recensione = req.body.recensioni;
   let items = {}
 
   if (animale || tag || recensione) {
-    let query = { $and: [] };
+    let query = { $and: [] }; 
     if (animale)
       query.$and.push({ animale: { $in: animale } });
     if (tag ) query.$and.push({ tag: { $in: tag } });

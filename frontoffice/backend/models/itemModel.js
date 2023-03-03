@@ -10,7 +10,7 @@ const itemSchema = new Schema({
     rating : Number,
     tag: String,
     producer: String,
-    prezzo: {
+    prezzo: { 
         type: Number,
         required: true
     },

@@ -217,7 +217,7 @@ const UserProfile = () => {
     localStorage.setItem('user', JSON.stringify(newUser))
     window.location.reload(false);  
   };
-  
+   
     const {user} = useAuthContext()
 
     const [index, setIndex] = useState(0);

@@ -14,7 +14,7 @@ export default function Card(props) {
                     <h1>{title}</h1>
                     <p className="date_">{exp_date}</p>
                     <div className="action">
-                        <div className="priceGroup">
+                        <div className="priceGroup"> 
                             <p className="price old_price">{dollar}{old_price}</p>
                             <p className="price newPrice">{dollar}{newPrice}</p>
                         </div>

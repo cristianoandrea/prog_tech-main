@@ -15,5 +15,5 @@ const Recensione = ({data}) => {
     </div>
   )
 }
-
+ 
 export default Recensione

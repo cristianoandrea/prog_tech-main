@@ -10,7 +10,7 @@ const Contenitore = styled.div`
   margin-left: 2em;
   margin-right: 2em;
 `;
-const Container = styled.div`
+const Container = styled.div` 
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
