@@ -37,7 +37,8 @@ function App() {
         <Route path='/store/prodotti' caseSensitive={false} element={<Prodotti />} /> 
         <Route path='/store/prodotti/:id' caseSensitive={false} element={<SingleProduct />} />
         <Route path='/presenza' caseSensitive={false} element={<PresenzaPage />} />
-        <Route path='/presenza/veterinario' caseSensitive={false} element={<PresenzaServizio service={'Veterinario'} time={true} />} />
+        <Route path='/presenza/veterinario' caseSensitive={false} element={<PresenzaServizio service={'Veterinario'} time={true}  />} />
+        <Route path='/presenza/toilettatura' caseSensitive={false} element={<PresenzaServizio service={'Toilettatura'} time={true} />} />
         <Route path='/presenza/dogsitting' caseSensitive={false} element={<PresenzaServizio service={'Dogsitting'} time={false}/>} />
         <Route path='/online' caseSensitive={false} element={<OnlinePage />} />
         <Route path='/community' caseSensitive={false} element={<CommunityPage />} />

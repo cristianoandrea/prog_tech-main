@@ -277,17 +277,17 @@ const Product = ({ item, tipo }) => {
          <Button
          variant="solid"
          color="neutral"
-         onClick={() => RegisterSitter(item._id,elem._id)}
+         //onClick={() => RegisterSitter(item._id,elem._id)}
        >
-         make a reservation
+         add to cart
        </Button>
          :
           <Button
           variant="solid"
           color="neutral"
-          onClick={() => RegisterVet(item._id,elem._id)}
+          //onClick={() => RegisterVet(item._id,elem._id)}
         >
-          make a reservation
+          add to cart
         </Button>
 }
         </div>

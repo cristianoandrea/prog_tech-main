@@ -1,7 +1,7 @@
 import React from 'react'
 import Footer from '../components/Footer'
 import InfoSection from '../components/InfoSection'
-import { objDogSitter, objVeterinario } from '../components/InfoSection/Data'
+import { objDogSitter, objVeterinario, objToilettatura } from '../components/InfoSection/Data'
 import Navbar from '../components/Navbar'
 import Slider from '../components/StorePage/Slider'
 import styled from 'styled-components'
@@ -27,6 +27,7 @@ const PresenzaPage = () => {
       
       <InfoSection {...objVeterinario} />
       <InfoSection {...objDogSitter} />
+      <InfoSection {...objToilettatura} />
 
       <Footer />
     </div>

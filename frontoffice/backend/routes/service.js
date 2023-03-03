@@ -68,10 +68,10 @@ router.post("/:id", async(req, res) => {
   res.status(200).json(service);
 });
 
-//find filtered services for either veterinario or dogsitting
+//find filtered services for either veterinario or toilettatura
 router.post("/filter/veterinario", async (req, res) => {
   console.log(req.body);
-  const tipo = 'Veterinario'
+  const tipo = req.body.service
   const start_date = req.body.startDate;
   const city = req.body.city
   let service = {};
@@ -239,46 +239,47 @@ router.post("/filter/dogsitter", async (req, res) => {
   ) {
 
 
-      console.log(start_midnightUTC,end_midnightUTC)
+      console.log(start_midnightUTC,end_midnightUTC,piccolo,medio,grande)
       const service = await Service.find({
-      tipo: tipo,
-      luogo: città,
-      'dottore.impegni': {
-        $not: {
-          $elemMatch: {
-            dateiniz: { $lte: end_midnightUTC }, 
-            datefin: { $gte: start_midnightUTC }
-          }
-        }
-      },
-      $or: [
-        {
-          'dottore.impegni': {
-            $elemMatch: {
-              dateiniz: { $gte: start_midnightUTC, $lte: end_midnightUTC  },
-              datefin: { $gte: start_midnightUTC, $lte: end_midnightUTC  }
+        tipo: tipo,
+        luogo: città,
+        $or: [
+          {
+            'dottore.impegni': {
+              $elemMatch: {
+                dateiniz: { $lte: end_midnightUTC },
+                datefin: { $gte: start_midnightUTC }
+              }
+            },
+            $expr: {
+              $and: [
+                { $gte: ['$dottore.slot.n_grandi', { $sum: ['$dottore.impegni.n_grandi', grande] }] },
+                { $gte: ['$dottore.slot.n_medi', { $sum: ['$dottore.impegni.n_medi', medio] }] },
+                { $gte: ['$dottore.slot.n_piccoli', { $sum: ['$dottore.impegni.n_piccoli', piccolo] }] }
+              ]
             }
           },
-          $expr: {
-            $and: [
-              { $gte: ['$dottore.slot.n_grandi', { $sum: ['$dottore.impegni.n_grandi', grande] }] },
-              { $gte: ['$dottore.slot.n_medi', { $sum: ['$dottore.impegni.n_medi', medio] }] },
-              { $gte: ['$dottore.slot.n_piccoli', { $sum: ['$dottore.impegni.n_piccoli', piccolo] }] }
-            ]
+          {
+            'dottore.impegni': {
+              $not: {
+                $elemMatch: {
+                  dateiniz: { $lte: end_midnightUTC },
+                  datefin: { $gte: start_midnightUTC }
+                }
+              }
+            },
+            $expr: {
+              $and: [
+                { $gte: ['$dottore.slot.n_grandi', grande] },
+                { $gte: ['$dottore.slot.n_medi', { $sum: ['$dottore.impegni.n_medi', medio] }] },
+                { $gte: ['$dottore.slot.n_piccoli', piccolo] }
+              ]
+            }
           }
-        }, 
-        {
-          'dottore.impegni': { $not: { $elemMatch: { dateiniz: { $lte: start_midnightUTC }, datefin: { $gte: end_midnightUTC } } } },
-          $expr: {
-            $and: [
-              { $gte: ['$dottore.slot.n_grandi', grande] },
-              { $gte: ['$dottore.slot.n_medi', medio] },
-              { $gte: ['$dottore.slot.n_piccoli', piccolo] }
-            ]
-          }
-        }
-      ]
-    });
+        ]
+      });
+      
+      
     
     console.log(service)
     if(service.length) console.log(service[0].dottore[0].impegni)

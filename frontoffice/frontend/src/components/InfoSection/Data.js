@@ -9,10 +9,10 @@ export const homeObjStore = { //light
     lightBg:true,
     lightText: false,
     lightTextDesc: false,
-    topLine: 'E poi gli dico',
-    headline:'Che non me li aspettavo',
-    description: 'Tutti questi addii',
-    buttonLabel: 'Store',
+    topLine: 'Store',
+    headline:'Qui puoi trovare tutti i prodotti di cui disponiamo',
+    description: 'Cosa aspetti? Vai a dare un occhio!',
+    buttonLabel: 'Clicca per vedere i nostri prodotti',
     imgStart: false,
     img: Cane2,
     alt: 'cane',
@@ -28,9 +28,9 @@ export const homeObjPresenza = { //dark
     lightText: true,
     lightTextDesc: true,
     topLine: 'presenza',
-    headline:'Pensavo che ogni cosa che amavo poi rimaneva mia',
-    description: 'Però pensavo male',
-    buttonLabel: 'Servizi in presenza',
+    headline:'Servizi in presenza offerti da Animal House',
+    description: 'Qui puoi trovare tutti i servizi di cui disponiamo, abbiamo sedi in tutta Italia!',
+    buttonLabel: 'Clicca per vedere cosa offrono le nostre strutture',
     imgStart: true,
     img: Cane1,
     alt: 'cane',
@@ -40,34 +40,15 @@ export const homeObjPresenza = { //dark
 }
 
 
-
-export const homeObjOnline = { //light
-    id: 'online',
-    link: '/online',
-    lightBg:true,
-    lightText: false,
-    lightTextDesc: false,
-    topLine: 'online',
-    headline:'Il fatto è che non c è',
-    description: 'Una regola o una morale da ricavare',
-    buttonLabel: 'Servizi online',
-    imgStart: false,
-    img: Gatto1,
-    alt: 'cane',
-    dark: false,
-    primary: false,
-    darkText: true
-}
-
 export const homeObjCommunity = { //dark
     id: 'community',
     link: '/community',
     lightBg:false,
     lightText: true,
     lightTextDesc: true,
-    topLine: 'community',
-    headline:'Sono con lo stesso amico mio',
-    description: 'È una sera di alcuni anni dopo, lo stringo vicino',
+    topLine: 'Community',
+    headline:'Bacheca online',
+    description: 'Qua si puo interagire tra proprietari di animali per scoprire gli interessi dei tuoi simili!',
     buttonLabel: 'Servizi di community',
     imgStart: true,
     img: Gatto2,
@@ -77,39 +58,7 @@ export const homeObjCommunity = { //dark
     darkText: false
 }
 
-export const homeObjFive = { //light
-    id: 'cuccioli',
-    lightBg:true,
-    lightText: false,
-    lightTextDesc: false,
-    topLine: 'cuccioli',
-    headline:'Siamo affacciati da una finestra qualunque, sopra un cortile qualunque',
-    description: 'Ma questa notte ci sentiamo vicinissimi al nostro destino',
-    buttonLabel: 'Get started',
-    imgStart: false,
-    img: Gatto1,
-    alt: 'cane',
-    dark: false,
-    primary: false,
-    darkText: true
-}
 
-export const homeObjSix = { //dark
-    id: 'servizi',
-    lightBg:false,
-    lightText: true,
-    lightTextDesc: true,
-    topLine: 'Servizi',
-    headline:'Parliamo del male, in generale',
-    description: 'Di quello che abbiamo ricevuto E di quello che commettiamo noi',
-    buttonLabel: 'Get started',
-    imgStart: true,
-    img: Gatto2,
-    alt: 'cane',
-    dark: true,
-    primary: true,
-    darkText: false
-}
 
 export const objVeterinario={
     id: 'veterinario',
@@ -119,7 +68,7 @@ export const objVeterinario={
     lightTextDesc: true,
     topLine: 'Veterinario',
     headline:'I migliori specialisti per la cura dei tuoi cuccioli',
-    description: 'Oltre 4 sedi in tutta italia per curare i malanni dei tuoi microamici',
+    description: "I nostri esperti veterinari offrono cure personalizzate per la salute e il benessere dei tuoi amati animali domestici.",
     buttonLabel: 'Cerca qui il migliore',
     imgStart: true,
     img: Gatto2,
@@ -136,8 +85,8 @@ export const objDogSitter = { //light
     lightText: false,
     lightTextDesc: false,
     topLine: 'Dogsitting',
-    headline:'Molla qui il tuo accollo',
-    description: 'Gli riserveremo un trattamento mediocre',
+    headline:'Lascia il tuo animale in una delle nostre sedi!',
+    description: "I nostri dogsitter altamente qualificati offrono un'assistenza amorevole e affidabile per i tuoi animali domestici, mentre sei fuori casa.",
     buttonLabel: 'Prenota subito',
     imgStart: false,
     img: Gatto1,
@@ -145,4 +94,22 @@ export const objDogSitter = { //light
     dark: false,
     primary: false,
     darkText: true
+}
+
+export const objToilettatura={
+    id: 'toilettatura',
+    link: "/presenza/toilettatura",
+    lightBg:false,
+    lightText: true,
+    lightTextDesc: true,
+    topLine: 'Toilettatura',
+    headline:"Fai brillare i tuoi amici pelosi con la nostra toilettatura professionale!",
+    description: "Toilette professionali per cani e gatti: facciamo sì che i tuoi animali domestici siano sempre puliti e curati!",
+    buttonLabel: 'Clicca per maggiori informazioni',
+    imgStart: true,
+    img: Gatto2,
+    alt: 'cane',
+    dark: true,
+    primary: true,
+    darkText: false
 }

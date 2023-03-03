@@ -21,30 +21,19 @@ const MainSection = () => {
   return (
     <HeroContainer>
         <HeroContent>
-            <HeroH1>
-            Da un po' di tempo <br/>
-Spesso mi viene in mente <br/>
-Quella poesia di Dante <br/>
-Quella dove lui diceva:
-            </HeroH1>
             <HeroP>
-            "Quanto mi piacerebbe <br/>
-Che il tempo si fermasse<br/>
-Mentre io me ne sto su una barca<br/>
-Con un paio di amici miei e qualche amichetta<br/>
-A parlare d'amore e a cazzeggiare"<br/>
+            Benvenuti su Animal House, il luogo ideale per prendersi cura dei vostri animali domestici. Siamo un'azienda con sedi in tutta Italia, specializzata nei servizi di veterinario, dogsitting e nella vendita di prodotti per animali.
+
+Presso le nostre cliniche veterinarie, il nostro team di esperti veterinari si prenderà cura della salute e del benessere dei vostri animali domestici, offrendo servizi di cura generale, vaccinazioni, analisi del sangue, interventi chirurgici e molto altro ancora.
+
+Se state cercando un servizio di dogsitting affidabile, il nostro team di dogsitter altamente qualificati si prenderà cura dei vostri amati animali domestici mentre voi siete impegnati al lavoro o in viaggio.
+
+Inoltre, la nostra vasta gamma di prodotti per animali comprende tutto ciò di cui avete bisogno per garantire il comfort e la felicità dei vostri amici pelosi. Dalle crocchette ai giochi interattivi, abbiamo tutto ciò che serve per soddisfare le esigenze dei vostri animali domestici.
+
+Siamo fieri di offrire un servizio clienti di prima classe e siamo sempre disponibili ad aiutare i nostri clienti a scegliere i servizi e i prodotti giusti per i loro animali domestici. Grazie per aver scelto Animal House come partner nella cura dei vostri amati animali domestici.
 
             </HeroP>
-            <HeroBtnWrapper>
-                <Button to='signup'
-                onMouseEnter={onHover}
-                onMouseLeave={onHover} 
-                primary="true"
-                dark="true">
-                    Tipo i video dei rappers americani {hover ? <ArrowForward/> : <ArrowRight/>}
-
-                </Button>
-            </HeroBtnWrapper>
+           
         </HeroContent>
 
         

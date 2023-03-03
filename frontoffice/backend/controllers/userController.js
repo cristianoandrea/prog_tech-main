@@ -39,14 +39,13 @@ const signupUser = async (req, res) => {
 }
 
 const updateUserProfile = async (req,res)=> {
-  const user = await User.findById(req.user._id)
+  console.log(req.body)
+  const user = await User.findById(req.body.user._id)
 
-  if(user){
+  if(user){ console.log('inside user')
     user.name = req.body.name || user.name
     user.email = req.body.email || user.email
     user.cognome = req.body.cognome || user.cognome
-    user.gender = req.body.gender || user.gender
-    user.dataNascita = req.body.dataNascita || user.dataNascita
     user.favoriteAnimal = req.body.fav || user.favoriteAnimal
 
     if(req.body.password){
@@ -54,16 +53,17 @@ const updateUserProfile = async (req,res)=> {
     }
 
     const updatedUser = await user.save()
+    console.log(updatedUser)
 
     res.json ({
       _id: updatedUser._id,
       email: updatedUser.email,
       name: updatedUser.name,
       token:createToken(updatedUser._id),
-      cognome:user.cognome, 
-      gender:user.gender, 
-      dataNascita:user.dataNascita, 
-      favoriteAnimal:user.favoriteAnimal
+      cognome:updatedUser.cognome, 
+      sesso:updatedUser.sesso, 
+      dataNascita:updatedUser.nascita, 
+      //favoriteAnimal:user.favoriteAnimal
     })
   }
   else {

@@ -8,10 +8,7 @@ import Services from '../components/Services'
 import Footer from '../components/Footer'
 import { homeObjStore,
     homeObjPresenza,
-    homeObjOnline,
-    homeObjCommunity,
-     homeObjFive,
-     homeObjSix 
+    homeObjCommunity
     } from '../components/InfoSection/Data';
 
 
@@ -30,11 +27,7 @@ const Home = () => {
         <MainSection/>
         <InfoSection {...homeObjStore}/>
         <InfoSection {...homeObjPresenza}/>
-        <InfoSection {...homeObjOnline}/>
-        <InfoSection {...homeObjCommunity}/>
-        <InfoSection {...homeObjFive}/>
-        <InfoSection {...homeObjSix}/>
-        
+        <InfoSection {...homeObjCommunity}/> 
         <Footer />
     </>
 

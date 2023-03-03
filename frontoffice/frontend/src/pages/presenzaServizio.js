@@ -88,7 +88,7 @@ const PresenzaServizio = ({service, time}) => {
       <ServicesContainer>
         
         
-        <FiltriServices time={time} onPass={onPass} />
+        <FiltriServices time={time} onPass={onPass} service={service} />
 
         {dataFiltrata.length > 0?
        

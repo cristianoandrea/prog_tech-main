@@ -110,7 +110,8 @@ const Slider = ({data, testo}) => {
                                         <h1>{item.title}</h1>
                                         <h4>{item.description}</h4>
                                         <br/>
-                                        <Buttone>{item.button}</Buttone>
+                                        <Button1 to={`/store/prodotti?tipo=${item.filtro}`}>{item.button}</Button1>
+                                       
                                         </Testo>
                                     </Grid>
                                     </Grid>

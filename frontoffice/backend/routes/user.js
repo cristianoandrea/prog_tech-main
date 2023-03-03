@@ -10,6 +10,7 @@ router.post('/login', loginUser)
 // signup route
 router.post('/signup', signupUser)
 
-router.route('/profile').post(protect,updateUserProfile)
+//router.route('/profile').post(protect,updateUserProfile)
+router.post('/profile',updateUserProfile)
 
-module.exports = router
+module.exports = router 

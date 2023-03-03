@@ -61,16 +61,29 @@ const Prodotti = () => {
     if (queryString) {
       const urlParams = new URLSearchParams(queryString);
       const Animal = urlParams.get("animale");
-      console.log(Animal);
-      const response = await fetch("http://localhost:4000/api/item/filter", {
+      const tag = urlParams.get('tipo')
+      let response = {}
+      if(Animal){
+        console.log('inside animal')
+        response = await fetch("http://localhost:4000/api/item/filter", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ Animal }),
       });
-      const data = await response.json();
+    }else{
+      console.log('inside')
+        response = await fetch("http://localhost:4000/api/item/filter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ tag }),
+      });
 
+    }
+      const data = await response.json();
       setDataFiltrata(data);
     }
     const tmp = {

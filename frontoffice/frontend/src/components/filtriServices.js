@@ -71,7 +71,7 @@ const cities=[
 
 //se time è true => veterinairo
 //time = falso => dogsitter e daterange
-const FiltriServices = ( {time,onPass} ) => {
+const FiltriServices = ( {time,onPass,service} ) => {
   const [city, setCity] = useState("");
   const [animal, setAnimals] = useState("");
   const [startDate, setStartDate] = useState(new Date());
@@ -126,7 +126,7 @@ const FiltriServices = ( {time,onPass} ) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({city, startDate}),
+      body: JSON.stringify({city, startDate, service}),
     });
     data = await response.json(); 
     console.log(data);
@@ -216,7 +216,13 @@ const FiltriServices = ( {time,onPass} ) => {
 
   const [animali, setAnimali] = useState([])
 
- 
+  const handleAnimalQuantityChange = (animalIndex, quantity) => {
+    const newPets = [...pets];
+    const newQuantity = newPets[animalIndex].quantity + quantity;
+    newPets[animalIndex].quantity = newQuantity;
+    //setAnimalQuantity((animalQuantity - newPets[animalIndex].quantity) + newQuantity);
+    setPets(newPets);
+  };
   
   const handleAnimalItemClick = (key, quantity, animali, setAnimali) => {
     // Check if the key already exists in the array
@@ -294,36 +300,27 @@ const FiltriServices = ( {time,onPass} ) => {
                     <Grid item xs={6}>
                     <Button onClick={() => {
                         if (pet.quantity > 1) {
-                          if(pet.key=="piccolo" && animaliPiccoli>0 )setPiccoli(animaliPiccoli -1)
-                          if(pet.key=="medio" && animaliMedi>0 )setMedi(animaliMedi -1)
-                          if(pet.key=="grande" && animaliGrandi>0 )setGrandi(animaliGrandi -1)
-                          setPets(prevPets => {
-                            const newPets = [...prevPets];
-                            newPets[index].quantity -= 1;
-                            return newPets;
-                          });
+                          if(pet.key=="piccolo")setPiccoli(animaliPiccoli -1)
+                          else if(pet.key=="medio")setMedi(animaliMedi -1)
+                          else if(pet.key=="grande")setGrandi(animaliGrandi -1)
+                          
+                          handleAnimalQuantityChange(index, 1)
+                        console.log("piccoli", animaliPiccoli)
+                        console.log("medi", animaliMedi)
+                        console.log("grandi", animaliGrandi)
                         }
                       }}>-</Button>
                       <span>{pet.quantity}</span>
                       <Button onClick={() => {
-                        if(pet.key==="piccolo"  ){setPiccoli(animaliPiccoli + 1);  setPets(prevPets => {
-                          const newPets = [...prevPets];
-                          newPets[index].quantity += 1;
-                          return newPets;
-                        });}
-                        if(pet.key==="medio"  ){setMedi(animaliMedi + 1);  setPets(prevPets => {
-                          const newPets = [...prevPets];
-                          newPets[index].quantity += 1;
-                          return newPets;
-                        });}
-                        if(pet.key==="grande" ){setGrandi(animaliGrandi + 1) ;  setPets(prevPets => {
-                          const newPets = [...prevPets];
-                          newPets[index].quantity += 1;
-                          return newPets;
-                        });}
-                       
-                        setAnimalQuantity(animalQuantity +1)
-                        console.log(pets,animaliGrandi,animaliMedi,animaliPiccoli)
+                        if(pet.key=="piccolo")setPiccoli(animaliPiccoli + 1)
+                        else if(pet.key=="medio")setMedi(animaliMedi + 1)
+                        else if(pet.key=="grande")setGrandi(animaliGrandi + 1)
+                        handleAnimalQuantityChange(index, 1)
+                        
+                        console.log("piccoli", animaliPiccoli)
+                        console.log("medi", animaliMedi)
+                        console.log("grandi", animaliGrandi)
+                        console.log(pets)
                       }}>+</Button>
                     </Grid>
                   </Grid>
