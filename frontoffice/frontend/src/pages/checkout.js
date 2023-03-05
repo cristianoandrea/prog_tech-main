@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import { useShoppingCart } from '../context/shoppingCartContext'
 import List from '@mui/material/List';
 import CartItem from '../components/CartItem';
-import { Buttone, data } from '../pages/prodotto_singolo';
+import { Buttone } from '../pages/prodotto_singolo';
 import { formatCurrency } from '../utilities/formatCurrency';
 import { Container } from '@mui/material';
+import Sidebar from '../components/Sidebar';
 
 const Checkout = () => {
 
@@ -14,9 +15,16 @@ const Checkout = () => {
     cartItems
   } = useShoppingCart()
 
+  const[isOpen, setIsOpen] = useState(false)
+ 
+    const toggle = ()=> {
+        setIsOpen(!isOpen)
+    }
+
   return (
     <div>
-        <Navbar />
+        <Sidebar isOpen={isOpen} toggle={toggle}/>
+        <Navbar toggle={toggle}/>
         <Container
         sx={{
           marginTop:'100px'
@@ -33,15 +41,7 @@ const Checkout = () => {
             })
         }
         <br />
-        <h5 
-            style={{textAlign: 'right', marginRight: 1}}
-        ><b> Total: {formatCurrency(
-              cartItems.reduce((total, cartItem) => {
-                const item = data.find(i => i.id === cartItem.id)
-                return total + (item?.prezzo || 0) * cartItem.quantity
-              }, 0))
-            }</b>
-        </h5>
+        
       </List>
         </Container>
         
@@ -51,3 +51,15 @@ const Checkout = () => {
 }
 
 export default Checkout
+
+/*
+<h5 
+            style={{textAlign: 'right', marginRight: 1}}
+        ><b> Total: {formatCurrency(
+              cartItems.reduce((total, cartItem) => {
+                const item = data.find(i => i.id === cartItem.id)
+                return total + (item?.prezzo || 0) * cartItem.quantity
+              }, 0))
+            }</b>
+        </h5>
+*/

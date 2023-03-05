@@ -1,6 +1,5 @@
 import { Stack } from '@mui/material';
 import { useShoppingCart } from '../context/shoppingCartContext'
-import { data } from '../pages/prodotto_singolo';
 import * as React from 'react';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Card from '@mui/joy/Card';
@@ -12,52 +11,79 @@ import { Button, IconButton } from '@mui/joy';
 import Link from '@mui/joy/Link';
 import { formatCurrency } from '../utilities/formatCurrency';
 import { Delete } from '@material-ui/icons';
+import { useState,useEffect } from 'react';
 
 
+//Necessario aggiungere ALT alle immagini, per accessibilità
 const CartItem = ({id, quantity}) => {
-  
+
+  const [Item,setItem]= useState()
   const {removeFromCart, increaseCartQuantity, deleteFromCart} = useShoppingCart();
-  const item  = data.find(i => i.id == id)
-  if(item==null) return null
+  const [loading, setLoading] = useState(true);
+  
+  async function find_p(){
+    const response = await fetch("http://localhost:4000/api/item/"+ id, {
+      method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    const item  = await response.json()
+    setItem(item)
+    setLoading(false) 
+  }
+
+  useEffect(()=>{
+    console.log(id)
+     find_p()
+  },[id])
+  
   const link= "/store/prodotti/" + id
 
   return (
     <div>
-        <Card row variant="outlined" sx={{ maxWidth: 430 }}>
-        <CardOverflow>
-          <AspectRatio ratio="1" sx={{ width: 90 }}>
-            <img
-              src="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90"
-              srcSet="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90&dpr=2 2x"
-              loading="lazy"
-              alt=""
-            />
-          </AspectRatio>
-        </CardOverflow>
-        <CardContent sx={{ px: 2 }}>
-          <Link href={link} fontWeight="md" textColor="success" mb={0.5}>
-            {item.name}
-          </Link>
-          <Typography level="body2">{formatCurrency(item.prezzo)} , x {quantity}</Typography>
-          
-        </CardContent>
-        <Divider />
-        <CardOverflow
-          sx={{
-            px: 0.2,
-            writingMode: 'vertical-rl',
-            textAlign: 'center',
-            fontSize: 'xs2',
-            fontWeight: 'xl2',
-            letterSpacing: '1px',
-            textTransform: 'uppercase',
-          }}
-        >
-          
-          <Button onClick={()=>deleteFromCart(id)} sx={{color: "red"}} ><Delete/></Button>
+      {
+        loading ?
+        ""
+        :
+        <div>
 
-        </CardOverflow>
-      </Card>
+          <Card row variant="outlined" sx={{ maxWidth: 430 }}>
+          <CardOverflow>
+            <AspectRatio ratio="1" sx={{ width: 90 }}>
+              <img
+                src={Item.image.path}
+                loading="lazy"
+                alt=""
+              />
+            </AspectRatio>
+          </CardOverflow>
+          <CardContent sx={{ px: 2 }}>
+            <Link href={link} fontWeight="md" textColor="success" mb={0.5}>
+              {Item.nome}
+            </Link>
+            <Typography level="body2">{formatCurrency(Item.prezzo)} , x {quantity}</Typography>
+            
+          </CardContent>
+          <Divider />
+          <CardOverflow
+            sx={{
+              px: 0.2,
+              writingMode: 'vertical-rl',
+              textAlign: 'center',
+              fontSize: 'xs2',
+              fontWeight: 'xl2',
+              letterSpacing: '1px',
+              textTransform: 'uppercase',
+            }}
+          >
+            
+            <Button onClick={()=>deleteFromCart(id)} sx={{color: "red"}} ><Delete/></Button>
+
+          </CardOverflow>
+          </Card>
+        </div>  
+      }
     </div>
   )
 }

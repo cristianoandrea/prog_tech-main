@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, FormControl,Input, InputLabel, Select, MenuItem, Box } from '@mui/material';
+import { Grid, FormControl,Input, InputLabel, Select, MenuItem } from '@mui/material';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
@@ -254,12 +254,8 @@ const FiltriServices = ( {time,onPass,service} ) => {
         alignItems="center"
         style={{margin:10}}
        >
-        {time? 
-        <Box sx={{marginTop:5}}>
-          <h1>Filtri:</h1>
-        </Box>
-         :
-        <Grid item xs={12} sm={6} md={4}>
+        {time? "" :
+        <Grid item xs={12} sm={6} md={3}>
         <InputLabel
           sx={{
             typography:{
@@ -337,7 +333,7 @@ const FiltriServices = ( {time,onPass,service} ) => {
           </FormControl>
         </Grid>
          }
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={6} md={3}>
         <FormControl  size="small">
         <InputLabel
           sx={{
@@ -395,7 +391,7 @@ const FiltriServices = ( {time,onPass,service} ) => {
               </Select>
         </FormControl>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={6} md={3}>
         {
           time ?
           <>
@@ -487,7 +483,7 @@ const FiltriServices = ( {time,onPass,service} ) => {
 
         }
         </Grid>
-        <Grid item xs={12} sm={6} md={12}>
+        <Grid item xs={12} sm={6} md={3}>
         <Button1 type="submit">Cerca</Button1>
         </Grid>
         

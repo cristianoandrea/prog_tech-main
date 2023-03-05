@@ -19,29 +19,83 @@ const Container1= styled.div`
 
 const Prodotti = () => {
 
-  const theme = useTheme();
-  const [animalName, setAnimalName] = useState([]);
+  
   const [isOpen, setIsOpen] = useState(false);
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [dataFiltrata, setDataFiltrata] = useState([]);
+  const [dataFiltrataFin, setDataFiltrataFin] = useState([]);
 
-
-  const toggle = ()=> {
-      setIsOpen(!isOpen)
+  function handleChangeFiltri(newValue) {
+    setDataFiltrata((prevDataFiltrata) => {
+      return newValue;
+    });
   }
 
   useEffect(() => {
-    axios.post('http://localhost:4000/api/item/')
-    .then(res=> {
-     console.log(res)
-     setData(res.data)
-     setLoading(false)
-    })
-    .catch(err => {
-     console.log (err)
-    })
-    console.log(data)
-   }, []);
+    const tmp = {
+      data: dataFiltrata,
+    };
+    setDataFiltrataFin(tmp);
+  }, [dataFiltrata]);
+
+  async function ok() {
+    const queryString = window.location.search;
+    if (queryString) {
+      const urlParams = new URLSearchParams(queryString);
+      const Animal = urlParams.get("animale");
+      const tag = urlParams.get('tipo')
+      let response = {}
+      if(Animal){
+        console.log('inside animal')
+        response = await fetch("http://localhost:4000/api/item/filter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ Animal }),
+      });
+    }else{
+      console.log('inside')
+        response = await fetch("http://localhost:4000/api/item/filter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ tag }),
+      });
+
+    }
+      const data = await response.json();
+      setDataFiltrata(data);
+    }
+    const tmp = {
+      data: dataFiltrata,
+    };
+    setDataFiltrataFin(tmp);
+  }
+
+  useEffect(() => {
+    ok();
+  }, []);
+
+  const toggle = () => {
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/api/item/")
+      .then((res) => {
+        console.log(res);
+        setData(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log(data);
+  }, []);
 
   
 
@@ -56,8 +110,12 @@ const Prodotti = () => {
         <Container1>
           
             
-        <FiltriProdotti />
-        <Products data={data}/>
+        <FiltriProdotti onSubmit={handleChangeFiltri} />
+        {dataFiltrata.length > 0 ? (
+              <Products data={dataFiltrataFin} tipo={false} />
+            ) : (
+              <Products data={data} tipo={false} />
+            )}
             
         
         </Container1>

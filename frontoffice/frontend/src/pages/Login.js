@@ -3,16 +3,21 @@ import { useState } from "react"
 import { Button1 } from "../components/ButtonElement"
 import { useLogin } from "../hooks/useLogin"
 import { Buttone } from "./prodotto_singolo"
+import { useNavigate } from "react-router-dom";
+
 
 const Login = () => {
     const [email, setEmail]= useState('')
     const [password, setPassword]= useState('')
     const{login,error,isLoading} = useLogin()
+    let navigate = useNavigate();
 
     const handleSubmit = async (e)=> {
         e.preventDefault()
         await login(email,password)
-    }
+        //navigate('http://localhost:3000/');
+  }
+     
 
     return (
         <>

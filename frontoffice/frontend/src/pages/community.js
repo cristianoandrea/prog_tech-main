@@ -1,14 +1,74 @@
-import React from 'react'
-import Footer from '../components/Footer'
-import Navbar from '../components/Navbar'
+import React, { useEffect, useState } from "react";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import axios from "axios";
+
+import styled from "styled-components";
+import CommunityCard from "../components/communityCard";
+import Sidebar from "../components/Sidebar";
+
+
+const Contenitore = styled.div`
+  margin: 100px;
+  margin-left: 2em;
+  margin-right: 2em;
+`;
+const Container = styled.div` 
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: space-between;
+  align-items: center;
+  @media screen and (max-width: 768px) {
+    justify-content: center;
+    flex-direction: column;
+  }
+`;
 
 const CommunityPage = () => {
-  return (
-    <>
-    <Navbar/>
-    <Footer />
-    </>
-  )
-}
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-export default CommunityPage
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/api/note/")
+      .then((res) => {
+        console.log(res);
+        setData(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log(data);
+  }, []);
+
+  const[isOpen, setIsOpen] = useState(false)
+ 
+    const toggle = ()=> {
+        setIsOpen(!isOpen)
+    }
+
+  return (
+    <div>
+      <Sidebar isOpen={isOpen} toggle={toggle}/>
+      <Navbar toggle={toggle}/>
+      {loading ? (
+        ""
+      ) : (
+        <div>
+          <Container>
+            {data.data.map((item) => (
+              <Contenitore>
+                <CommunityCard item={item}></CommunityCard>
+              </Contenitore>
+            ))}
+          </Container>
+          <Footer></Footer>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default CommunityPage;

@@ -5,6 +5,9 @@ import FiltriServices from '../components/filtriServices';
 import dayjs from 'dayjs';
 import axios from 'axios'
 import Products from '../components/StorePage/PopProducts';
+import Footer from '../components/Footer'
+import Sidebar from '../components/Sidebar';
+
 
 export const ServicesH1= styled.h1`
     font-size: 2.5rem;
@@ -16,17 +19,16 @@ export const ServicesH1= styled.h1`
     }
 `
 export const ServicesContainer= styled.div`
-margin-top:150px;
-width: 100%
-    height: 800px;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: white;
-    flex-wrap: wrap;
-
+margin-top: 80px;
+margin-left: 2em;
+margin-right: 2em;
+display:flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
 `
+
+
 //uso uno stesso componente per dogsitting e veterinario:
 //prendo in input un valore (service) che uso per renderizzare 
 //il componente in maniera specifica
@@ -67,62 +69,46 @@ const PresenzaServizio = ({service, time}) => {
   
    }, []);
 
-   function handleChangeFiltri(newValue) {
+   function onPass(newValue) {
     setDataFiltrata(prevDataFiltrata => {
       return newValue;
     });
   }
 
-  useEffect(() => {
-    axios.post('http://localhost:4000/api/item/')
-    .then(res=> {
-     console.log(res)
-     setData(res.data)
-     setLoading(false)
-    })
-    .catch(err => {
-     console.log (err)
-    })
-    console.log(data)
-   }, []);
-
-  var servizio= ""
-  if (service == 0) {
-
-    servizio="Veterinario";
-
-  } else if (service==1){
-    servizio="Dogsitting"
-    
-  }
-
+  const[isOpen, setIsOpen] = useState(false)
+ 
+    const toggle = ()=> {
+        setIsOpen(!isOpen)
+    }
   
 
   return (
     <div>
-      <Navbar />
+      <Sidebar isOpen={isOpen} toggle={toggle}/>
+      <Navbar toggle={toggle}/>
 
-      {
+      { 
         loading ?
-        
-        
-        <ServicesContainer></ServicesContainer>
-        :
+        " "
+        : 
+        <div>
 
-      <ServicesContainer>
+      <ServicesContainer> 
         
-        <ServicesH1>{servizio}</ServicesH1>
         
-        <FiltriServices onSubmit={handleChangeFiltri} time={time}/>
+        <FiltriServices time={time} onPass={onPass} service={service} />
 
         {dataFiltrata.length > 0?
        
        <Products data={dataFiltrataFin} tipo={true} />
        :
        <Products data={data} tipo={true}/>
-        }
+      }
 
       </ServicesContainer>
+      <Footer />  
+
+      </div>
       }
 
     </div>

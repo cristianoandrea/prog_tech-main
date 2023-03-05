@@ -4,16 +4,24 @@ import Menu from '@mui/joy/Menu';
 import MenuItem from '@mui/joy/MenuItem';
 import { NavBtnLink } from './Navbar';
 import { ListDivider } from '@mui/joy';
+import { useLogout } from '../hooks/useLogout';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 export default function Dropdown() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const {user} = useAuthContext()
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const {logout} = useLogout()
   const handleClose = () => {
     setAnchorEl(null);
-  };
+  }; 
+
+  const handleLogout = () => {
+    logout()
+  }
 
   return (
     <div>
@@ -26,7 +34,7 @@ export default function Dropdown() {
         color="neutral"
         onClick={handleClick}
       >
-        Dashboard
+        {user? (user.name) : "Registrati"}
       </NavBtnLink>
       <Menu
         id="basic-menu"
@@ -49,7 +57,7 @@ export default function Dropdown() {
         <ListDivider />
         
         
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </div>
   );

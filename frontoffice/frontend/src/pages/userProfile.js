@@ -7,8 +7,6 @@ import {useDispatch, useSelector} from "react-redux"
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 //import { Box, Grid } from "@mui/material";
-import { Button1 } from "../components/ButtonElement";
-
 import Box from '@mui/joy/Box';
 import Chip from '@mui/joy/Chip';
 import Tabs from '@mui/joy/Tabs';
@@ -21,6 +19,10 @@ import SearchRounded from '@mui/icons-material/SearchRounded';
 import CartItem from "../components/CartItem";
 import { formatCurrency } from "../utilities/formatCurrency";
 import { AspectRatio, Card } from "@mui/joy";
+import { useAuthContext } from '../hooks/useAuthContext';
+import Modal from 'react-bootstrap/Modal';
+import Sidebar from "../components/Sidebar";
+
 
 let profilo={
   nome: 'Andrea',
@@ -81,6 +83,8 @@ const CardAcquisto = ({item}) =>{
 
   const link="item/prodotti/" + item.id
 
+
+
   return(
     <Card
     variant="outlined"
@@ -90,7 +94,7 @@ const CardAcquisto = ({item}) =>{
       gap: 2,
       '&:hover': { boxShadow: 'md', borderColor: 'neutral.outlinedHoverBorder' },
     }}
-  >
+  > 
       <AspectRatio ratio="1" sx={{ width: 90 }}>
       <img
         src="item.img"
@@ -118,7 +122,7 @@ const CardAcquisto = ({item}) =>{
         size="sm"
         sx={{ pointerEvents: 'none' }}
       >
-        Animali: {item.animale}
+        Animali: {item.animali}
       </Chip>
       <Chip
         variant="outlined"
@@ -188,30 +192,47 @@ const CardServizio = ({item}) =>{
 
 const UserProfile = () => {
 
-  /*
-  const dispatch = useDispatch();
-  const {logout} = useLogout();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+ 
 
-  const submitHandler= (e) => {
-    e.preventDeafault()
+  const [show, setShow] = useState(false);
 
-    //if(password === confirmPassword)
-     // dispatch(updateProfile({name,email,password}))
-  }
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-  */
-    const handleClick =()=>{
-      //logout()
-    }
+  const [name, setName] = useState('');
+  const [cognome, setCognome] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState()
+
+  const handleSubmit = async (event) => {
+    console.log(name, cognome, email);
+    const response = await fetch("http://localhost:4000/api/user/profile", {
+      method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({name,cognome,email,user}),
+    })  
+    const newUser = await response.json()
+    console.log(newUser)
+    localStorage.setItem('user', JSON.stringify(newUser))
+    window.location.reload(false);  
+  };
+   
+    const {user} = useAuthContext()
+
     const [index, setIndex] = useState(0);
+
+    const[isOpen, setIsOpen] = useState(false)
+ 
+    const toggle = ()=> {
+        setIsOpen(!isOpen)
+    }
 
    return(
     <div>
-    <Navbar />
+    <Sidebar isOpen={isOpen} toggle={toggle}/>
+    <Navbar toggle={toggle}/>
     <Box sx={{
       margin:"40px",
       marginTop:'85px',
@@ -313,26 +334,71 @@ const UserProfile = () => {
             >
               <h3>I Miei dati:</h3>
               <ul>
-                <li><strong>Nome: </strong>{profilo.nome}</li>
-                <li><strong>Cognome: </strong>{profilo.cognome}</li>
-                <li><strong>Data di nascita: </strong>{profilo.nascita}</li>
-                <li><strong>Sesso: </strong>{profilo.sesso}</li>
+                <li><strong>Nome: </strong>{user.name}</li>
+                <li><strong>Cognome: </strong>{user.cognome}</li>
+                <li><strong>Data di nascita: </strong>{user.dataNascita}</li>
+                <li><strong>Sesso: </strong>{user.sesso}</li>
                 <li>
                   <strong>Animali preferiti:</strong>
                   <ul>
                     {profilo.animali_preferiti.map(animal => <li key={animal}>{animal}</li>)}
                   </ul>
                 </li>
-                <li><strong>Email: </strong>{profilo.mail}</li>
-                <li><strong>Password: </strong>{profilo.password}</li>
+                <li><strong>Email: </strong>{user.email}</li>
               </ul>
+              <>
+              <Button variant="primary" onClick={handleShow}>
+        Modifica le tue credenziali
+      </Button>
+
+      <Modal show={show} onHide={handleClose} animation={false}>
+        <Modal.Header closeButton>
+          <Modal.Title>Cambia qui le tue credenziali</Modal.Title>
+        </Modal.Header>
+        <form className="signup">
+          
+          <label>Email address:</label>
+          <input 
+            type="email" 
+            onChange={(e) => setEmail(e.target.value)} 
+            value={email} 
+          />
+          <label>Password:</label>
+          <input 
+            type="password" 
+            onChange={(e) => setPassword(e.target.value)} 
+            value={password} 
+          />
+          <label>Name</label>
+          <input 
+            type="name" 
+            onChange={(e) => setName(e.target.value)} 
+            value={name} 
+          />
+          <label>Cognome</label>
+          <input 
+            type="cognome" 
+            onChange={(e) => setCognome(e.target.value)} 
+            value={cognome} 
+          />
+          </form>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSubmit}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
 
             </Typography>
           </TabPanel>
           <TabPanel value={1}>
             
               <h3>I miei acquisti:</h3>
-              <Box sx={{ display: 'flex', flexDirection: {md:'row', xs:'column'}, alignItems: 'center', gap: '16px' }}>
+              <Box sx={{ display: 'flex', flexDirection: {md:'row', sx:'column'}, alignItems: 'center', gap: '16px' }}>
 
               {
                 profilo.acquisti.map((acquisto)=>{
@@ -347,7 +413,7 @@ const UserProfile = () => {
           <TabPanel value={2}>
 
             <h3>Le mie prenotazioni:</h3>
-            <Box sx={{ display: 'flex', flexDirection: {md:'row', xs:'column'}, alignItems: 'center', gap: '16px' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '16px' }}>
 
             {
               profilo.prenotazioni.map((service)=>{

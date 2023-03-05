@@ -1,4 +1,6 @@
 import React from 'react'
+import { useAuthContext } from '../../hooks/useAuthContext'
+import { useLogout } from '../../hooks/useLogout'
 import Dropdown from '../Dropdown'
 import{
     SidebarContainer,
@@ -11,6 +13,14 @@ import{
 } from './SidebarElements'
 
 const Sidebar = ({isOpen, toggle}) => {
+  
+
+  const {user} = useAuthContext()
+  const {logout} = useLogout()
+  const handleLogout = () => {
+    logout()
+  }
+
   return (
     <SidebarContainer isOpen={isOpen} onClick={ toggle }>
       <Icon onClick={ toggle }>
@@ -23,7 +33,20 @@ const Sidebar = ({isOpen, toggle}) => {
           <SidebarLink1 to="/store" onClick={ toggle }>Store</SidebarLink1>
           <SidebarLink1 to="/presenza" onClick={ toggle }>Presenza</SidebarLink1>
           <SidebarLink1 to="/community" onClick={ toggle }>Community</SidebarLink1>
-          <Dropdown />
+          {
+            user?
+            <>
+              <SidebarLink1 to="/userprofile" onClick={ toggle }>User Profile</SidebarLink1>
+              <SidebarLink1 to="/" onClick={handleLogout }>Logout</SidebarLink1>
+            </>
+
+            :
+            <>
+              <SidebarLink1 to="/login" onClick={ toggle }>Login</SidebarLink1>
+            </>
+            
+          }
+          
           
         </SidebarMenu>
       </SidebarWrapper>

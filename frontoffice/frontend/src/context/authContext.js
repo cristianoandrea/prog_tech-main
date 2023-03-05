@@ -10,13 +10,13 @@ export const authReducer = (state, action) => {
       return { user: null }
     default:
       return state
-  }
+  } 
 }
 
 
 //per cambiare i dati nel local storage, ancora da implementare
 export const userUpdateReducer = (state, action) => {
-  switch (action.type) {
+  switch (action.type) { 
     case 'USER_UPDATE_REQUEST':
       return { loading:true }
     case 'USER_UPDATE_SUCCESS':

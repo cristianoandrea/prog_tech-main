@@ -10,24 +10,25 @@ import Services from '../components/Services';
 import styled from "styled-components";
 
 const slider={
-  images: [
+  images: [ 
       {
-        path: "//v2.grommet.io/assets/Wilderpeople_Ricky.jpg",
-        alt: 'Garfield',
-        title: "porcodio non ne posso più....",
-        description:"Un uomo va dal dottore... porcamadonna...",
-        button: "Placa questo dolore "
-      },
+        path: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG87nXCQyLJmtoSR2otffGnyUcp2X3n5H-xQ&usqp=CAU",
+        alt: 'Giocattoli',
+        title: "Divertimento assicurato: Scopri la nostra vasta selezione di giocattoli per animali domestici!",
+        description:"Dai palloni alle palle da tennis, abbiamo tutto per tenere i tuoi animali domestici felici e attivi!",
+        button: "Giocattoli ",
+        filtro: "accessori" 
+      }, 
       {
-        path: "//v2.grommet.io/assets/IMG_4245.jpg",
-        alt: 'Leone',
-        title: "Prodotti per cagnetti mongoloidi",
-        description:"sfama il suo appetito con classe",
-        button: "Placa questo dolore"
+        path: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBhWN_ayg8ASNNLUU3ALLvlbmTW9w2lNQrbKXI6xFsWLbOm6EzGOLZb-BcEDFhhlKgjAs&usqp=CAU",
+        alt: 'Cibo',
+        title: "Nutrizione di alta qualità per i tuoi amati pelosi: Scopri la nostra vasta selezione di cibo per animali domestici!",
+        description:"Alimenti di alta qualità per cani e gatti, per mantenere i tuoi amici pelosi sani e soddisfatti.",
+        button: "Alimenti",
+        filtro: "cibi"
       },
     ],
 }
-
 const elements={
   nome: "Croccantini",
   price: "12"
@@ -84,13 +85,14 @@ const StorePage = () => {
 
   return (
     <div>
+      <Sidebar isOpen={isOpen} toggle={toggle}/>
+      <Navbar toggle={toggle}/>
       {loading? 
 
       ''
       :
       <div>
-      <Sidebar isOpen={isOpen} toggle={toggle}/>
-      <Navbar toggle={toggle}/>
+      
       <Slider testo={true} data={slider} />
       <Services />
       <PopContainer>

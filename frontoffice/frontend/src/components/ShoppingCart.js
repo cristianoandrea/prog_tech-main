@@ -12,7 +12,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useShoppingCart } from '../context/shoppingCartContext';
 import CartItem from './CartItem';
-import { Buttone, data } from '../pages/prodotto_singolo';
+import { Buttone } from '../pages/prodotto_singolo';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { NavBtnLink } from './Navbar';
 import { formatCurrency } from '../utilities/formatCurrency';
@@ -21,7 +21,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 
 
-
+//riscrivi totale prezzo
 export default function ShoppingCart({isOpen}) {
   
   const { 
@@ -66,15 +66,9 @@ export default function ShoppingCart({isOpen}) {
             })
         }
         <br />
-        <h5 
-            style={{textAlign: 'right', marginRight: 1}}
-        ><b> Total: {formatCurrency(
-              cartItems.reduce((total, cartItem) => {
-                const item = data.find(i => i.id === cartItem.id)
-                return total + (item?.prezzo || 0) * cartItem.quantity
-              }, 0))
-            }</b>
-        </h5>
+        
+        
+       
       </List>
       <a href="/checkout">
         <Buttone>Checkout</Buttone>
@@ -98,3 +92,15 @@ export default function ShoppingCart({isOpen}) {
     </div>
   );
 }
+
+/*
+<h5 
+    style={{textAlign: 'right', marginRight: 1}}
+><b> Total: {formatCurrency(
+      cartItems.reduce((total, cartItem) => {
+        const item = data.find(i => i.id === cartItem.id)
+        return total + (item?.prezzo || 0) * cartItem.quantity
+      }, 0))
+    }</b>
+</h5>
+*/
