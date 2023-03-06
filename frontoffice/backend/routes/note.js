@@ -24,11 +24,11 @@ router.get('/:id', (req,res) => {
 
 //POST Note
 router.post('/create', async (req,res)=>{
-    const {descrizione,image,tipo} = req.body
+    const {username, nome_animale, specie, sesso_animale, eta, condizioni_mediche} = req.body
     //console.log(req.user._id)
     try {
         //const user_id= req.user._id
-        const note = await Note.create({descrizione,image,tipo})
+        const note = await Note.create({username, nome_animale, specie, sesso_animale, eta, condizioni_mediche})
         res.status(200).json({note})
     } catch(error){  
         res.status(400).json({error: error.message})

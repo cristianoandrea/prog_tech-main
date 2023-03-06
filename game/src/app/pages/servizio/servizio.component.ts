@@ -51,9 +51,11 @@ export class ServizioComponent implements OnInit {
   };
 
   public cards: Card[]
+  public cards_servizio: Card[]
 
   constructor(private route: ActivatedRoute) {
      this.servizioType=''
+     this.cards_servizio=[]
      this.cards=[
       {
         p: ".",
@@ -124,10 +126,21 @@ export class ServizioComponent implements OnInit {
 
   ngOnInit(): void {
     this.servizioType = this.route.snapshot.data['servizioType'];
-    if(this.servizioType=="veterinario") this.servizio=this.veterinario
-    else if(this.servizioType=="psicologo") this.servizio=this.psicologo
-    else if(this.servizioType=="dogsitter") this.servizio=this.dogsitter
-    else if(this.servizioType=="toelettatura") this.servizio=this.toelettatura
+    if(this.servizioType=="veterinario") {
+      this.servizio=this.veterinario
+      //fai chiamata in ciascuno di questi
+    } 
+    else if(this.servizioType=="psicologo") {
+      this.servizio=this.psicologo
+
+    } 
+    else if(this.servizioType=="dogsitter") {
+      this.servizio=this.dogsitter
+    } 
+    else if(this.servizioType=="toelettatura") {
+      this.servizio=this.toelettatura
+
+    }
   }
 
 }

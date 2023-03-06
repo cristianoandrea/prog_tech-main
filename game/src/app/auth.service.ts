@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NullTemplateVisitor } from '@angular/compiler';
 
 export type Utente={
   name: string,
-  username: string,
-  password: string,
-  fav_animals:string[]
+  email: string,
 }
 
 @Injectable({
@@ -14,36 +13,92 @@ export type Utente={
 
 export class AuthService {
 
-  users: Utente[]
+  
   isLoggedIn:boolean
   active_user: Utente
   fav_animals:string[]
+  error:any=null
+  isLoading:any
 
-  constructor() {
+  constructor(private http: HttpClient) { 
+    this.isLoading=null
     //array che in teoria si riempie dei dati di tutti gli utenti 
-    this.users=[
-      {
-        name:"Andrea",
-        username:"pp@kk.it",
-        password: "napoli",
-        fav_animals:['Struzzo']
-      },
-      {
-        name:"Mattia",
-        username:"ppp@kkk.it",
-        password: "napoli11",
-        fav_animals:['Gatto']
-      }
-    ] 
+     
     this.isLoggedIn=false
     this.active_user={
-      name: "", username: "", password:"", fav_animals:[]
+      name: "", email: ""
     }
     this.fav_animals=[]
 
   }
 
-  public login(username: string, password: string): boolean {
+  public login(email: string, password: string): boolean {
+    
+    this.isLoading=true
+    this.error=NullTemplateVisitor
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+  
+    this.http.post<any>('http://localhost:4000/api/user/login', { email: email, password: password }, httpOptions)
+      .subscribe(response => {
+        // Handle successful response from the server here
+        this.isLoggedIn = true; 
+        this.active_user.email=response.email
+        this.active_user.name=response.name
+        console.log(response)
+      }, error => {
+        this.error=error
+        this.isLoading=false
+        console.error(error);
+      });
+  
+    return this.isLoggedIn;
+
+  }
+
+  public signup(nome: string, cognome:string, email: string, pw: string, sesso:string, data:string, animale: string[]) {
+    //email, password,name ,cognome, sesso, dataNascita, favoriteAnimal
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    this.http.post<any>('http://localhost:4000/api/user/signup', 
+    {email, pw, nome, cognome, sesso, data, animale }, httpOptions)
+      .subscribe(response => {
+        // Handle successful response from the server here
+        this.isLoggedIn = true; 
+        
+        console.log(response)
+      }, error => {
+        this.error=error
+        this.isLoading=false
+        console.error(error);
+      });
+    this.isLoggedIn = true; 
+    //this.active_user= single_user
+    //console.log(this.active_user)
+    
+  }
+
+  logout() {
+    this.isLoggedIn = false;
+    this.active_user= {
+      name: "", email: ""
+    }
+  }
+
+}
+
+
+
+/*
     let trovato=false
     //per il login idealmente va fatta una chiamata al database per chiedere, dato username e pw, il resto dei dati dell'utente
     this.users.forEach(user => {
@@ -55,22 +110,4 @@ export class AuthService {
       }
     });
     return trovato
-    
-  }
-
-  public signup(single_user: Utente) {
-    this.users.push(single_user)
-    this.isLoggedIn = true; 
-    this.active_user= single_user
-    console.log(this.active_user)
-    console.log(this.users)
-  }
-
-  logout() {
-    this.isLoggedIn = false;
-    this.active_user= {
-      name: "", username: "", password:"", fav_animals:[]
-    }
-  }
-
-}
+    */

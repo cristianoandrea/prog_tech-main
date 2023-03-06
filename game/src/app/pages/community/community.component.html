@@ -1,7 +1,12 @@
 <div class="container ">
+  <h1>Bacheca eccolo qua!</h1>
 
+  <form (ngSubmit)="onSubmit(username, species, name, sex, age, medicalConditions)" >
+    <div class="form-group" *ngIf="!this.authservice.isLoggedIn">
+      <label for="species">Username</label>
+      <input type="text" class="form-control" id="username" [(ngModel)]="username" name="username">
+    </div>
 
-<form (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="species">Species</label>
       <input type="text" class="form-control" id="species" [(ngModel)]="species" name="species">
@@ -34,13 +39,14 @@
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
   
-  <p *ngIf="pets.length > 0">Pets:</p>
+  
   <div class="card-deck mt-4">
     <div class="card" *ngFor="let pet of pets">
       <div class="card-body">
-        <h5 class="card-title">{{ pet.species }} - {{ pet.name }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ pet.sex }} - {{ pet.age }} years old</h6>
-        <p class="card-text">{{ pet.medicalConditions }}</p>
+        <h5 class="card-title">{{ pet.specie }} - {{ pet.nome }}</h5>
+        <h6 class="card-subtitle mb-2 ">Padrone: {{ pet.user }}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">{{ pet.sesso }} - {{ pet.eta }} years old</h6>
+        <p class="card-text">{{ pet.medic }}</p>
       </div>
     </div>
   </div>

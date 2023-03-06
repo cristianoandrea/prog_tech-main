@@ -6,6 +6,7 @@ import { Stack } from 'react-bootstrap'
 import styled, { useTheme } from 'styled-components'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
+import Sidebar from '../components/Sidebar'
 import { popularProducts } from '../components/StorePage/data'
 import FiltriProdotti from '../components/StorePage/filtri_chiavica'
 import Products from '../components/StorePage/PopProducts'
@@ -79,9 +80,11 @@ const Prodotti = () => {
     ok();
   }, []);
 
-  const toggle = () => {
-    setIsOpen(!isOpen);
-  };
+  
+ 
+    const toggle = ()=> {
+        setIsOpen(!isOpen)
+    }
 
   useEffect(() => {
     axios
@@ -101,7 +104,8 @@ const Prodotti = () => {
 
   return (
     <div>
-      <Navbar />
+      <Sidebar isOpen={isOpen} toggle={toggle}/>
+      <Navbar toggle={toggle}/>
       {loading ?
       ''
       : 

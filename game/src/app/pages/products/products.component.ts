@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Card } from 'src/app/card/card.component';
 
@@ -9,8 +10,10 @@ import { Card } from 'src/app/card/card.component';
 export class ProductsComponent implements OnInit {
 
   public products: Card[]
+  public prod_accessory: Card[]
+  public prod_food: Card[]
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.products=[
       {
         p: "Delicious and nutritious, our grass-fed beef is packed with protein and healthy fats.",
@@ -70,9 +73,37 @@ export class ProductsComponent implements OnInit {
       }
 
     ]
+
+    this.prod_accessory=[]
+    this.prod_food=[]
    }
 
   ngOnInit(): void {
+
+    //inserisci indirizzo giusto
+    this.http.post<any>('http://localhost:4000/api/note/', {})
+      .subscribe(
+        res => {
+          console.log(res);
+          this.prod_accessory=res
+        },
+        err => {
+          console.log(err);
+          
+        }
+      );
+
+      this.http.post<any>('http://localhost:4000/api/products/', {})
+      .subscribe(
+        res => {
+          console.log(res);
+          this.prod_food=res
+        },
+        err => {
+          console.log(err);
+          
+        }
+      );
   }
 
   //l'idea è di fare varie funzioni con api call al backend per 

@@ -46,7 +46,7 @@ const Login = () => {
               {error&& <div className="error">{error}</div>}
               
         </form>
-        <p>Non hai un account? Mongoloide!! <span><Button1 to="/signin">Registrati</Button1></span></p>
+        <p>Non hai un account? <span><Button1 to="/signin">Registrati</Button1></span></p>
         
         <Button1 to="/" >Home</Button1>
         </Box>

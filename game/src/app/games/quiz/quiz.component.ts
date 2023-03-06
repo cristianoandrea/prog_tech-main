@@ -1,6 +1,7 @@
 import { Component, NgModule, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-quiz',
@@ -21,12 +22,14 @@ export class QuizComponent implements OnInit {
 
   constructor(
     private http: HttpClient, 
-    private modalService: NgbModal) { 
+    private modalService: NgbModal,
+    public authservice:AuthService
+    ) { 
     this.registered=false
     this.started=false
     this.score=0
     this.animalInfo=[]
-    this.name='dog'
+    this.name=''
     this.locations=[
       'Antartica','Africa', 'North-America', 'South-America', 'Oceania', 'Asia', 'Central-America', 'Eurasia', 'Ocean', 'Europe'
     ]
@@ -37,10 +40,6 @@ export class QuizComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  public register_score(score:number) {
-    //qui api post request per registrare
   }
 
   public start(animal:string) {
@@ -78,7 +77,6 @@ export class QuizComponent implements OnInit {
       i = Math.floor(Math.random() * this.animalInfo.length);
       this.familyQuestion(this.animalInfo[i])
 
-      console.log(this.questions)
     }
   }
 
@@ -255,30 +253,6 @@ private chooseRandomElements(correctAnswer: string, type:string): string[] {
     this.questions.push(trivia_question);
   }
 
-  private genericFieldQuestions(){}
-
-  private weightQuestions(){}
-
-
-  /*
-  start() {
-    
-    const headers = new HttpHeaders({
-      
-      'Content-Type': 'application/json'
-    });
-    
-    this.http.get('https://the-trivia-api.com/api/questions?categories=science&limit=5&region=IT&tags=animals', { headers })
-      .subscribe((data) => {
-        this.questions = data;
-        this.questions.forEach((question:any) => {
-          question.all_answers = this.shuffleAnswers(question);
-        });
-        console.log(data)
-        this.started=true;
-      });
-  }
-  */
 
   private shuffleAnswers(all_answers: any) {
     let answers = all_answers;
@@ -320,6 +294,10 @@ private chooseRandomElements(correctAnswer: string, type:string): string[] {
   public openVerticallyCentered(content:any) {
 		this.modalService.open(content, { centered: true });
 	}
+
+  public register_score(username:string,score:number) {
+    console.log(username, score)
+  }
   
 
 }

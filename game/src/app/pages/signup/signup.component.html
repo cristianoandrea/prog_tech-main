@@ -1,28 +1,48 @@
-<form #signupForm="ngForm" (ngSubmit)="signup(username, email, password, [selectedAnimals])">
-    <h2>
-        Registrati!
-    </h2>
-  <div class="form-group">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" [(ngModel)]="username" class="form-control" required>
-  </div>
+<form #signupForm="ngForm" (ngSubmit)="signup(name, surname, email, password, sex, birthdate, [selectedAnimals])">
+    <h2>Registrati!</h2>
 
-  <div class="form-group">
+    <div class="form-group">
+        <label for="username">Nome:</label>
+        <input type="text" id="name" name="name" [(ngModel)]="name" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="surname">Cognome:</label>
+      <input type="text" id="surname" name="surname" [(ngModel)]="surname" class="form-control" required>
+    </div>
+  
+    <div class="form-group">
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" [(ngModel)]="email" class="form-control" required>
-  </div>
-
-  <div class="form-group">
+    </div>
+  
+    <div class="form-group">
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" [(ngModel)]="password" class="form-control" required>
-  </div>
-
-  <div class="form-group">
-      <label for="animals">Favorite Animals:</label>
-      <select id="animals" name="animals" class="form-control" [(ngModel)]="selectedAnimals" multiple>
-          <option *ngFor="let animal of animals" [value]="animal">{{animal}}</option>
+    </div>
+  
+    <div class="form-group">
+      <label for="sex">Sesso:</label>
+      <select id="sex" name="sex" class="form-control" [(ngModel)]="sex" required>
+        <option value="" disabled selected>Seleziona il tuo sesso</option>
+        <option value="maschio">Maschio</option>
+        <option value="femmina">Femmina</option>
+        <option value="altro">Altro</option>
       </select>
-  </div>
-
-  <button type="submit" class="btn color">Sign up</button>
-</form>
+    </div>
+  
+    <div class="form-group">
+      <label for="birthdate">Data di nascita:</label>
+      <input type="date" id="birthdate" name="birthdate" [(ngModel)]="birthdate" class="form-control" required>
+    </div>
+  
+    <div class="form-group">
+      <label for="animals">Animali preferiti:</label>
+      <select id="animals" name="animals" class="form-control" [(ngModel)]="selectedAnimals" >
+        <option *ngFor="let animal of animals" [value]="animal">{{animal}}</option>
+      </select>
+    </div>
+  
+    <button type="submit" class="btn color">Registrati</button>
+    <h6> Sei già registrato? <span><a href="/login" class="btn color" >Login</a></span></h6>
+  </form>

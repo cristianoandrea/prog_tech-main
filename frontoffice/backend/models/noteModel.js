@@ -21,21 +21,48 @@ const noteSchema = new Schema({
     }*/
 })
 
+const communityNoteSchema= new Schema ({
+    username: {
+        type: String,
+        required: true
+    },
+    nome_animale: {
+        type: String,
+        required: true
+    },
+    specie: {
+        type: String,
+        required: true
+    },
+    sesso_animale: {
+        type: String,
+        required: true
+    },
+    eta: {
+        type: Number,
+        required: true
+    },
+    condizioni_mediche: {
+        type:String,
+        required:true
+    }
+})
+
 
 //Post note to db
-noteSchema.statics.pNote = async function(us,tipo,descrizione,image){
+communityNoteSchema.statics.pNote = async function(us,tipo,descrizione,image){
     const note = await this.create({user: us,tipo,descrizione,image })
 
     return note
 }
 
 //Get items from db
-noteSchema.statics.gNote = async function(){
+communityNoteSchema.statics.gNote = async function(){
     const note = await this.find()
 
     return note
 }
 
 
-const Note =  mongoose.model('Note', noteSchema)
+const Note =  mongoose.model('Note', communityNoteSchema)
 module.exports = {Note}

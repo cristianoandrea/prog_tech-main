@@ -26,7 +26,7 @@ export class ImagesComponent implements OnInit {
   }
 
   public fetchCats(): void {
-    this.http.get('http://placekitten.com/200/300', { responseType: 'blob' })
+    this.http.get('https://cataas.com/cat', { responseType: 'blob' })
       .subscribe((response) => {
         const reader = new FileReader();
         reader.readAsDataURL(response);
@@ -36,64 +36,15 @@ export class ImagesComponent implements OnInit {
       });
   }
 
-  public fetchBunny(): void {
-    this.http.get<{ message: string }>("https://api.bunnies.io/v2/loop/random/?media=gif,png")
-      .subscribe((response) => {
-        this.url = response.message;
-      });
-  }
-
   public fetchDuck(): void {
-    this.http.get<{ message: string }>("https://random-d.uk/api/v1/random?type=png")
+    this.http.get<{ message: any, url:any }>("https://random-d.uk/api/v2/random?type=png")
       .subscribe((response) => {
-        this.url = response.message;
+        let tmp = response;
+        console.log(tmp.url)
+        this.url=tmp.url
       });
   }
 
-  public fetchFox(): void {
-    this.http.get<{ message: string }>("https://randomfox.ca/floof/")
-      .subscribe((response) => {
-        this.url = response.message;
-      });
-  }
 
-  public fetchLizard(): void {
-    this.http.get<{ message: string }>("https://nekos.life/api/v2/img/lizard")
-      .subscribe((response) => {
-        this.url = response.message;
-      });
-  }
-
-  public fetchShiba(): void {
-    this.http.get<{ message: string }>("http://shibe.online/api/shibes")
-      .subscribe((response) => {
-        this.url = response.message;
-      });
-  }
-
-  public fetchKoala(): void {
-    this.http.get<{ message: string }>("https://some-random-api.ml/img/koala")
-      .subscribe((response) => {
-        this.url = response.message;
-      });
-  }
-
-  public fetchPanda(): void {
-    this.http.get<{ message: string }>("https://some-random-api.ml/img/panda")
-      .subscribe((response) => {
-        this.url = response.message;
-      });
-  }
-
-  public fetchBird(): void {
-    this.http.get<{ message: string }>("https://some-random-api.ml/img/birb")
-      .subscribe((response) => {
-        this.url = response.message;
-      });
-  }
-
-  
-
-  
 
 }

@@ -30,10 +30,17 @@
             <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
         </div>
         <div class="modal-body">
-            <p>hai fatto: {{score}} punti.... disgraziato</p>
-            <form onsubmit="register_score(score)">
-              <input *ngIf="!registered" type="text" placeholder="Il tuo nome" name="game_name">
-              <button>Registra il tuo punteggio!</button>
+            <p>Hai fatto: <strong> {{score}} </strong>punti!</p>
+            <form onsubmit="register_score(score, name)" *ngIf="!this.authservice.isLoggedIn">
+
+      
+              <div class="input_score">
+                <input class="form-control testo" type="text" placeholder="Il tuo nome" name="game_name">
+                <button class="btn color">Registra il tuo punteggio!</button>
+            </div>
+            </form>
+            <form *ngIf="this.authservice.isLoggedIn" onsubmit="register_score(this.authservice.active_user.name, score)">
+              <button class="btn color">Registra il tuo punteggio!</button>
             </form>
         </div>
         <div class="modal-footer">

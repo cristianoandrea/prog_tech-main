@@ -4,6 +4,15 @@
   font-family: sans-serif;
 }
 
+.testo{ 
+  max-width: 70%;
+  margin: 0 auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+
+
 .question {
   font-weight: bold;
   color: black;
@@ -19,6 +28,10 @@
 
 }
 
+.input_score{
+  margin-left: 0 ;
+}
+
 .selected-yellow {
   background-color: rgb(241, 230, 30) !important;
 }
@@ -29,7 +42,7 @@
   color: #fff;
   cursor: pointer;
   padding: 10px;
-  background-color: #0e3d83;
+  background-color: #5e30b8;
   border-radius: 10px #fff;
   
   margin-top: 10px;
@@ -43,13 +56,13 @@
 
 .start_button {
   background-color: #fff;
-  color: #003366;
+  color: #5e30b8;
   padding: 10px 20px;
-  border-radius: 20px;
+  border-radius: 5px;
   font-weight: bold;
   cursor: pointer;
   margin-bottom: 20px;
-  border: 2px solid #003366;
+  border: 2px solid #5e30b8;
 }
 
 
@@ -58,5 +71,14 @@
     margin-left: 2px;
     margin-right: 2px;
   }
+}
+
+h1,h4{
+  font-family: 'Montserrat', sans-serif;
+}
+
+.color{
+  background-color: #5e30b8;
+  color: white
 }
 

@@ -1,4 +1,6 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-community',
@@ -7,40 +9,68 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommunityComponent implements OnInit {
 
-  pets:any[]=[]
+  username:string
+  pets:any[]
   species: string;
   name: string;
   sex: string;
   age: number;
   medicalConditions: string;
+  error:any=null
 
 
-  constructor() { 
+  constructor(private http: HttpClient, public authservice:AuthService) { 
+    this.username=''
     this.age=0;
     this.medicalConditions='';
     this.species='';
     this.name='';
     this.sex='';
+    this.pets=[]
 
   }
 
   ngOnInit(): void {
+    //this.loading = true;
+    this.http.post<any>('http://localhost:4000/api/note/', {})
+      .subscribe(
+        res => {
+          console.log(res);
+          this.pets=res
+        },
+        err => {
+          console.log(err);
+          
+        }
+      );
   }
 
-  onSubmit() {
-    const pet = {
-      species: this.species,
-      name: this.name,
-      sex: this.sex,
-      age: this.age,
-      medicalConditions: this.medicalConditions
+  onSubmit(username:string, species:string, name:string, sex:string, age:number, medicalConditions:string) {
+    
+    if(this.authservice.isLoggedIn==true) username=this.authservice.active_user.name
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
     };
-    this.pets.push(pet);
-    this.species = '';
-    this.name = '';
-    this.sex = '';
-    this.age = 0;
-    this.medicalConditions = '';
-    console.log(this.pets)
+
+    this.http.post<any>('http://localhost:4000/api/note/', 
+    {username, species, name, sex, age, medicalConditions }, httpOptions)
+      .subscribe(response => {
+        
+        let new_pet ={
+          user:username,specie:species, nome: name, sesso:sex, eta:age, medic:medicalConditions
+        }
+        this.pets.push(new_pet)
+        console.log(new_pet)
+        console.log("successo! ",response)
+      }, error => {
+        this.error=error
+        console.error(error);
+      });
+      
+      
+   console.log(username, species, name, sex, medicalConditions,age )
   }
 }
