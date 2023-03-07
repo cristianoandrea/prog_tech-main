@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Card } from 'src/app/card/card.component';
@@ -53,7 +54,7 @@ export class ServizioComponent implements OnInit {
   public cards: Card[]
   public cards_servizio: Card[]
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private http: HttpClient) {
      this.servizioType=''
      this.cards_servizio=[]
      this.cards=[
@@ -129,18 +130,31 @@ export class ServizioComponent implements OnInit {
     if(this.servizioType=="veterinario") {
       this.servizio=this.veterinario
       //fai chiamata in ciascuno di questi
+      //fetch a '/localhost:4000/api/city'
+      //post a city/
     } 
     else if(this.servizioType=="psicologo") {
       this.servizio=this.psicologo
+      this.cards_servizio=this.searchItems()
+      console.log(this.cards_servizio)
 
     } 
     else if(this.servizioType=="dogsitter") {
       this.servizio=this.dogsitter
+      this.cards_servizio=this.searchItems()
+      console.log(this.cards_servizio)
     } 
     else if(this.servizioType=="toelettatura") {
       this.servizio=this.toelettatura
-
+      this.cards_servizio=this.searchItems()
+      console.log(this.cards_servizio)
     }
+  }
+
+  searchItems(): any {
+    const url = 'http://localhost:4000/api/city';
+    const data = { };
+    return this.http.post<any>(url, data);
   }
 
 }

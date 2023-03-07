@@ -80,30 +80,22 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    //inserisci indirizzo giusto
-    this.http.post<any>('http://localhost:4000/api/note/', {})
-      .subscribe(
-        res => {
-          console.log(res);
-          this.prod_accessory=res
-        },
-        err => {
-          console.log(err);
-          
-        }
-      );
+    this.searchItems('accessories').subscribe((result:any) => {
+      this.prod_accessory=result
+      console.log(result);
+    });
 
-      this.http.post<any>('http://localhost:4000/api/products/', {})
-      .subscribe(
-        res => {
-          console.log(res);
-          this.prod_food=res
-        },
-        err => {
-          console.log(err);
-          
-        }
-      );
+    //inserisci indirizzo giusto
+    this.searchItems('food').subscribe((result: any) => {
+      this.prod_food=result
+      console.log(result);
+    });
+  }
+
+  searchItems(searchTerm: string): any {
+    const url = 'http://localhost:4000/api/item/filtro/tipo';
+    const data = { tag: searchTerm };
+    return this.http.post<any>(url, data);
   }
 
   //l'idea è di fare varie funzioni con api call al backend per 

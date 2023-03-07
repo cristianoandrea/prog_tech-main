@@ -2,7 +2,7 @@ const express= require('express')
 const router= express.Router()
 const {Score} = require('../models/serviceModel')
 
-//GET all city
+//GET all score
 router.post('/', (req,res) => {
     //momentaneo faro una funz nel controller
     Score.find().exec().then((data, error)=>{
@@ -11,12 +11,12 @@ router.post('/', (req,res) => {
     })
 })
 
-//GET one city 
+//GET one score 
 router.get('/:id', (req,res) => {
     res.json({mssg: 'GET one score'})
 })
 
-//POST city
+//POST score
 router.post('/create', async(req,res) => {
     const score = new Score(req.body)
    
@@ -27,7 +27,7 @@ router.post('/create', async(req,res) => {
    
 })
 
-//DELETE city
+//DELETE score
 router.delete('/:id', (req,res) => {
     res.json({mssg: 'DELETE score'})
 })
