@@ -10,7 +10,7 @@ const {postNote} = require('../controllers/noteController')
 
 //GET all note
 router.post('/', (req,res) => {
-    //momentaneo faro una funz nel controller 
+    //momentaneo faro una funz nel controller
     Note.find().exec().then((data, error)=>{
         if(error) return res.status(400).json({error: error.message})
         return res.status(200).json({message:'Get note succesfully',data})
@@ -24,12 +24,13 @@ router.get('/:id', (req,res) => {
 
 //POST Note
 router.post('/create', async (req,res)=>{
-    const {username, nome_animale, specie, sesso_animale, eta, condizioni_mediche} = req.body
-    //console.log(req.user._id)
+    const {descrizione,username,species,nameAnimal,sex,age,medicalConditions} = req.body
+    //console.log(req.user._id) 
     try {
         //const user_id= req.user._id
-        const note = await Note.create({username, nome_animale, specie, sesso_animale, eta, condizioni_mediche})
+        const note = await Note.create({descrizione,username,species,nameAnimal,sex,age,medicalConditions})
         res.status(200).json({note})
+        console.log({note})
     } catch(error){  
         res.status(400).json({error: error.message})
     }

@@ -38,7 +38,8 @@ export class CommunityComponent implements OnInit {
       .subscribe(
         res => {
           console.log(res);
-          this.pets=res
+          this.pets=res.data
+          console.log("pets:", this.pets)
         },
         err => {
           console.log(err);
@@ -76,10 +77,10 @@ export class CommunityComponent implements OnInit {
       })
     };
     let new_pet ={
-      user:username,specie:species, nome: name, sesso:sex, eta:age, medic:medicalConditions
+      username:username, species:species, nameAnimal:name, sex:sex, age:age, medicalConditions:medicalConditions, descrizione: description
     }
-    this.http.post<any>('http://localhost:4000/api/note/', 
-    {username, species, name, sex, age, medicalConditions }, httpOptions)
+    this.http.post<any>('http://localhost:4000/api/note/create', 
+    {username:username, species:species, nameAnimal:name, sex:sex, age:age, medicalConditions:medicalConditions, descrizione: description }, httpOptions)
       .subscribe(response => {
         console.log(new_pet)
         console.log("successo! ",response)
@@ -88,7 +89,7 @@ export class CommunityComponent implements OnInit {
         console.error(error);
       });
       this.pets.push(new_pet)
-      console.log(this.pets)
+      
       
    console.log(username, species, name, sex, medicalConditions,age )
   }
