@@ -15,39 +15,39 @@ export class ServicesComponent implements OnInit {
   constructor() { 
     this.dogsitting={
       h1: "Dogsitting",
-      p: "Scopri tutte le sedi messe a disposizione da Animal House",
-      button:"Vai!",
+      p: "Leave your pets in the hands odf our specialists",
+      button:"Find out!",
       href: '/services/dogsitting',
       href_img:'https://postimg.cc/ns5s5pmt',
       img:'https://i.postimg.cc/T328RZZ0/dogsitter.jpg',
       alt:'dogsitter'
     }
     this.veterinarian={
-      h1: "Veterinari",
-      p: "Metti nelle solide mani dei nostri esperti i tuoi cuccioli",
-      button:"Qui l'elenco",
+      h1: "Veterinarian",
+      p: "Get the best medical treatment for you pet",
+      button:"Find out!",
       href: '/services/veterinarian',
       href_img:'https://postimg.cc/ns5s5pmt',
       img:'https://i.postimg.cc/NGPbyZ9b/veterinario.jpg',
-      alt:'veterinario'
+      alt:'veterinarian'
     },
     this.psicologo={
-      h1: "Psicologo per animali",
-      p: "Strizzacervelli per animalettucci",
-      button:"Scopri ora",
-      href: '/services/psicologo',
+      h1: "Psychologist",
+      p: "A shrink for pets? Never heard anything more useful!",
+      button:"Find out NOW!",
+      href: '/services/psychologist',
       href_img:'https://postimg.cc/ns5s5pmt',
       img:'https://i.postimg.cc/d3wV95x0/cane-cappello.jpg',
-      alt:'cane con cappello'
+      alt:'dog with hat'
     },
     this.toelettatura={
-      h1: "Servizio di Toelettatura",
-      p: "Metti nelle solide mani dei nostri esperti i tuoi cuccioli",
-      button:"Qui l'elenco",
-      href: '/services/toelettatura',
+      h1: "Grooming",
+      p: "Treat your pet like a king",
+      button:"Find out!",
+      href: '/services/grooming',
       href_img:'https://postimg.cc/ns5s5pmt',
       img:'https://i.postimg.cc/76R768s2/toelettatura.jpg',
-      alt:'toelettatura'
+      alt:'grooming'
     }
   }
 

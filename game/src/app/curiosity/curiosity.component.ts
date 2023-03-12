@@ -13,16 +13,19 @@ import { AuthService } from '../auth.service';
 export class CuriosityComponent  {
 
   //array in cui verranno piazzati gli anumali preferiti dell'utente
-  my_animals: string[]
+  public myAnimals: []| null
   //variabile utile per le ricerche
   name = '';
   //array che contiene l'array con tutti i fatti sugli animali
   animalInfo:any;
   public isCollapsed : boolean;
-
   constructor(private http: HttpClient, private authService: AuthService) {
     this.isCollapsed = false;
-    this.my_animals=this.authService.fav_animals
+    let animalucci = localStorage.getItem('animali')
+    if (animalucci) {
+      this.myAnimals=JSON.parse(animalucci)
+      console.log(this.myAnimals)
+    } else this.myAnimals=[]
   }
 
   search(animal:string) {
@@ -47,20 +50,3 @@ export class CuriosityComponent  {
 
 }
 
-/*
-<li> <strong>Prey:</strong> {{animal.characteristics.prey}}</li>
-                    <li> <strong>Name of young:</strong> {{animal.characteristics.name_of_young}}</li>
-                    <li> <strong>Group Behavior:</strong> {{animal.characteristics.group_behavior}}</li>
-                    <li><strong>Estimated Population Size:</strong>  {{animal.characteristics.estimated_population_size}}</li>
-                    <li><strong>Biggest Threat: </strong>{{animal.characteristics.biggest_threat}}</li>
-                    <li><strong>Most Distinctive Feature:</strong> {{animal.characteristics.most_distinctive_feature}}</li>
-
-
-                    <li> <strong>Kingdom:</strong> {{animal.taxonomy.kingdom}}</li>
-                    <li> <strong>Phylum:</strong> {{animal.taxonomy.phylum}}</li>
-                    <li> <strong>Class:</strong> {{animal.taxonomy.class}}</li>
-                    <li><strong>Order:</strong>  {{animal.taxonomy.order}}</li>
-                    <li><strong>Family: </strong>{{animal.taxonomy.family}}</li>
-                    <li><strong>Genus:</strong> {{animal.taxonomy.genus}}</li>
-                    <li><strong>Scientific name:</strong> {{animal.taxonomy.scientific_name}}</li>
-*/

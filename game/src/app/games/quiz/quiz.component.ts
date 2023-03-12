@@ -2,6 +2,7 @@ import { Component, NgModule, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-quiz',
@@ -20,11 +21,21 @@ export class QuizComponent implements OnInit {
   private families: string[]
   public registered: boolean
 
+  public punteggi: any[]
+  public fetched:boolean
+  public game_name:string
+  localStorage: Storage;
+
   constructor(
     private http: HttpClient, 
     private modalService: NgbModal,
-    public authservice:AuthService
+    public authService:AuthService,
+    private router: Router
     ) { 
+    this.punteggi=[]  
+    this.fetched=false
+    this.localStorage=window.localStorage
+    this.game_name=''  
     this.registered=false
     this.started=false
     this.score=0
@@ -40,6 +51,7 @@ export class QuizComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.get_scores()
   }
 
   public start(animal:string) {
@@ -123,7 +135,7 @@ export class QuizComponent implements OnInit {
     return this.shuffleAnswers(possibleAnswers);
 }
 
-private chooseRandomElements(correctAnswer: string, type:string): string[] {
+  private chooseRandomElements(correctAnswer: string, type:string): string[] {
     let all_answers: string[] = [];
     switch(type){
       case 'Locations':
@@ -295,46 +307,76 @@ private chooseRandomElements(correctAnswer: string, type:string): string[] {
 		this.modalService.open(content, { centered: true });
 	}
 
-  public register_score(username:string,score:number) {
-    console.log(username, score)
+  public register_score(username:any,score:number) {
+
+    //let utente=localStorage.getItem('utente')
+    console.log('username', username)
+    console.log('score', score)
+    
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    this.http.post<any>('http://localhost:4000/api/giocatore/create', 
+    {nome:username, punteggio:score}, httpOptions)
+      .subscribe(response => {
+        // Handle successful response from the server here
+        
+        console.log(response)
+      }, error => {
+        
+        console.error(error);
+      });
+      this.router.navigate(['/games'])
+
+  }
+  public register_score1(score:number) {
+
+    console.log("ao")
+    let utente=localStorage.getItem('utente')
+    console.log('username', utente)
+    console.log('score', score)
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    this.http.post<any>('http://localhost:4000/api/giocatore/create', 
+    {nome:utente, punteggio:score}, httpOptions)
+      .subscribe(response => {
+        // Handle successful response from the server here
+        
+        console.log(response)
+      }, error => {
+        
+        console.error(error);
+      });
+      this.router.navigate(['/games'])
+  }
+
+  private get_scores() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    this.http.post<any>('http://localhost:4000/api/giocatore/', 
+    {}, httpOptions)
+      .subscribe(response => {
+        // Handle successful response from the server here
+        this.punteggi=response.data
+        this.fetched=true
+        console.log(response)
+      }, error => {
+        
+        console.error(error);
+      });
+      
   }
   
 
 }
-
-
-/*
-<div class="game" *ngIf="questions">
-      <div class="question_block" *ngFor="let domanda of questions; let i = index">
-        <h4 class="question">{{domanda.question}}</h4>
-        <div class="risposte row ">
-          <div class="col-md-6 col-sm-12" *ngFor="let risp of domanda.all_answers">
-            <div class="form-check " >
-                <input 
-                    class="risposta_input" 
-                    type="button" 
-                    [name]="'question-' + i" 
-                    [value]="risp" 
-                    [ngClass]="{'selected-yellow': domanda.selectedAnswer == risp}"
-                    (click)="domanda.selectedAnswer = risp; checkAnswers(domanda, risp)"
-                >
-            </div>
-          </div>
-        </div>
-      </div>
-      <button class="btn btn-secondary start_button" *ngIf="started" (click)="submit();openVerticallyCentered(content) ">Submit</button>
-      <ng-template #content let-modal>
-        <div class="modal-header">
-            <h4 class="modal-title">A Grandeee!!!</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-        </div>
-        <div class="modal-body">
-            <p>hai fatto: {{score}} punti.... disgraziato</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-        </div>
-      </ng-template>
-      
-    </div>
-*/
+// post localhost/api/giocatore/
+//post localhost/api/giocatore/create nome:str, punteggio:number

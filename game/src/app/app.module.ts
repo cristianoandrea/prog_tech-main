@@ -25,6 +25,7 @@ import { AuthService } from './auth.service';
 import { ServizioComponent } from './pages/servizio/servizio.component';
 import { ImagesComponent } from './games/images/images.component';
 import { CommunityComponent } from './pages/community/community.component';
+import { YoutubeComponent } from './pages/youtube/youtube.component';
 
 //import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -49,6 +50,7 @@ import { CommunityComponent } from './pages/community/community.component';
     ServizioComponent,
     ImagesComponent,
     CommunityComponent,
+    YoutubeComponent,
 
   ],
   imports: [

@@ -9,7 +9,7 @@ export interface Slide {
   img: string;
   href: string;
   alt: string;
-  href_img:string;
+  
 }
 
 

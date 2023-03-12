@@ -1,6 +1,11 @@
 h1{
     font-family: 'Montserrat', sans-serif;;
 }
-p{
+h4{
     font-family: 'Signika', sans-serif;
 }
+
+.color{
+    background-color: #5e30b8;
+    color: white
+  }

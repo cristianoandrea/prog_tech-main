@@ -79,73 +79,106 @@ let profilo={
   ]
 }
 
-const CardAcquisto = ({item}) =>{
+const CardAcquisto = ({item,quantity,data_acquisto}) =>{
 
   const link="item/prodotti/" + item.id
-
-
+ 
 
   return(
-    <Card
-    variant="outlined"
-    orientation="horizontal"
-    sx={{
-      width: 320,
-      gap: 2,
-      '&:hover': { boxShadow: 'md', borderColor: 'neutral.outlinedHoverBorder' },
-    }}
-  > 
-      <AspectRatio ratio="1" sx={{ width: 90 }}>
-      <img
-        src="item.img"
-        srcSet="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90&dpr=2 2x"
-        loading="lazy"
-        alt="item.alt"
-      />
-      </AspectRatio>
-    <div>
-      <a href={link} >
+    
 
-        <Typography level="h2" fontSize="lg" id="card-description" mb={0.5}>
-          {item.name}
-        </Typography>
-      </a>
-      <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
-        {formatCurrency(item.prezzo)} , x {item.quantity}
-      </Typography>
-      <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
-        Data di Acquisto:{item.data_acquisto}
-      </Typography>
-      <Chip
+        <Card
         variant="outlined"
-        color="primary"
-        size="sm"
-        sx={{ pointerEvents: 'none' }}
+        orientation="horizontal"
+        sx={{
+          width: 320,
+          gap: 2,
+          '&:hover': { boxShadow: 'md', borderColor: 'neutral.outlinedHoverBorder' },
+        }}
       >
-        Animali: {item.animali}
-      </Chip>
-      <Chip
-        variant="outlined"
-        color="primary"
-        size="sm"
-        sx={{ pointerEvents: 'none' }}
-      >
-        Tag: {item.tag}
-      </Chip>
-
-    </div>
-  </Card>
-  )
+          <AspectRatio ratio="1" sx={{ width: 90 }}>
+          <img
+            src="item.img"
+            srcSet="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90&dpr=2 2x"
+            loading="lazy"
+            alt="item.alt"
+          />
+          </AspectRatio>
+        <div>
+          <a href={link} >
+    
+            <Typography level="h2" fontSize="lg" id="card-description" mb={0.5}>
+              {item.nome}
+            </Typography>
+          </a>
+          <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
+            {formatCurrency(item.prezzo)} , x {quantity}
+          </Typography>
+          <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
+            Data di Acquisto:{data_acquisto}
+          </Typography>
+          <Chip
+            variant="outlined"
+            color="primary"
+            size="sm"
+            sx={{ pointerEvents: 'none' }}
+          >
+            Animali: {item.animale}
+          </Chip>
+          <Chip
+            variant="outlined"
+            color="primary"
+            size="sm"
+            sx={{ pointerEvents: 'none' }}
+          >
+            Tag: {item.tag}
+          </Chip>
+    
+        </div>
+      </Card>
+      )
+ 
+  
 }
 
-const CardServizio = ({item}) =>{
+const CardServizio = ({item,dataAcquisto,datafin,datainiz}) =>{
+  console.log(datainiz)
+  const match = datainiz.match(/^(\d{4})-(\d{2})-(\d{2})-(\d{2})-(\d{2}):(\d{2})\.\d{3}\+(\d{2}):(\d{2})$/);
+const date = new Date(Date.UTC(
+  parseInt(match[1]), // year
+  parseInt(match[2]) - 1, // month (zero-based)
+  parseInt(match[3]), // day
+  parseInt(match[4]), // hour
+  parseInt(match[5]), // minute
+  parseInt(match[6]), // second
+));
 
-  const link="item/prodotti/" + item.id
+  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+  let formatteEndDate
+  const formattedStartdDate = date.toLocaleDateString("it-IT", options);
+  console.log(date,formattedStartdDate, "/////")
+  
+  if(datafin){
+    const match = datafin.match(/^(\d{4})-(\d{2})-(\d{2})-(\d{2})-(\d{2}):(\d{2})\.\d{3}\+(\d{2}):(\d{2})$/);
+const date = new Date(Date.UTC(
+  parseInt(match[1]), // year
+  parseInt(match[2]) - 1, // month (zero-based)
+  parseInt(match[3]), // day
+  parseInt(match[4]), // hour
+  parseInt(match[5]), // minute
+  parseInt(match[6]), // second
+));
+    const EndDate = date.toLocaleDateString("it-IT", options);
+    formatteEndDate = EndDate
+  }
 
-  let lungo=true
-  if (item.data_fine=="") lungo=false
+  const link="item/prodotti/" + item._id
+
+  let lungo=false
+  if (item.tipo === "Dogsitting") lungo=true
 
   return(
+
     <Card
     variant="outlined"
     orientation="horizontal"
@@ -160,28 +193,38 @@ const CardServizio = ({item}) =>{
       <a href={link} >
 
         <Typography level="h2" fontSize="lg" id="card-description" mb={0.5}>
-          {item.nome_struttura} ,  {item.citta}
+          {item.nome_struttura.nome} ,  {item.luogo}
         </Typography>
       </a>
         <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
-        Tipologia di servizio:  {item.servizio}
+        Tipologia di servizio:  {item.tipo}
       </Typography>
       <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
-        Data : {
-          lungo ?
-          <>{item.data_inizio} - {item.data_fine}</>
-          :
-          <>
-          {item.data_inizio} 
-          </>
-        }
+        Data di acquisto:  {dataAcquisto}
       </Typography>
+      {lungo?
+     <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
+      
+        Prenotato dal : 
+          <>{formattedStartdDate} al {formatteEndDate}</>
+         
+      </Typography>
+      :
+      <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
+      
+        Data : 
+          <>{formattedStartdDate}</>
+         
+      </Typography>
+      }
+
+      {/*
       <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
         Dottore/modalità servizio:  {item.qualita_servizio}
       </Typography>
       <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
         Spesa: {formatCurrency(item.spesa_totale)} 
-      </Typography>
+      </Typography> */}
       
 
     </div>
@@ -192,17 +235,88 @@ const CardServizio = ({item}) =>{
 
 const UserProfile = () => {
 
- 
-
+  const [data,setData] = useState([])
+  const {user} = useAuthContext()
+  const [index, setIndex] = useState(0);
   const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [name, setName] = useState('');
   const [cognome, setCognome] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState()
+  const [animale, setAnimale] = useState('');
+
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const birth = user.nascita
+  console.log(birth)
+  const dateArray = birth.split(" ");
+const dateWithoutTimeZone = dateArray.slice(0, 5).join(" ");
+  const timestamp = Date.parse(dateWithoutTimeZone);
+  //compare con un ora in piu
+  const nascita = new Date(timestamp)
+  const birtDate = nascita.toLocaleDateString("it-IT", options);
+  console.log(birtDate)
+
+
+  const [dataServizio, setDataServizio] = useState([])
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    if(user.prodotti){
+    console.log('getting products')
+  
+    const ids = []
+    user.prodotti.map(item => { ids.push(item.numId) })
+    console.log(ids)
+  
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/item/filter/myProducts', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ ids }),
+        })
+        const items = await response.json()
+        console.log(items)
+        setData(items)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchData()
+  }
+  if(user.servizi){
+    const Serviceids = []
+    user.servizi.map(item => { Serviceids.push(item.numId) })
+    console.log(Serviceids)
+  
+    const fetchDataService = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/service/getMore', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ Serviceids }),
+
+        })
+        const items = await response.json()
+        console.log(items)
+        setDataServizio(items)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchDataService()
+  }  
+    
+  }, [])
+  
+
+
+
 
   const handleSubmit = async (event) => {
     console.log(name, cognome, email);
@@ -211,7 +325,7 @@ const UserProfile = () => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({name,cognome,email,user}),
+        body: JSON.stringify({name,cognome,email,user,animale})
     })  
     const newUser = await response.json()
     console.log(newUser)
@@ -219,19 +333,16 @@ const UserProfile = () => {
     window.location.reload(false);  
   };
    
-    const {user} = useAuthContext()
 
-    const [index, setIndex] = useState(0);
-
-    const[isOpen, setIsOpen] = useState(false)
+  const[isOpen, setIsOpen] = useState(false)
  
-    const toggle = ()=> {
-        setIsOpen(!isOpen)
-    }
+  const toggle = ()=> {
+      setIsOpen(!isOpen)
+  }
 
    return(
     <div>
-    <Sidebar isOpen={isOpen} toggle={toggle}/>
+   <Sidebar isOpen={isOpen} toggle={toggle}/>
     <Navbar toggle={toggle}/>
     <Box sx={{
       margin:"40px",
@@ -336,12 +447,12 @@ const UserProfile = () => {
               <ul>
                 <li><strong>Nome: </strong>{user.name}</li>
                 <li><strong>Cognome: </strong>{user.cognome}</li>
-                <li><strong>Data di nascita: </strong>{user.dataNascita}</li>
+                <li><strong>Data di nascita: </strong>{birtDate}</li>
                 <li><strong>Sesso: </strong>{user.sesso}</li>
                 <li>
-                  <strong>Animali preferiti:</strong>
+                  <strong>Animale preferito:</strong>
                   <ul>
-                    {profilo.animali_preferiti.map(animal => <li key={animal}>{animal}</li>)}
+                    {user.animale}
                   </ul>
                 </li>
                 <li><strong>Email: </strong>{user.email}</li>
@@ -381,6 +492,12 @@ const UserProfile = () => {
             onChange={(e) => setCognome(e.target.value)} 
             value={cognome} 
           />
+           <label>Animale</label>
+           <input 
+            type="animale" 
+            onChange={(e) => setAnimale(e.target.value)} 
+            value={animale} 
+          />
           </form>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -399,14 +516,17 @@ const UserProfile = () => {
             
               <h3>I miei acquisti:</h3>
               <Box sx={{ display: 'flex', flexDirection: {md:'row', sx:'column'}, alignItems: 'center', gap: '16px' }}>
-
               {
-                profilo.acquisti.map((acquisto)=>{
-                  return(
-                    <CardAcquisto item={acquisto}  />
-                  )
-                })
-              }
+             data.map((item,index)=>{
+              const { quantità, dataAcquisto } = user.prodotti[index];
+                return(
+                  <CardAcquisto item={item} quantity={quantità} data_acquisto={dataAcquisto} />
+                )
+
+              })
+            }
+             
+
               </Box>
             
           </TabPanel>
@@ -416,9 +536,12 @@ const UserProfile = () => {
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '16px' }}>
 
             {
-              profilo.prenotazioni.map((service)=>{
+              dataServizio.map((service,index)=>{
+                console.log(user.servizi[index])
+                const { datainiz, datafin, dataAcquisto } = user.servizi[index];
+
                 return(
-                  <CardServizio item={service}  />
+                  <CardServizio item={service} dataAcquisto={dataAcquisto} datafin={datafin} datainiz={datainiz} />
                 )
               })
             }

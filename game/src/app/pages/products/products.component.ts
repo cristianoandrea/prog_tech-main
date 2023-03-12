@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Card } from 'src/app/card/card.component';
 
@@ -9,12 +9,59 @@ import { Card } from 'src/app/card/card.component';
 })
 export class ProductsComponent implements OnInit {
 
-  public products: Card[]
-  public prod_accessory: Card[]
-  public prod_food: Card[]
+  public products: any
+  public prod_accessory: any
+  public prod_food: any
 
   constructor(private http: HttpClient) {
-    this.products=[
+    this.products=[]
+    this.prod_accessory=[]
+    this.prod_food=[]
+   }
+
+  ngOnInit(): void {
+
+    this.searchItems()
+  }  
+
+  searchItems(): any {
+    
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    //cibi, giochi, accessori, 
+    this.http.post<any>('http://localhost:4000/api/item/filter/tipo',
+    { tag: 'accessori' }, httpOptions)
+    .subscribe((res)=>{
+      
+      this.prod_accessory=res
+
+      console.log(res)
+    },error => {
+      console.error(error);
+    });
+
+    this.http.post<any>('http://localhost:4000/api/item/filter/tipo',
+    { tag: 'cibi' }, httpOptions)
+    .subscribe((res)=>{
+      
+      this.prod_food=res
+
+      console.log(res)
+    },error => {
+      console.error(error);
+    });
+  }
+
+  //l'idea è di fare varie funzioni con api call al backend per 
+  //creare vari array ognuno con un tipo di prodotti: cani, gatti ecc...
+
+}
+
+/*
+this.products=[
       {
         p: "Delicious and nutritious, our grass-fed beef is packed with protein and healthy fats.",
         h1: "Grass-Fed Beef",
@@ -74,31 +121,4 @@ export class ProductsComponent implements OnInit {
 
     ]
 
-    this.prod_accessory=[]
-    this.prod_food=[]
-   }
-
-  ngOnInit(): void {
-
-    this.searchItems('accessories').subscribe((result:any) => {
-      this.prod_accessory=result
-      console.log(result);
-    });
-
-    //inserisci indirizzo giusto
-    this.searchItems('food').subscribe((result: any) => {
-      this.prod_food=result
-      console.log(result);
-    });
-  }
-
-  searchItems(searchTerm: string): any {
-    const url = 'http://localhost:4000/api/item/filtro/tipo';
-    const data = { tag: searchTerm };
-    return this.http.post<any>(url, data);
-  }
-
-  //l'idea è di fare varie funzioni con api call al backend per 
-  //creare vari array ognuno con un tipo di prodotti: cani, gatti ecc...
-
-}
+*/

@@ -1,13 +1,13 @@
-<form #signupForm="ngForm" (ngSubmit)="signup(name, surname, email, password, sex, birthdate, [selectedAnimals])">
+<form #signupForm="ngForm" (ngSubmit)="signup(name, surname, email, password, sex, birthdate, selectedAnimals)">
     <h2>Registrati!</h2>
 
     <div class="form-group">
-        <label for="username">Nome:</label>
+        <label for="username">Name:</label>
         <input type="text" id="name" name="name" [(ngModel)]="name" class="form-control" required>
     </div>
     
     <div class="form-group">
-      <label for="surname">Cognome:</label>
+      <label for="surname">Surname:</label>
       <input type="text" id="surname" name="surname" [(ngModel)]="surname" class="form-control" required>
     </div>
   
@@ -22,27 +22,27 @@
     </div>
   
     <div class="form-group">
-      <label for="sex">Sesso:</label>
+      <label for="sex">Sex:</label>
       <select id="sex" name="sex" class="form-control" [(ngModel)]="sex" required>
-        <option value="" disabled selected>Seleziona il tuo sesso</option>
-        <option value="maschio">Maschio</option>
-        <option value="femmina">Femmina</option>
-        <option value="altro">Altro</option>
+        <option value="" disabled selected>Select you sex</option>
+        <option value="maschio">Male</option>
+        <option value="femmina">Female</option>
+        <option value="altro">Other</option>
       </select>
     </div>
   
     <div class="form-group">
-      <label for="birthdate">Data di nascita:</label>
+      <label for="birthdate">Birthdate:</label>
       <input type="date" id="birthdate" name="birthdate" [(ngModel)]="birthdate" class="form-control" required>
     </div>
   
     <div class="form-group">
-      <label for="animals">Animali preferiti:</label>
+      <label for="animals">Favourite animal:</label>
       <select id="animals" name="animals" class="form-control" [(ngModel)]="selectedAnimals" >
         <option *ngFor="let animal of animals" [value]="animal">{{animal}}</option>
       </select>
     </div>
   
-    <button type="submit" class="btn color">Registrati</button>
-    <h6> Sei già registrato? <span><a href="/login" class="btn color" >Login</a></span></h6>
+    <button type="submit" class="btn color">Sign uo</button>
+    <h6> Already signed up? <span><a href="/login" class="btn color" >Login</a></span></h6>
   </form>

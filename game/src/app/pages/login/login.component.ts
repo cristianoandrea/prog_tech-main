@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class LoginComponent implements OnInit {
   username: string;
   password: string; // add this line
   loggato:boolean
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     this.loggato=false
     this.password=''
     this.username=''
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
   login(username:string, password:string) {
     console.log(username, password)
     if(this.authService.login(username, password)){ 
-     this.loggato=true
+      
+      this.loggato=true
     }
   }
 

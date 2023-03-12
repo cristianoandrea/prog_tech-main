@@ -15,6 +15,7 @@ export class CommunityComponent implements OnInit {
   name: string;
   sex: string;
   age: number;
+  description:string;
   medicalConditions: string;
   error:any=null
 
@@ -26,10 +27,11 @@ export class CommunityComponent implements OnInit {
     this.species='';
     this.name='';
     this.sex='';
+    this.description=''
     this.pets=[]
 
   }
-
+  //fai per bene la chiamata
   ngOnInit(): void {
     //this.loading = true;
     this.http.post<any>('http://localhost:4000/api/note/', {})
@@ -45,31 +47,48 @@ export class CommunityComponent implements OnInit {
       );
   }
 
-  onSubmit(username:string, species:string, name:string, sex:string, age:number, medicalConditions:string) {
+  onSubmit(username:string| null, species:string, name:string, sex:string, age:number, description:string, medicalConditions:string) {
     
-    if(this.authservice.isLoggedIn==true) username=this.authservice.active_user.name
+    if(this.authservice.isLoggedIn) username=localStorage.getItem('utente')
+    //per aggiungere vari animali al localstorage: li prendo
+    let animals=localStorage.getItem('animali')
+    //creo un nuovo array dove metterli
+    let animali: string[] = [];
+    if (animals !== null) {
+      animali = JSON.parse(animals);
+    }
+    animali.push(species)
+    console.log("animali", animali)
+    let jsonAnimali=JSON.stringify(animali)
+    localStorage.setItem('animali', jsonAnimali)
 
+      //animali.forEach((animal: any) => console.log(animal));
+    
+    //let animali1 = ['dog', 'cat']
+    //let ao = localStorage.getItem('animali')
+    
+    
+    //console.log(ao)
+    //localStorage.setItem('animali', 'dog')
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-
+    let new_pet ={
+      user:username,specie:species, nome: name, sesso:sex, eta:age, medic:medicalConditions
+    }
     this.http.post<any>('http://localhost:4000/api/note/', 
     {username, species, name, sex, age, medicalConditions }, httpOptions)
       .subscribe(response => {
-        
-        let new_pet ={
-          user:username,specie:species, nome: name, sesso:sex, eta:age, medic:medicalConditions
-        }
-        this.pets.push(new_pet)
         console.log(new_pet)
         console.log("successo! ",response)
       }, error => {
         this.error=error
         console.error(error);
       });
-      
+      this.pets.push(new_pet)
+      console.log(this.pets)
       
    console.log(username, species, name, sex, medicalConditions,age )
   }

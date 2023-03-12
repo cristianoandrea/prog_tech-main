@@ -1,0 +1,37 @@
+<div class="container">
+    <h1 class="text-center mb-5">Search YouTube Videos</h1>
+  
+    <div class="row">
+      <div class="col-12 col-md-8 offset-md-2">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Enter search term" [(ngModel)]="searchTerm" (keyup.enter)="searchVideos()">
+          <button class="btn btn-outline-secondary" type="button" (click)="searchVideos()">Search</button>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row" *ngIf="videos.length > 0">
+      <div class="col-12">
+        <h2 class="mb-3">Results:</h2>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4 mb-4" *ngFor="let video of videos">
+        <div class="card">
+          <a [href]="'https://www.youtube.com/watch?v=' + video.id.videoId" target="_blank">
+            <img [src]="video.snippet.thumbnails.medium.url" class="card-img-top" alt="{{ video.snippet.title }}">
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">{{ video.snippet.title }}</h5>
+            <p class="card-text">{{ video.snippet.description }}</p>
+            <a [href]="'https://www.youtube.com/watch?v=' + video.id.videoId" target="_blank" class="btn btn-primary">Guardalo su Youtube!</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row" *ngIf="videos.length === 0">
+      <div class="col-12">
+        <p>No videos found.</p>
+      </div>
+    </div>
+  </div>
+  

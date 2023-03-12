@@ -1,15 +1,17 @@
 <div class="container font">
-    <h1>Curiosità sui tuoi animali preferiti</h1>
+    <h1>Facts and curiosities about your favorite animals</h1>
     
 
     <div class="input-group mb-3">
         <input class="form-control testo" [(ngModel)]="name" placeholder="Enter animal name">
         <button class="btn btn-secondary" (click)="search(name)">Search</button>
     </div>
-
-    <div *ngIf="my_animals" id="own_pets">
-        <button *ngFor="let pet of this.my_animals" class="btn btn-secondary" (click)="search(pet)">{{pet}}</button>
+    <div>
+        <p>My pets:</p>
+        <div *ngFor="let pet of myAnimals"> <button class="btn color" (click)="search(pet)">{{pet}}</button> </div>
     </div>
+
+    
 
     <div *ngIf="animalInfo">
         <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" *ngFor="let animal of this.animalInfo">

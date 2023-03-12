@@ -1,4 +1,5 @@
 import { Component, OnInit, Input} from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-infocards',
@@ -15,7 +16,7 @@ export class InfocardsComponent implements OnInit {
   @Input() photoRight:boolean|undefined;
    
   
-  constructor() { 
+  constructor(private authservice:AuthService) { 
     
   }
 

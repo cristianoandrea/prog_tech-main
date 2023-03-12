@@ -11,6 +11,8 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { ServizioComponent } from './pages/servizio/servizio.component';
 import { ImagesComponent } from './games/images/images.component';
 import { CommunityComponent } from './pages/community/community.component';
+import { AuthService } from './auth.service';
+import { YoutubeComponent } from './pages/youtube/youtube.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent},
@@ -21,16 +23,19 @@ const routes: Routes = [
   { path: "products", component: ProductsComponent},
   { path: "services", component: ServicesComponent},
   { path: "community", component: CommunityComponent},
+  { path: "youtube", component: YoutubeComponent},
   { path: "login", component: LoginComponent},
   { path: "signup", component: SignupComponent},
   { path: "services/veterinarian", component: ServizioComponent, data: {servizioType: 'veterinario'}},
   { path: "services/dogsitting", component: ServizioComponent, data: {servizioType: 'dogsitter'}},
-  { path: "services/toelettatura", component: ServizioComponent, data: {servizioType: 'toelettatura'}},
-  { path: "services/psicologo", component: ServizioComponent, data: {servizioType: 'psicologo'}},
+  { path: "services/grooming", component: ServizioComponent, data: {servizioType: 'toelettatura'}},
+  { path: "services/psychologist", component: ServizioComponent, data: {servizioType: 'psicologo'}},
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+  constructor(private authservice: AuthService){}
+ }

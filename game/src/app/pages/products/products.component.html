@@ -3,21 +3,48 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <h1>Scopri tutti i nostri MAGNIFICI prodotti!!!</h1>
-      <h3>Prodotti Sanitari</h3>
-      <p>Una selezione Sensazionale!</p>
+      <h1>Take a look at out INCREDIBLE selection of products!</h1>
+      <h3>Accessories</h3>
+      <p>The finest of the finest selections:</p>
     </div>
   </div>
-  <div class="row justify-content-center">
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-3" *ngFor="let product of products">
-        <app-card [card]="product"></app-card>
+  <div>
+    
+
+  </div>
+  <div class="row justify-content-center" *ngIf="this.products !=[]">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-3" *ngFor="let card of prod_accessory">
+        
+
+        <div class="card" style="width: 18rem;">
+          <img src={{card.image?.path}} class="card-img-top" alt={{card?.image.alt}}>
+          <div class="card-body">
+            <h5 class="card-title">{{ card?.nome }}</h5>
+            <p class="card-text">{{ card?.descrizione }}</p>
+            <a href="/localhost:4000/store/products + {{card?._id}}" class="btn color">Acquista Ora!</a>
+          </div>
+        </div>
+        
     </div>
   </div>
   <br>
-  <h2>Prodotti Sanitari</h2>
   <div class="row justify-content-center">
-    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-3" *ngFor="let product of products">
-      <app-card [card]="product"></app-card>
+    <div class="col-md-8">
+      
+      <h3>Food</h3>
+      <p>Your pet needs delicacies, look no further:</p>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-3" *ngFor="let card of prod_food">
+      <div class="card" style="width: 18rem;">
+        <img src={{card.image?.path}} class="card-img-top" alt={{card?.image.alt}}>
+        <div class="card-body">
+          <h5 class="card-title">{{ card?.nome }}</h5>
+          <p class="card-text">{{ card?.descrizione }}</p>
+          <a href="/localhost:4000/store/products + {{card?._id}}" class="btn color">Acquista Ora!</a>
+        </div>
+      </div>
   </div>
 </div>
 </div>

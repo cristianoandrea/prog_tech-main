@@ -1,10 +1,35 @@
 <div class="tot">
     <h1>Who wants to be a good boi</h1>
-    <h4 *ngIf="!started">Choose which animal you want questions about</h4>
+
+    <div *ngIf="!started">
+      <h4 >Choose which animal you want questions about</h4>
+      <input class="form-control testo"  [(ngModel)]="name" placeholder="Enter animal name">
+      <button class="btn btn-secondary start_button" *ngIf="!started" (click)="start(name)">Inizia</button>
+      <br>
+      <div *ngIf="fetched" class="d-flex justify-content-center">
+        <div class="col-md-8">
+          <h4>Top Scorers:</h4>
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-center">Nome</th>
+                <th class="text-center">Punteggio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let res of punteggi">
+                <td>{{ res.nome }}</td>
+                <td>{{ res.punteggio }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+    </div>
+
     
-    <input class="form-control testo" *ngIf="!started" [(ngModel)]="name" placeholder="Enter animal name">
   
-    <button class="btn btn-secondary start_button" *ngIf="!started" (click)="start(name)">Inizia</button>
     <div class="game" *ngIf="questions">
       <div class="question_block" *ngFor="let domanda of questions; let i = index">
         <h4 class="question">{{domanda.question}}</h4>
@@ -31,16 +56,14 @@
         </div>
         <div class="modal-body">
             <p>Hai fatto: <strong> {{score}} </strong>punti!</p>
-            <form onsubmit="register_score(score, name)" *ngIf="!this.authservice.isLoggedIn">
-
-      
+            <form (submit)="this.register_score( game_name, score)"*ngIf="!(authService.isLoggedIn | async)">
               <div class="input_score">
-                <input class="form-control testo" type="text" placeholder="Il tuo nome" name="game_name">
-                <button class="btn color">Registra il tuo punteggio!</button>
+                <input class="form-control testo" type="text" placeholder="Il tuo nome" name="game_name" [(ngModel)]="game_name">
+                <button type="submit" class="btn color">Registra il tuo punteggio!</button>
             </div>
             </form>
-            <form *ngIf="this.authservice.isLoggedIn" onsubmit="register_score(this.authservice.active_user.name, score)">
-              <button class="btn color">Registra il tuo punteggio!</button>
+            <form *ngIf="authService.isLoggedIn | async" (submit)="this.register_score1(score)">
+              <button type="submit" class="btn color">Registra il tuo punteggio!</button>
             </form>
         </div>
         <div class="modal-footer">

@@ -2,12 +2,20 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <h1>{{servizio.titolo}}</h1>
-      <p>{{servizio.p}}</p>
+      <h4>{{servizio.p}}</h4>
     </div>
   </div>
-  <div class="row justify-content-center">
+  <div class="row justify-content-center" *ngIf="this.cards !=[]">
       <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-3" *ngFor="let card of cards">
-        <app-card [card]="card"></app-card>
+        
+        <div class="card" style="width: 18rem;">
+          <img src={{card.img}} class="card-img-top" alt={{card.name}}>
+          <div class="card-body">
+            <h5 class="card-title">{{card.name}}</h5>
+            <p class="card-text"></p>
+            <a href="http://localhost:3000/presenza" class="btn color">Scopri ora!</a>
+          </div>
+        </div>
     </div>
   </div>
 </div>

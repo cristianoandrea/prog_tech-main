@@ -14,40 +14,40 @@ export class HomeComponent implements OnInit {
 
   constructor() {
     this.info1={
-      h1: "Servizi in presenza",
-      p: "Scopri tutti i servizi per prenderti cura al meglio del tuo cucciolo!",
-      button:"Scopri ora",
+      h1: "Services",
+      p: "Find out the best treatment for your beloved pet!",
+      button:"Click here",
       href:'/services',
-      href_img:'https://postimg.cc/ns5s5pmt',
+      
       img:'https://i.postimg.cc/d3wV95x0/cane-cappello.jpg',
-      alt:'cane con cappello'
+      alt:'dog with hat'
     }
     this.info2={
-      h1: "Prodotti",
-      p: "Visita il nostro elenco di prodotti per ogni tipo di esigenza!",
-      button: "Scopri ora",
+      h1: "Products",
+      p: "Take a look at out endless catalogue for all your needs!",
+      button: "Click here",
       href:'/products',
-      href_img:'https://postimg.cc/ns5s5pmt',
+      
       img:'https://i.postimg.cc/MZDNszPD/gorilla.jpg',
-      alt:'gorilla maleducato'
+      alt:'gorilla'
     }
     this.slides=[
       {
-        h1: "Giochi",
-        p: "Scopri il nostro quiz o genera immagini di cuccioli",
-        button: "Clicca qui",
+        h1: "Games",
+        p: "Look at our great selection of interactive activities!",
+        button: "Click here",
         img:'https://i.postimg.cc/XJNwrv7X/slide1.jpg',
-        href_img: 'https://postimg.cc/ns5s5pmt',
-        alt: "uomo che tiene lucertola",
+        
+        alt: "man holding lizard",
         href:'/games',
       },
       {
-        h1: "Curiosità",
-        p: "Visita il nostro archivio di curiosità sul mondo animale",
-        button: "Clicca qui",
+        h1: "Curiosities",
+        p: "Take a look at our deep archive of facts and curiosities",
+        button: "Click here",
         img:'https://i.postimg.cc/QCJHL2T5/slide2.jpg',
-        href_img: 'https://postimg.cc/ns5s5pmt',
-        alt: "nonnina gatto",
+        
+        alt: "granny with cat",
         href:'/curiosity',
       },
       

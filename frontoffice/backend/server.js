@@ -9,11 +9,14 @@ const itemRoutes = require('./routes/item')
 const serviceRoutes = require('./routes/service')
 const noteRoutes = require('./routes/note')
 const cityRoutes = require('./routes/city')
+const giocatoreRoutes = require('./routes/giocatore')
+
+
 
 const cors = require('cors')
 
 app.use(cors())
- 
+
 app.get('/', (req,res)=>{
     res.json({mssg: 'welcome' })
 })
@@ -25,6 +28,8 @@ app.use('/api/item',itemRoutes)
 app.use('/api/service',serviceRoutes)
 app.use('/api/note',noteRoutes)
 app.use('/api/city',cityRoutes)
+app.use('/api/giocatore',giocatoreRoutes)
+
 
 
 

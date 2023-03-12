@@ -1,12 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 export interface Card {
-  p: string;
-  h1: string;
-  button: string;
-  img: string;
-  alt:string
-  href: string;
+  descrizione: string;
+  nome: string;
+  prezzo: number;
+  producer:string;
+  image:{
+    path:string,
+    alt:string
+  }
+  _id:string
 }
 
 @Component({

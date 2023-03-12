@@ -1,8 +1,8 @@
 <div class="container ">
-  <h1>Bacheca eccolo qua!</h1>
-
-  <form (ngSubmit)="onSubmit(username, species, name, sex, age, medicalConditions)" >
-    <div class="form-group" *ngIf="!this.authservice.isLoggedIn">
+  <h1>Look at my pet!</h1>
+  <h4>Describe to us you beloved companion!</h4>
+  <form (ngSubmit)="onSubmit(username, species, name, sex, age,description, medicalConditions)" >
+    <div class="form-group" *ngIf="!(authservice.isLoggedIn | async)">
       <label for="species">Username</label>
       <input type="text" class="form-control" id="username" [(ngModel)]="username" name="username">
     </div>
@@ -13,12 +13,12 @@
     </div>
   
     <div class="form-group">
-      <label for="name">Name</label>
+      <label for="name">Pet Name</label>
       <input type="text" class="form-control" id="name" [(ngModel)]="name" name="name">
     </div>
   
     <div class="form-group">
-      <label for="sex">Sex</label>
+      <label for="sex">sex</label>
       <select class="form-control" id="sex" [(ngModel)]="sex" name="sex">
         <option value="male">Male</option>
         <option value="female">Female</option>
@@ -30,13 +30,18 @@
       <label for="age">Age</label>
       <input type="number" class="form-control" id="age" [(ngModel)]="age" name="age">
     </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control" id="description" [(ngModel)]="description" name="description"></textarea>
+    </div>
   
     <div class="form-group">
-      <label for="medicalConditions">Medical Conditions (if any)</label>
+      <label for="medicalConditions">Medical Conditions</label>
       <textarea class="form-control" id="medicalConditions" [(ngModel)]="medicalConditions" name="medicalConditions"></textarea>
     </div>
   
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn color">Submit</button>
   </form>
   
   
@@ -44,7 +49,7 @@
     <div class="card" *ngFor="let pet of pets">
       <div class="card-body">
         <h5 class="card-title">{{ pet.specie }} - {{ pet.nome }}</h5>
-        <h6 class="card-subtitle mb-2 ">Padrone: {{ pet.user }}</h6>
+        <h6 class="card-subtitle mb-2 ">Owner: {{ pet.user }}</h6>
         <h6 class="card-subtitle mb-2 text-muted">{{ pet.sesso }} - {{ pet.eta }} years old</h6>
         <p class="card-text">{{ pet.medic }}</p>
       </div>

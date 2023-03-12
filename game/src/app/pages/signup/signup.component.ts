@@ -34,12 +34,12 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  signup(nome: string, cognome:string, email: string, pw: string, sesso:string, data:any, animale: string[]) {
+  signup(nome: string, cognome:string, email: string, pw: string, sesso:string, data:any, animale: string) {
     let nuovo_utente:Utente={
       name: nome, email:email
     }
     console.log(nome, cognome, email, pw, sesso,data, animale)
-    //this.authService.signup(nome, cognome, email, pw, sesso, data, animale)
+    this.authService.signup(nome, cognome, email, pw, sesso, data, animale)
     //this.utente=nuovo_utente
     //this.authService.login(email, pw)
     //console.log(nuovo_utente)

@@ -1,41 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NullTemplateVisitor } from '@angular/compiler';
+import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 export type Utente={
   name: string,
   email: string,
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+
+@Injectable({ providedIn: 'root' })
 
 export class AuthService {
 
-  
-  isLoggedIn:boolean
-  active_user: Utente
-  fav_animals:string[]
-  error:any=null
-  isLoading:any
+  public loggato:boolean
+  private _isLoggedIn= new BehaviorSubject<boolean>(false)
+  isLoggedIn = this._isLoggedIn.asObservable()
 
-  constructor(private http: HttpClient) { 
-    this.isLoading=null
-    //array che in teoria si riempie dei dati di tutti gli utenti 
-     
-    this.isLoggedIn=false
-    this.active_user={
-      name: "", email: ""
-    }
-    this.fav_animals=[]
+  constructor(private http: HttpClient, private router: Router) { 
+   
+    
+    
+    this.loggato=false
+    
+    //se nel localstorage l'id è non vuoto, allora 
+    //logged id viene mezzo a true
+    const id= localStorage.getItem('id')
+    this._isLoggedIn.next(!!id)
 
   }
 
   public login(email: string, password: string): boolean {
     
-    this.isLoading=true
-    this.error=NullTemplateVisitor
+    
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -45,24 +43,24 @@ export class AuthService {
   
     this.http.post<any>('http://localhost:4000/api/user/login', { email: email, password: password }, httpOptions)
       .subscribe(response => {
-        // Handle successful response from the server here
-        this.isLoggedIn = true; 
-        this.active_user.email=response.email
-        this.active_user.name=response.name
-        console.log(response)
+        
+        this._isLoggedIn.next(true)
+        this.loggato=true
+        localStorage.setItem('utente', response.name)
+        localStorage.setItem('email', response.email)
+        console.log(response._id)
+        localStorage.setItem('id', response._id)
+        console.log(localStorage.getItem('utente'))
+        
       }, error => {
-        this.error=error
-        this.isLoading=false
         console.error(error);
       });
-  
-    return this.isLoggedIn;
+    this.router.navigate(['/'])
+    return this.loggato;
 
   }
 
-  public signup(nome: string, cognome:string, email: string, pw: string, sesso:string, data:string, animale: string[]) {
-    //email, password,name ,cognome, sesso, dataNascita, favoriteAnimal
-
+  public signup(nome: string, cognome:string, email: string, pw: string, sesso:string, data:string, animale: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -70,44 +68,32 @@ export class AuthService {
     };
 
     this.http.post<any>('http://localhost:4000/api/user/signup', 
-    {email, pw, nome, cognome, sesso, data, animale }, httpOptions)
+    {email:email, password:pw, name:nome, cognome:cognome, sesso:sesso,dataNascita:data, favoriteAnimal:animale }, httpOptions)
       .subscribe(response => {
         // Handle successful response from the server here
-        this.isLoggedIn = true; 
-        
+        this._isLoggedIn.next(true)
+        localStorage.setItem('utente', nome)
+        localStorage.setItem('email', email)
+        localStorage.setItem('id', response._id)
         console.log(response)
       }, error => {
-        this.error=error
-        this.isLoading=false
+        
         console.error(error);
       });
-    this.isLoggedIn = true; 
-    //this.active_user= single_user
-    //console.log(this.active_user)
+    this.router.navigate(['/'])
     
   }
 
-  logout() {
-    this.isLoggedIn = false;
-    this.active_user= {
-      name: "", email: ""
-    }
+  public logout() {
+    
+    localStorage.removeItem('utente')
+    localStorage.removeItem('email')
+    localStorage.removeItem('id')
+    this._isLoggedIn.next(false)
+    
   }
 
 }
 
 
 
-/*
-    let trovato=false
-    //per il login idealmente va fatta una chiamata al database per chiedere, dato username e pw, il resto dei dati dell'utente
-    this.users.forEach(user => {
-      if(user.username ==  username && user.password==password){
-        this.isLoggedIn = true; 
-        this.active_user= user
-        trovato=true
-        this.fav_animals=this.active_user.fav_animals
-      }
-    });
-    return trovato
-    */

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Card } from 'src/app/card/card.component';
@@ -29,35 +29,88 @@ export class ServizioComponent implements OnInit {
 
   dogsitter = {
     titolo: "Dogsitter",
-    p: "qui di seguito trovi tutte le sedi in cui operiamo. Più di 80 sedi sparse in tutta italia. Prenota ora!",
+    p: "Here you'll find all our sites scattered all over Italy!",
     api_call: ""
   };
 
   veterinario = {
-    titolo: "Veterinario",
-    p: "Una vasta selezione di sedi in città d'arte italiane tra cui scegliere per curare al meglio il tuo cucciolo",
+    titolo: "Veterinarian",
+    p: "Here you'll find all our sites scattered all over Italy!",
     api_call: ""
   };
 
   toelettatura = {
-    titolo: "Toelettatura",
-    p: "Bleah! Cosa era? Un secchio dell'immondizia o forse il tuo amato amico a n (n={2,3,4,5,6....,1000} zampe? Il mejo servizio di toelettatura in italia!",
+    titolo: "Grooming",
+    p: "Here you'll find all our sites scattered all over Italy!",
     api_call: ""
   };
 
   psicologo = {
     titolo: "Psicologo per animali",
-    p: "il tuo cucciolo è depresso? Soffre e non sai perché? Lascia che i nostri specialisti se ne prendano cura!",
+    p: "Here you'll find all our sites scattered all over Italy!",
     api_call: ""
   };
 
-  public cards: Card[]
-  public cards_servizio: Card[]
+  public cards: any
+  public cards_servizio: any
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {
      this.servizioType=''
-     this.cards_servizio=[]
-     this.cards=[
+     
+     this.cards=[]
+   }
+
+  ngOnInit(): void {
+    this.servizioType = this.route.snapshot.data['servizioType'];
+    if(this.servizioType=="veterinario") {
+      this.servizio=this.veterinario
+      this.searchItems()
+      console.log(this.cards_servizio)
+      
+    } 
+    else if(this.servizioType=="psicologo") {
+      this.servizio=this.psicologo
+      this.searchItems()
+      console.log(this.cards_servizio)
+
+    } 
+    else if(this.servizioType=="dogsitter") {
+      this.servizio=this.dogsitter
+      this.searchItems()
+      console.log(this.cards_servizio)
+    } 
+    else if(this.servizioType=="toelettatura") {
+      this.servizio=this.toelettatura
+      this.searchItems()
+      console.log(this.cards_servizio)
+    }
+  }
+
+  searchItems(): any {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    
+    this.http.post<any>('http://localhost:4000/api/city',
+    { }, httpOptions)
+    .subscribe((res)=>{
+      
+      this.cards=res.data
+
+      console.log(res)
+    },error => {
+      console.error(error);
+    });
+    
+  }
+
+}
+/*
+this.cards=[
       {
         p: ".",
         h1: "Bologna",
@@ -123,38 +176,4 @@ export class ServizioComponent implements OnInit {
         href: "https://example.com/free-range-chicken-page"
       },
      ]
-   }
-
-  ngOnInit(): void {
-    this.servizioType = this.route.snapshot.data['servizioType'];
-    if(this.servizioType=="veterinario") {
-      this.servizio=this.veterinario
-      //fai chiamata in ciascuno di questi
-      //fetch a '/localhost:4000/api/city'
-      //post a city/
-    } 
-    else if(this.servizioType=="psicologo") {
-      this.servizio=this.psicologo
-      this.cards_servizio=this.searchItems()
-      console.log(this.cards_servizio)
-
-    } 
-    else if(this.servizioType=="dogsitter") {
-      this.servizio=this.dogsitter
-      this.cards_servizio=this.searchItems()
-      console.log(this.cards_servizio)
-    } 
-    else if(this.servizioType=="toelettatura") {
-      this.servizio=this.toelettatura
-      this.cards_servizio=this.searchItems()
-      console.log(this.cards_servizio)
-    }
-  }
-
-  searchItems(): any {
-    const url = 'http://localhost:4000/api/city';
-    const data = { };
-    return this.http.post<any>(url, data);
-  }
-
-}
+*/

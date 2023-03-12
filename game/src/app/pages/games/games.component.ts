@@ -11,26 +11,36 @@ export class GamesComponent implements OnInit {
 
   public quiz:any
   public images:any
+  public youtube: any
 
   constructor() { 
     this.game_started=false
     this.quiz={
       h1: "Quiz",
-      p: "Metti alla prova le tue innate conoscenze sul mondo animale",
-      button:"Inizia ora!",
+      p: "Test you knowledge about animals",
+      button:"Start now!",
       href: '/quiz',
-      href_img:'https://postimg.cc/ns5s5pmt',
+      href_img:'/quiz',
       img:'https://i.postimg.cc/bvnw7msq/quiz.jpg',
-      alt:'quadro di scimmie che giocano ad un gioco da tavola'
+      alt:'monkeys'
     }
     this.images={
-      h1: "Generatore di immagini",
-      p: "Un generatore di immagini casuali di animali. Cosa c'è di meglio? il calcio napoli",
-      button:"Inizia ora!",
+      h1: "Image generator",
+      p: "What's better than a pet random image generator? Nothing, except SSC Napoli i suppose",
+      button:"Start now!",
       href: '/images',
-      href_img:'https://postimg.cc/ns5s5pmt',
+      href_img:'/images',
       img:'https://i.postimg.cc/Xqs5rsfT/random.png',
-      alt:'subacquei con squalo vicino'
+      alt:'shark'
+    }
+    this.youtube={
+      h1: "Videos",
+      p: "Here you'll find a selection of videos from youtube",
+      button:"Start now!",
+      href: '/youtube',
+      href_img:'/youtube',
+      img:'https://i.postimg.cc/MZDNszPD/gorilla.jpg',
+      alt:'gorilla'
     }
   }
 

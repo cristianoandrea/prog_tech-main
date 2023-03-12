@@ -1,29 +1,26 @@
-# Base image
-FROM node:14-alpine as build
+# Use the latest LTS version of Node.js as the base image
+FROM node:lts
 
 # Set the working directory
 WORKDIR /app
 
-# Copy the package.json and package-lock.json files to the container
-COPY package*.json ./
+# Copy the application files to the working directory
+COPY . /app
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application files to the container
-COPY . .
-
 # Build the application
 RUN npm run build --prod
 
-# Create a new stage with a smaller image
-FROM nginx:alpine
+# Use the nginx image as the base image for serving the application
+FROM nginx
 
-# Copy the built application files to the nginx directory
-COPY --from=build /app/dist/game /usr/share/nginx/html
+# Copy the built application files to the nginx image
+COPY --from=0 /app/dist/my-app /usr/share/nginx/html
 
-# Expose port 80
+# Expose port 80 for serving the application
 EXPOSE 80
 
-# Start nginx
+# Start the nginx server
 CMD ["nginx", "-g", "daemon off;"]

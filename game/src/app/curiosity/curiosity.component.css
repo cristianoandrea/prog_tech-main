@@ -1,9 +1,21 @@
 .font{
     align-items: center;
     line-height: 1.8;
+    font-family: 'Signika', sans-serif;
+
 }
 
 .testo{
     max-width: 600px;
     min-width: 300px;
 }
+
+.color{
+    background-color: #5e30b8;
+    color: white
+}
+
+h1{
+    font-family: 'Montserrat', sans-serif;
+}
+
