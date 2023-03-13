@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . /app
 
 # Install dependencies
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Build the application
 RUN npm run build --prod
@@ -17,7 +17,7 @@ RUN npm run build --prod
 FROM nginx
 
 # Copy the built application files to the nginx image
-COPY --from=0 /app/dist/my-app /usr/share/nginx/html
+COPY --from=0 /app/dist/game /usr/share/nginx/html
 
 # Expose port 80 for serving the application
 EXPOSE 80

@@ -28,7 +28,7 @@
 					<a class="nav-link" [routerLink]="'community'" (click)="isMenuCollapsed = true">Community</a>
 				</li>
 			</ul>
-			<a *ngIf="!(authService.isLoggedIn | async)" class="btn color" href="/login">Login</a>
+			<a *ngIf="!(authService.isLoggedIn | async)" class="btn color" [routerLink]="'login'">Login</a>
 			<button *ngIf="authService.isLoggedIn | async" (click)="this.authService.logout()" class="btn color" >Logout</button>
 		</div>
 	</div>

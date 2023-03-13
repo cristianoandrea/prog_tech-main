@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
       h1: "Services",
       p: "Find out the best treatment for your beloved pet!",
       button:"Click here",
-      href:'/services',
+      href:'services',
       
       img:'https://i.postimg.cc/d3wV95x0/cane-cappello.jpg',
       alt:'dog with hat'
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
       h1: "Products",
       p: "Take a look at out endless catalogue for all your needs!",
       button: "Click here",
-      href:'/products',
+      href:'products',
       
       img:'https://i.postimg.cc/MZDNszPD/gorilla.jpg',
       alt:'gorilla'
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
         img:'https://i.postimg.cc/XJNwrv7X/slide1.jpg',
         
         alt: "man holding lizard",
-        href:'/games',
+        href:'games',
       },
       {
         h1: "Curiosities",
@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
         img:'https://i.postimg.cc/QCJHL2T5/slide2.jpg',
         
         alt: "granny with cat",
-        href:'/curiosity',
+        href:'curiosity',
       },
       
     ]

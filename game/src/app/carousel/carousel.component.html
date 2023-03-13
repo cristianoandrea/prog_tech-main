@@ -1,13 +1,13 @@
 <ngb-carousel *ngIf="slides">
     <ng-template ngbSlide *ngFor="let slide of slides">
       <div class="ratio ratio-16x9">
-        <a href={{slide.href}} target='_blank'><img src={{slide.img}} width="100%" height="50%" alt={{slide.alt}}/></a>
+        <a [routerLink]="slide.href" target='_blank'><img src={{slide.img}} width="100%" height="50%" alt={{slide.alt}}/></a>
         
       </div>
       <div class="carousel-caption">
         <h3>{{slide.h1}}</h3>
         <p>{{slide.p}}</p>
-        <a href={{slide.href}} type="button" class="btn color">{{slide.button}}</a>
+        <a [routerLink]="slide.href" type="button" class="btn color">{{slide.button}}</a>
       </div>
     </ng-template>
   </ngb-carousel>
