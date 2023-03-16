@@ -87,48 +87,39 @@ const CardAcquisto = ({item,quantity,data_acquisto}) =>{
 }
 
 const CardComunity = ({note, punteggi}) => {
-  let tmp=false
   console.log(note, punteggi);
-  if (note==[]) tmp=true
   return (
     <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: 1200, margin: '0 auto'}}>
       <div style={{flex: 1, marginRight: '10px'}}>
-        {
-          tmp ?
-          <div>
-            <h2>Le mie note:</h2>
-            {note.notes.map((note) => {
-              return (
-                <div key={note.id}>
-                  <Card variant="outlined" sx={{ width: 320 }}>
-                    <Typography level="h2" fontSize="md" sx={{ mb: 0.5 }}>
-                      <strong>Nome:</strong> {note.nameAnimal}
-                    </Typography>
-                    <Typography level="body2">
-                      <strong>Padrone:</strong> {note.username}
-                    </Typography>
-                    <Typography level="body2">
-                      <strong>Specie:</strong> {note.species}
-                    </Typography>
-                    <Typography level="body2">
-                      <strong>Sesso:</strong> {note.sex} - <strong>Età:</strong>{' '}
-                      {note.age}
-                    </Typography>
-                    <Typography level="body1">
-                      <strong>Descrizione:</strong> {note.descrizione}
-                    </Typography>
-                    <Typography level="body1">
-                      <strong>Situazione medica:</strong>{' '}
-                      {note.medicalConditions}
-                    </Typography>
-                  </Card>
-                </div>
-              );
-            })}
-           </div>
-           :
-           '' 
-        }
+        <h2>Le mie note:</h2>
+        {note.notes.map((note) => {
+          return (
+            <div key={note.id}>
+              <Card variant="outlined" sx={{ width: 320 }}>
+                <Typography level="h2" fontSize="md" sx={{ mb: 0.5 }}>
+                  <strong>Nome:</strong> {note.nameAnimal}
+                </Typography>
+                <Typography level="body2">
+                  <strong>Padrone:</strong> {note.username}
+                </Typography>
+                <Typography level="body2">
+                  <strong>Specie:</strong> {note.species}
+                </Typography>
+                <Typography level="body2">
+                  <strong>Sesso:</strong> {note.sex} - <strong>Età:</strong>{' '}
+                  {note.age}
+                </Typography>
+                <Typography level="body1">
+                  <strong>Descrizione:</strong> {note.descrizione}
+                </Typography>
+                <Typography level="body1">
+                  <strong>Situazione medica:</strong>{' '}
+                  {note.medicalConditions}
+                </Typography>
+              </Card>
+            </div>
+          );
+        })}
       </div>
       <div style={{flex: 1, marginLeft: '10px'}}>
         <h2>I miei punteggi:</h2>
@@ -262,16 +253,13 @@ const UserProfile = () => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const birth = user.nascita
   console.log(birth)
-  if(birth){
-
-    const dateArray = birth.split(" ");
-    const dateWithoutTimeZone = dateArray.slice(0, 5).join(" ");
-    const timestamp = Date.parse(dateWithoutTimeZone);
-    //compare con un ora in piu
-    const nascita = new Date(timestamp)
-    const birtDate = nascita.toLocaleDateString("it-IT", options);
-    console.log(birtDate)
-  }const birtDate=''
+  const dateArray = birth.split(" ");
+  const dateWithoutTimeZone = dateArray.slice(0, 5).join(" ");
+  const timestamp = Date.parse(dateWithoutTimeZone);
+  //compare con un ora in piu
+  const nascita = new Date(timestamp)
+  const birtDate = nascita.toLocaleDateString("it-IT", options);
+  console.log(birtDate)
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

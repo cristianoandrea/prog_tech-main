@@ -30,7 +30,7 @@ const signupUser = async (req, res) => {
   console.log(email, password, name, cognome, sesso,dataNascita,favoriteAnimal)
   try {
     const user = await User.signup(email, password, name, cognome, sesso,dataNascita,favoriteAnimal)
-    
+    console.log("!!!!user:",user)
     // create a token
     const token = createToken(user._id)
 

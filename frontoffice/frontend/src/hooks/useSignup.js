@@ -9,6 +9,7 @@ export const useSignup = () => {
   const signup = async (email, password, name, cognome, dataNascita, sesso, favoriteAnimal) => {
     setIsLoading(true)
     setError(null)
+    //giusto
     console.log(email,password, name, cognome, dataNascita, sesso, favoriteAnimal)
     const response = await fetch('http://localhost:4000/api/user/signup', {
       method: 'POST',
@@ -24,7 +25,7 @@ export const useSignup = () => {
     }
     if (response.ok) {
       console.log('ok')
-      console.log(json)
+      console.log("json: ", json)
       // save the user to local storage
       localStorage.setItem('user', JSON.stringify(json))
 
