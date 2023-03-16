@@ -10,15 +10,20 @@ import { AuthService } from '../../auth.service';
 export class LoginComponent implements OnInit {
 
   username: string;
-  password: string; // add this line
+  password: string; 
   loggato:boolean
+  error:boolean
   constructor(private authService: AuthService, private router: Router) {
     this.loggato=false
     this.password=''
     this.username=''
+    this.error=false
    }
 
   ngOnInit(): void {
+    if (this.authService.getValue() ==true) {
+      this.router.navigate(['/'])
+    }
   }
 
   login(username:string, password:string) {
@@ -26,7 +31,7 @@ export class LoginComponent implements OnInit {
     if(this.authService.login(username, password)){ 
       
       this.loggato=true
-    }
+    } else this.error=true
   }
 
   logout() {

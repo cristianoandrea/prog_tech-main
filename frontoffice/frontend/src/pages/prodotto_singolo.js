@@ -3,38 +3,17 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Navbar from '../components/Navbar'
 import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import FormHelperText from '@mui/joy/FormHelperText';
-import { borders } from '@mui/system';
-import Option from '@mui/joy/Option';
-import Button from '@mui/joy/Button';
-import Modal from '@mui/joy/Modal';
-import ModalClose from '@mui/joy/ModalClose';
-import Typography from '@mui/joy/Typography';
-import Textarea from '@mui/joy/Textarea';
-import Sheet from '@mui/joy/Sheet';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Garfield from '../images/garfield.jpg'
-import { Divider } from '@mui/joy';
-import Recensione from '../components/StorePage/recensione';
 import Footer from '../components/Footer'
-import Slider from '../components/StorePage/Slider';
 import { formatCurrency } from '../utilities/formatCurrency';
 import { useShoppingCart } from '../context/shoppingCartContext';
-import ShoppingCart from '../components/ShoppingCart';
 import { useParams } from "react-router-dom";
-import Link from "@mui/joy/Link";
-import Favorite from "@mui/icons-material/Favorite";
-import { red } from "@mui/material/colors";
 import AspectRatio from "@mui/joy/AspectRatio";
-import Card from "@mui/joy/Card";
-import CardOverflow from "@mui/joy/CardOverflow";
-import IconButton from "@mui/joy/IconButton";
 import Sidebar from '../components/Sidebar';
 
 
+
 const Container1= styled.div`
-margin-top:80px;
+margin-top:100px;
 line-height: 2;
 `
 
@@ -69,14 +48,12 @@ width: 100%
 `
 
 const SingleProduct = () => {
-
   const [data,setData]=useState([])
   const [consigliati,setConsigliati] = useState([])
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = React.useState(0);
   const [valutazione, setValutazione] = React.useState(0); //la valutazione media del prodotto
-  const [open, setOpen] = React.useState(false);
-  
+  const [open, setOpen] = React.useState(false);  
   const { id } = useParams();
   async function find_p(){ 
     const response =await fetch("http://localhost:4000/api/item/"+id, {
@@ -87,7 +64,7 @@ const SingleProduct = () => {
     })
     const product = await response.json(); 
     setData(product)
-    const tag = data.tag 
+    const tag = data.tag
 
     const response2 =await fetch("http://localhost:4000/api/item/filter/tipo", {
       method: "POST",
@@ -107,6 +84,7 @@ const SingleProduct = () => {
       console.log(id)
       find_p()
     }, [id])
+    
 
   const {
     isOpen, 
@@ -114,38 +92,39 @@ const SingleProduct = () => {
     addToCart
   } = useShoppingCart()
 
+
+
   
-  //indica la quantità che si desidera acquistare
-  
-  //selected è la variabile che indica quale variante del
-  //prodotto stiamo scegliendo (esempio il colore)
-  //e di conseguenza cambia il numero di elementi riguardanti la
-  //quantità acquistabile
-  
+
+
   const handleChangeQuantity = (event) => {
     console.log(event.target.value)
     setQuantity(event.target.value);
   };
+
 
   const[isSideOpen, setIsSideOpen] = useState(false)
  
     const toggle = ()=> {
       setIsSideOpen(!isSideOpen)
     }
+   
   
+ 
   return (
     <>
     <Sidebar isOpen={isSideOpen} toggle={toggle}/>
     <Navbar toggle={toggle}/>
-    {
-      loading?
-      ""
-      :
-      <div>
-        <Container1>
+
+    {loading? (""):
+    <Container1>
     <Grid container spacing={2}>
       <Grid item xs={12} md={5}>
-       <Slider testo={false} data={data}/>
+        <AspectRatio objectFit="contain">
+
+          <img src={data.image.path} style={{maxWidth: '100%', maxHeight: '100%'}}/>
+        </AspectRatio>
+
       </Grid>
 
       <Grid item xs={12} md={7}>
@@ -154,9 +133,8 @@ const SingleProduct = () => {
 
           <h2>{data.producer}</h2>
           <h1>{data.nome}</h1>
-          <h5>{formatCurrency(data.prezzo)}</h5>
-          <label for="read-only">Recensioni:</label>
-          <Rating name="read-only" value={data.rating} readOnly />
+          <h5>{formatCurrency(data.prezzo)} € </h5>
+      
           <p>{data.descrizione}</p>
           
           <br/>
@@ -174,7 +152,7 @@ const SingleProduct = () => {
             typography:{
               fontFamily: 'Encode Sans Expanded',
             }
-          }} id="demo-simple-select-label">Quantity</InputLabel>
+          }} id="demo-simple-select-label">Quantità</InputLabel>
           <Select
           
           sx={{
@@ -219,9 +197,9 @@ const SingleProduct = () => {
 
           <Buttone type='button' onClick={()=>{
             
-            addToCart(quantity, data.id);
+            addToCart(quantity,data._id,data.prezzo);
             
-          }} >Add to cart</Buttone>
+          }} >Aggiungi al carrello</Buttone>
 
           
         </FormControl>
@@ -229,186 +207,10 @@ const SingleProduct = () => {
 
         </form>
         
-        <ShoppingCart isOpen={isOpen} />
 
-        <Accordion sx={{}}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography>Recensioni</Typography>
-          </AccordionSummary>
-            <AccordionDetails>
-
-            <Button variant="outlined" color="neutral" onClick={() => setOpen(true)}>
-              Aggiungi una recensione
-            </Button>
-            <br/>
-
-              {
-                data.recensioni.map((recensione)=>{
-                  return(
-                  <Recensione
-                    key={recensione.id}
-                    data={recensione} />
-                  )
-                })
-              }
-            
-          </AccordionDetails>
-        </Accordion>
-
-        <Accordion>
-          <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>Prodotti Consigliati</Typography>
-          </AccordionSummary>
-            <AccordionDetails>
-            {
-                consigliati.map((item)=>{
-                  return(
-                    <Card variant="outlined" sx={{ width: 320, marginBottom: 0.1 }}>
-                    <CardOverflow>
-                      <AspectRatio ratio="1">
-                       
-                          <img src={item.image.path} loading="lazy" alt="" />
-                      
-                      </AspectRatio>
-                      <IconButton
-                        aria-label="Like minimal photography"
-                        variant="solid"
-                        color="danger"
-                        sx={{
-                          position: "absolute",
-                          zIndex: 2,
-                          borderRadius: "50%",
-                          right: "1rem",
-                          bottom: 0,
-                          transform: "translateY(50%)",
-                        }}
-                      >
-                        <Favorite
-                          size="md"
-                          sx={{
-                            color: "white",
-                            border: "3px solid red",
-                            borderRadius: "50%",
-                            right: "1rem",
-                            bottom: 0,
-                            backgroundColor: red[500],
-                          }}
-                        />
-                      </IconButton>
-                    </CardOverflow>
-                    <Typography level="h2" sx={{ fontSize: "md", mt: 2 }}>
-                      <Link href="/store/prodotti/{item._id}" overlay underline="none">
-                        {item.nome}
-                      </Link>
-                    </Typography>
-                        <Typography level="body2" sx={{ mt: 0.5, mb: 2 }}>
-                          {formatCurrency(item.prezzo)}
-                        </Typography>
-                    <Rating value={3} readOnly />
-                    <Divider inset="context" />
-                    <CardOverflow
-                      variant="soft"
-                      sx={{
-                        display: "flex",
-                        gap: 1.5,
-                        py: 1.5,
-                        px: "var(--Card-padding)",
-                        bgcolor: "background.level1",
-                      }}
-                    >
-                      <Typography
-                        level="body3"
-                        sx={{ fontWeight: "md", color: "text.secondary" }}
-                      >
-                        Tags:
-                      </Typography>
-                      <Divider orientation="vertical" />
-                      <Typography
-                        level="body3"
-                        sx={{ fontWeight: "md", color: "text.secondary" }}
-                      >
-                        {item.tag}
-                      </Typography>
-                    </CardOverflow>
-                  </Card>
-                  )
-                })
-              }
-            </AccordionDetails>
-        </Accordion>
-          
-          
         
-        <Modal
-          aria-labelledby="modal-title"
-          aria-describedby="modal-desc"
-          open={open}
-          onClose={() => setOpen(false)}
-          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-        >
-          <Sheet
-            size="lg"
-            variant="outlined"
-            sx={{
-              maxWidth: 800,
-              borderRadius: 'md',
-              p: 3,
-              boxShadow: 'lg',
-            }}
-          >
-            <ModalClose
-              variant="outlined"
-              sx={{
-                top: 'calc(-1/4 * var(--IconButton-size))',
-                right: 'calc(-1/4 * var(--IconButton-size))',
-                boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
-                borderRadius: '50%',
-                bgcolor: 'background.body',
-              }}
-            />
-            <Typography
-              component="h2"
-              id="modal-title"
-              level="h4"
-              textColor="inherit"
-              fontWeight="lg"
-              mb={1}
-            >
-              Scrivi una recensione
-            </Typography>
-            <form onSubmit={(event) => {
-              event.preventDefault();
-            }}>
-            <Typography component="legend">Valutazione:</Typography>
-              <Rating
-                name="simple-controlled"
-                value={valutazione}
-                onChange={(event, newValue) => {
-                  setValutazione(newValue);
-                }}
-              />
-              <Textarea sx={{
-                marginBottom:1, 
-                marginTop:1}} 
-                minRows={2} 
-                required
-                />
-              
-              <Buttone type="submit">Invia la recensione</Buttone>
-
-
-            </form>
-            
-          </Sheet>
-        </Modal>
+          
+          
         </ColonnaDestra>
         
 
@@ -419,9 +221,7 @@ const SingleProduct = () => {
     <br/>
     <Footer />
     </Container1>
-      </div>
     }
-    
    
     </>
   )

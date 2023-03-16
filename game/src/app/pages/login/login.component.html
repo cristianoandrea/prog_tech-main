@@ -15,8 +15,11 @@
         <button type="submit" class="btn color">Log in</button>
         
     </form>
-    <h6> Still don't have an account? <span><a [routerLink]="'signup'" class="btn color" >Sign in!</a></span></h6>
+    <h6> Still don't have an account? <span><a [routerLink]="'/signup'" class="btn color" >Sign up!</a></span></h6>
 
+    <div class="alert alert-danger" role="alert" *ngIf="error">
+        Wrong username or password
+      </div>
    
 </div>
 

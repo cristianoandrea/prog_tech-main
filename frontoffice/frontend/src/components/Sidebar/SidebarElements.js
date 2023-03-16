@@ -110,6 +110,5 @@ export const SidebarRoute = styled(LinkRouter)`
     background: #fff;
     transition: all 0.2s ease-in-out;
   }
-`
-
+` 
 

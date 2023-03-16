@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Component({
@@ -37,7 +37,8 @@ export class ImagesComponent implements OnInit {
   }
 
   public fetchDuck(): void {
-    this.http.get<{ message: any, url:any }>("https://random-d.uk/api/v2/random?type=png")
+    const headers = new HttpHeaders().set('Access-Control-Allow-Origin', '*');
+    this.http.get<{ message: any, url:any }>("https://random-d.uk/api/v2/random", {headers})
       .subscribe((response) => {
         let tmp = response;
         console.log(tmp.url)

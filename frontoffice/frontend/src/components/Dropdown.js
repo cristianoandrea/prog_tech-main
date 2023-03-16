@@ -17,7 +17,7 @@ export default function Dropdown() {
   const {logout} = useLogout()
   const handleClose = () => {
     setAnchorEl(null);
-  }; 
+  };
 
   const handleLogout = () => {
     logout()
@@ -52,7 +52,7 @@ export default function Dropdown() {
         }}
       >
         <a href="/userprofile">
-          <MenuItem>Profile</MenuItem>
+          <MenuItem>Profilo</MenuItem>
         </a>
         <ListDivider />
         

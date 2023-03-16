@@ -31,6 +31,10 @@ export class AuthService {
 
   }
 
+  public getValue():boolean{
+    return this._isLoggedIn.getValue()
+  }
+
   public login(email: string, password: string): boolean {
     
     
@@ -51,11 +55,11 @@ export class AuthService {
         console.log(response._id)
         localStorage.setItem('id', response._id)
         console.log(localStorage.getItem('utente'))
+        this.router.navigate(['/'])
         
       }, error => {
         console.error(error);
       });
-    this.router.navigate(['/'])
     return this.loggato;
 
   }
@@ -68,7 +72,7 @@ export class AuthService {
     };
 
     this.http.post<any>('http://localhost:4000/api/user/signup', 
-    {email:email, password:pw, name:nome, cognome:cognome, sesso:sesso,dataNascita:data, favoriteAnimal:animale }, httpOptions)
+    {email:email, password:pw, name:nome, cognome:cognome, sesso:sesso,nascita:data, animali:animale }, httpOptions)
       .subscribe(response => {
         // Handle successful response from the server here
         this._isLoggedIn.next(true)

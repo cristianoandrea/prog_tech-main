@@ -24,13 +24,12 @@ router.get('/:id', (req,res) => {
 
 //POST Note
 router.post('/create', async (req,res)=>{
-    const {descrizione,username,species,nameAnimal,sex,age,medicalConditions} = req.body
+    const {identificatore,descrizione,username,species,nameAnimal,sex,age,medicalConditions} = req.body
     //console.log(req.user._id) 
     try {
         //const user_id= req.user._id
-        const note = await Note.create({descrizione,username,species,nameAnimal,sex,age,medicalConditions})
+        const note = await Note.create({identificatore,descrizione,username,species,nameAnimal,sex,age,medicalConditions})
         res.status(200).json({note})
-        console.log({note})
     } catch(error){  
         res.status(400).json({error: error.message})
     }
@@ -47,6 +46,16 @@ router.delete('/:id', async(req,res) => {
     }
 
     res.status(200).json(note)})
+
+
+
+router.post('/filter', (req,res) => {
+    console.log(req.body);
+    const id = req.body.id
+    const notes = Note.find({identificatore: id})
+    if(error) return res.status(400).json({error: error.message})
+    return res.status(200).json({message:'Get Giocatore succesfully',notes})
+    });   
 
 //UPDATE Note
 router.patch('/:id', (req,res) => {

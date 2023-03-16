@@ -46,14 +46,19 @@
   
   
   <div class="card-deck mt-4">
-    <div class="card" *ngFor="let pet of pets">
-      <div class="card-body">
-        <h5 class="card-title">{{ pet.species }} - {{ pet.nameAnimal }}</h5>
-        <h6 class="card-subtitle mb-2 ">Owner: {{ pet.username }}</h6>
-        <h6 class="card-subtitle mb-2 text-muted">{{ pet.sex }} - {{ pet.age }} years old</h6>
-        <p class="card-text">Description:{{ pet.descrizione }}</p>
-        <p class="card-text">Medical Conditions:{{ pet.medicalConditions }}</p>
+    <div class="row">
+      <div class="col-12 col-sm-6 col-md-4 mb-4" *ngFor="let pet of pets; let i = index;">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><strong>{{ pet.nameAnimal }}</strong> - {{ pet.species }}</h5>
+            <h6 class="card-subtitle mb-2">Owner: {{ pet.username }}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">{{ pet.sex }} - {{ pet.age }} years old</h6>
+            <p class="card-text"><strong>Description:</strong> {{ pet.descrizione }}</p>
+            <p class="card-text"><strong>Medical Conditions:</strong> {{ pet.medicalConditions }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  
   </div>

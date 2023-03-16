@@ -6,12 +6,12 @@ const giocatoreSchema = new Schema({
         type: String,
         required: true
     },
-    identificatore: String,
    
    punteggio: {
         type: Number,
         required: true,
-    }
+    },
+    identificatore: String
 })
 
 const Giocatore =  mongoose.model('Giocatore', giocatoreSchema)

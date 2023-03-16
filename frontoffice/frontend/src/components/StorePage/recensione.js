@@ -10,10 +10,10 @@ const Recensione = ({data}) => {
         
         <label for="read-only">Valutazione:</label>
         <Rating name="read-only" value={data.rating} readOnly /> 
-        <p>{data.testo}</p> 
+        <p>{data.txt}</p> 
         <br/>
     </div>
   )
 }
-
+ 
 export default Recensione

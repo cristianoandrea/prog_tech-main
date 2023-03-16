@@ -10,21 +10,19 @@ services:
     ports:
       - "3000:3000"
   frontoffice-backend:
+    restart: on-failure
     build: ./frontoffice/backend
-    command: npm run dev
     ports:
       - "4000:4000"
-    volumes:
-      - ./:/app/
-    depends_on:
+    links:
       - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/animalfarm
   mongo:
     image: mongo
     ports:
       - "27017:27017"
-    volumes:
-      - ./data:/data/db
-  
+      
   game:
     build: ./game
     ports:

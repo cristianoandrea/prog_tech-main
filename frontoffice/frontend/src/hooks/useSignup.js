@@ -9,13 +9,13 @@ export const useSignup = () => {
   const signup = async (email, password, name, cognome, dataNascita, sesso, favoriteAnimal) => {
     setIsLoading(true)
     setError(null)
-
+    console.log(email,password, name, cognome, dataNascita, sesso, favoriteAnimal)
     const response = await fetch('http://localhost:4000/api/user/signup', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ email, password,name ,cognome, sesso, dataNascita, favoriteAnimal})
+      body: JSON.stringify({ email, password,name ,cognome, dataNascita, sesso, favoriteAnimal})
     })
-     
+    
     const json = await response.json()
 
     if (!response.ok) {

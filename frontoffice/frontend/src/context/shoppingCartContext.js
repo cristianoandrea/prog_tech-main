@@ -13,13 +13,14 @@ export function useShoppingCart() {
 export function ShoppingCartProvider( {children} ) {
 
     const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
+    const [cartService, setCartService] = useLocalStorage("cartService", []);
 
 
     const [isOpen, setIsOpen]= useState(false)
 
     const cartQuantity= cartItems.reduce(
-        (quantity, item) => item.quantity + quantity,0
-        
+        (quantity, item) => item.quantity + quantity,
+        0
     )
 
     const openCart = ()=> setIsOpen(true)
@@ -31,12 +32,12 @@ export function ShoppingCartProvider( {children} ) {
             )?.quantity || 0 //allora ritornane la quantità, altrimenti ritorna 0
     }
 
-    function addToCart(it_quantity, id) {
+    function addToCart(it_quantity, id, prezzo) {
         
         
         setCartItems(currItems =>{
             if(currItems.find(item => item.id ===id)==null) {
-                return [...currItems, {id, quantity: it_quantity}]
+                return [...currItems, {id, quantity: it_quantity, prezzo: prezzo}]
             } else {
                 return currItems.map(item=>{
                     if(item.id===id) {
@@ -93,6 +94,11 @@ export function ShoppingCartProvider( {children} ) {
             return currItems.filter(item=>item.id !==id)
         })
     }
+    
+    function addServiceToCart(service){
+        //localStorage.setItem('service', JSON.stringify(service))
+        setCartService(service)
+    }
 
     function deleteFromCart(id) {
         setCartItems(currItems =>{
@@ -112,7 +118,9 @@ export function ShoppingCartProvider( {children} ) {
         removeFromCart, deleteFromCart,
         cartItems,
         cartQuantity,
-        openCart, closeCart
+        openCart, closeCart,
+        addServiceToCart,
+        cartService
         }} >
         {children}
         

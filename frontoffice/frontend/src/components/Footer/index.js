@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
     FooterContainer,
     FooterWrap,
@@ -7,53 +7,28 @@ import {
     FooterLinkItems,
     FooterLinkTitle,
     FooterLink
-} from './FooterElements'
+} from './FooterElements';
 
 const Footer = () => {
-  return (
-    <FooterContainer>
-        <FooterWrap>
-            <FooterLinksContainer>
-                <FooterLinksWrapper>
+    return (
+        <FooterContainer>
+            <FooterWrap>
+                <FooterLinksContainer>
                     <FooterLinkItems>
-                        <FooterLinkTitle> About Us </FooterLinkTitle>
-                        <FooterLink to="/">Home</FooterLink>
-                        <FooterLink to="/store">Store</FooterLink>
-                        <FooterLink to="/servizi">Servizi</FooterLink>
-                        <FooterLink to="/online">Online</FooterLink>
-                        <FooterLink to="/careers">Careers</FooterLink>
+                        <FooterLink to="/" description="Qua puoi trovare tutti i nostri servizi" >Home</FooterLink>
+                        <FooterLink to="/store" description="Giocattoli, accessori, sanitari e tanti altri prodotti">Store</FooterLink>
                     </FooterLinkItems>
                     <FooterLinkItems>
-                        <FooterLinkTitle> About Us </FooterLinkTitle>
-                        <FooterLink to="/">Home</FooterLink>
-                        <FooterLink to="/store">Store</FooterLink>
-                        <FooterLink to="/servizi">Servizi</FooterLink>
-                        <FooterLink to="/online">Online</FooterLink>
-                        <FooterLink to="/careers">Careers</FooterLink>
-                    </FooterLinkItems>
-                </FooterLinksWrapper>
-                <FooterLinksWrapper>
-                    <FooterLinkItems>
-                        <FooterLinkTitle> About Us </FooterLinkTitle>
-                        <FooterLink to="/">Home</FooterLink>
-                        <FooterLink to="/store">Store</FooterLink>
-                        <FooterLink to="/servizi">Servizi</FooterLink>
-                        <FooterLink to="/online">Online</FooterLink>
-                        <FooterLink to="/careers">Careers</FooterLink>
+                        <FooterLink to="/presenza" description="Toelettatura, dogsitting, Veterinario, Psicologo">Servizi</FooterLink>
+                        <FooterLink to="/community" description="Interagisci e conosci gli altri amanti di animali">Comunità</FooterLink>
                     </FooterLinkItems>
                     <FooterLinkItems>
-                        <FooterLinkTitle> About Us </FooterLinkTitle>
-                        <FooterLink to="/">Home</FooterLink>
-                        <FooterLink to="/store">Store</FooterLink>
-                        <FooterLink to="/servizi">Servizi</FooterLink>
-                        <FooterLink to="/online">Online</FooterLink>
-                        <FooterLink to="/careers">Careers</FooterLink>
+                        <FooterLink to="http://localhost:4200/" description="Divertiti con i nostri minigiochi sui tuoi animali preferiti">Game</FooterLink>
                     </FooterLinkItems>
-                </FooterLinksWrapper>
-            </FooterLinksContainer>
-        </FooterWrap>
-    </FooterContainer>
-  )
-}
+                </FooterLinksContainer>
+            </FooterWrap>
+        </FooterContainer>
+    );
+};
 
-export default Footer
+export default Footer;

@@ -9,6 +9,7 @@ import styled from "styled-components";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Card from "@mui/joy/Card";
 import CardOverflow from "@mui/joy/CardOverflow";
+import CardContent from '@mui/joy/CardContent';
 import Divider from "@mui/joy/Divider";
 import Typography from "@mui/joy/Typography";
 import IconButton from "@mui/joy/IconButton";
@@ -16,11 +17,11 @@ import Link from "@mui/joy/Link";
 import Favorite from "@mui/icons-material/Favorite";
 import { Rating } from "@mui/material";
 import { red } from "@mui/material/colors";
-import { formatCurrency } from "../../utilities/formatCurrency"; 
-import Button from "@mui/joy/Button"; 
+import { formatCurrency } from "../../utilities/formatCurrency";
+import Button from '@mui/material/Button';
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
-
+import { useShoppingCart } from "../../context/shoppingCartContext";
 import ModalDialog from "@mui/joy/ModalDialog";
 
 import Textarea from "@mui/joy/Textarea";
@@ -42,72 +43,19 @@ const Info = styled.div`
   cursor: pointer;
 `;
 
-const Container = styled.div`
-  flex: 1;
-  margin: 5px;
-  min-width: 280px;
-  height: 350px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f5fbfd;
-  position: relative;
 
-  &:hover ${Info} {
-    opacity: 1;
-  }
-`;
-
-const Circle = styled.div`
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background-color: white;
-  position: absolute;
-`;
-
-const Image = styled.img`
-  height: 75%;
-  z-index: 2;
-`;
-
-const Icon = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 10px;
-  transition: all 0.5s ease;
-  &:hover {
-    background-color: #e9f5f5;
-    transform: scale(1.1);
-  }
-`;
-
-const Icon1 = styled(IconButton)`
-  width: 40,
-  height: 40,
-  borderRadius: 50,
-  backgroundColor: white,
-  display: flex,
-  alignItems: center,
-  justifyContent: center,
-  margin: 10,
-  '&:hover' :{
-    background-color: #e9f5f5,
-    transform: scale(1.1),
-  }
-`;
 
 const Product = ({ item, tipo }) => {
+  //render true è servizio, altrimenti prodotto
   const [render, setRender] = useState();
   const [open, setOpen] = React.useState('');
   //se servicetype true allora è dositting
-  const [serviceType,setServiceType]= useState()
-  
+  const [serviceType, setServiceType] = useState()
+  const {
+    addServiceToCart,
+    cartService
+  } = useShoppingCart()
+
   function getQueryVariables() {
     const query = window.location.search.substring(1);
     const vars = query.split('&');
@@ -128,49 +76,53 @@ const Product = ({ item, tipo }) => {
   }
 
   useEffect(() => {
-   
+    console.log(item)
+    console.log(item)
     setRender(tipo);
   }, [tipo]);
 
-  useEffect(()=>{
-    if(item.tipo)
-    setServiceType(true)
-  },[item])
+  useEffect(() => {
+    if (item.tipo)
+      setServiceType(true)
+  }, [item])
 
-  const RegisterVet = (_id,doc_id) =>{
+  const RegisterVet = (_id, doc_id) => {
     const id = _id
     //const struct_name = name
     const param = getQueryVariables()
-    console.log(param) 
+    console.log(param)
     fetch("http://localhost:4000/api/service/addVetReservation", {
       method: "PATCH",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({param,id,doc_id}),
-    })   
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ param, id, doc_id }),
+    })
   }
 
-  const RegisterSitter = (_id,doc_id) =>{
-    const id = _id
+  const RegisterSitter = (_id, doc_id, nome, prezzo) => {
     //const struct_name = name
     const param = getQueryVariables()
-    console.log(param) 
-    fetch("http://localhost:4000/api/service/addDogReservation", {
-      method: "PATCH",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({param,id,doc_id}),
-    })   
+    const service = {
+      servizio_id: _id,
+      dottore_id: doc_id,
+      start_date: param.date,
+      end_date: param.endDate,
+      grandi: param.grandi,
+      medi: param.medi,
+      piccoli: param.piccoli,
+      dottore: nome,
+      prezzo: prezzo
+    }
+
+    addServiceToCart(service)
+    window.location.href = "http://localhost:3000/checkoutService";
+
   }
 
   if (render === undefined) {
     return null; // or a loading spinner, or some other placeholder content
   }
-
-  //render=true=>servizio
-  //render=false=>prodotto
 
   return (
     <Card variant="outlined" sx={{ width: 320, marginBottom: 0.1 }}>
@@ -182,36 +134,16 @@ const Product = ({ item, tipo }) => {
             <img src={item.image.path} loading="lazy" alt="" />
           )}
         </AspectRatio>
-        <IconButton
-          aria-label="Like minimal photography"
-          variant="solid"
-          color="danger"
-          sx={{
-            position: "absolute",
-            zIndex: 2,
-            borderRadius: "50%",
-            right: "1rem",
-            bottom: 0,
-            transform: "translateY(50%)",
-          }}
-        >
-          <Favorite
-            size="md"
-            sx={{
-              color: "white",
-              border: "3px solid red",
-              borderRadius: "50%",
-              right: "1rem",
-              bottom: 0,
-              backgroundColor: red[500],
-            }}
-          />
-        </IconButton>
+
       </CardOverflow>
       <Typography level="h2" sx={{ fontSize: "md", mt: 2 }}>
-        <Link href={`/store/prodotti/${item._id}`} overlay underline="none">
-          {render ? item.nome_struttura.nome : item.nome}
-        </Link>
+        {render ? item.nome_struttura.nome
+          :
+          <Link href={`/store/prodotti/${item._id}`} overlay underline="none">
+            {item.nome}
+          </Link>
+        }
+
       </Typography>
 
       {render ? (
@@ -224,7 +156,6 @@ const Product = ({ item, tipo }) => {
         </div>
       )}
 
-      <Rating value={3} readOnly />
       <Divider inset="context" />
       <CardOverflow
         variant="soft"
@@ -253,52 +184,61 @@ const Product = ({ item, tipo }) => {
       {render ? (
         <div>
           <Button
-            variant="solid"
-            color="neutral"
+            variant="contained"
+            color="primary"
+            sx={{
+              typography:{
+                fontFamily: 'Encode Sans Expanded',
+              }
+            }}
+            style={{ backgroundColor: '#000000', marginTop: '16px',borderRadius: '25px' }}
             onClick={() => setOpen("solid")}
           >
-            Click to see the service we offer!
+            Clicca per vedere i servizi che offriamo!
           </Button>
-          <Modal open={!!open} onClose={() => setOpen('')}>
-        <ModalDialog
-          aria-labelledby="variant-modal-title"
-          aria-describedby="variant-modal-description"
-          variant={open || undefined}
-        >
-          <ModalClose />
-          {item.dottore.map((elem)=>(
-            <div>
-            <Typography id={elem._id} component="h2" level="inherit">
-            doctor {elem.nome}
-          </Typography>
-          
-          <Typography id={elem._id} textColor="inherit">
-            Price for this service is {elem.prezzo} 
-          </Typography>
-          
-         { setServiceType? 
-         <Button
-         variant="solid"
-         color="neutral"
-         //onClick={() => RegisterSitter(item._id,elem._id)}
-       >
-         add to cart
-       </Button>
-         :
-          <Button
-          variant="solid"
-          color="neutral"
-          //onClick={() => RegisterVet(item._id,elem._id)}
-        >
-          add to cart
-        </Button>
-}
-        </div>
-          
-          ))}
-          
-        </ModalDialog>
-      </Modal>
+          <Modal
+            open={!!open} onClose={() => setOpen('')}>
+            <ModalDialog
+              aria-labelledby="variant-modal-title"
+              aria-describedby="variant-modal-description"
+              variant={open || undefined}
+              style={{ border: '2px solid black', padding: '24px' }}
+            >
+              {item.dottore.map((elem) => (
+                <Card key={elem._id} style={{ marginBottom: '16px' }}>
+                  <CardContent style={{ padding: '16px' }}>
+                    <Typography id={elem._id} component="h2" level="inherit" style={{ marginBottom: '8px' }}>
+                      dottor {elem.nome}
+                    </Typography>
+
+                    {serviceType ?
+                      <Typography id={elem._id} textColor="inherit" style={{ marginBottom: '8px' }}>
+                        Il prezzo per il servizio è {elem.prezzo} € a notte.
+                      </Typography>
+                      :
+                      <Typography id={elem._id} textColor="inherit" style={{ marginBottom: '8px' }}>
+                        Il prezzo per il servizio è {elem.prezzo} €.
+                      </Typography>
+                    }
+
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      sx={{
+                        typography:{
+                          fontFamily: 'Encode Sans Expanded',
+                        }
+                      }}
+                      style={{ backgroundColor: '#000000', marginTop: '16px' , borderRadius: '25px'}}
+                      onClick={() => RegisterSitter(item._id, elem._id, elem.nome, elem.prezzo)}
+                    >
+                      Prenota!
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </ModalDialog>
+          </Modal>
         </div>
       ) : (
         ""
@@ -308,72 +248,3 @@ const Product = ({ item, tipo }) => {
 };
 
 export default Product;
-
-/*
-<Container >
-      <Circle />
-      <Image src={item.image} />
-      <Info>
-        <IconButton  
-          href="/store/prodotti?animale=gatto" 
-          sx={{
-            width: 40,
-            height: 40,
-            borderRadius: 50,
-            backgroundColor: '#FFFFFF',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: 3,
-            
-            '&:hover' :  {
-              backgroundColor: '#e9f5f5',
-              
-            }
-          }}
-          >
-          <ShoppingCartOutlined  />
-        </IconButton>
-        <IconButton
-          href="/store/prodotti?animale=gatto" 
-          sx={{
-            width: 40,
-            height: 40,
-            borderRadius: 50,
-            backgroundColor: '#FFFFFF',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: 3,
-            
-            '&:hover' :  {
-              backgroundColor: '#e9f5f5',
-              
-            }
-          }}
-        >
-          <SearchOutlined />
-        </IconButton>
-        <IconButton
-        href="/store/prodotti?animale=gatto" 
-        sx={{
-          width: 40,
-          height: 40,
-          borderRadius: 50,
-          backgroundColor: '#FFFFFF',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          margin: 3,
-          
-          '&:hover' :  {
-            backgroundColor: '#e9f5f5',
-            
-          }
-        }}
-        >
-          <FavoriteBorderOutlined />
-        </IconButton>
-      </Info>
-    </Container>
-*/

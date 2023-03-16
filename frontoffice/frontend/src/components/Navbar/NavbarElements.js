@@ -12,7 +12,7 @@ export const Nav = styled.nav`
     justify-content: center;
     align-items: center;
     font-size: 1rem;
-    position: fixed;
+    position: fixed; 
     top: 0;
     z-index: 10;
     width: 100%;
@@ -43,6 +43,23 @@ export const NavLogo = styled(LinkRouter)`
     font-weigh: bold;
     text-decoration: none;
 `;
+
+export const CartIcon=styled.div`
+
+display: none;
+  
+  @media screen and (max-width: 768px) {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-100%, 60%);
+    font-size: 1.8rem;
+    cursor: pointer;
+    color:#fff;
+  }
+
+`
 
 
 export const MobileIcon = styled.div`

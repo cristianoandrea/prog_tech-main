@@ -21,5 +21,16 @@ router.post('/create', (req,res) => {
   });
 })  
 
+router.post('/filter', (req,res) => {
+  console.log(req.body);
+  const id = req.body._id
+  const giocatore = Giocatore.find({identificatore: id})
+  if(error) return res.status(400).json({error: error.message})
+  return res.status(200).json({message:'Get Giocatore succesfully',giocatore})
+});
+
+
+
+
 
 module.exports = router

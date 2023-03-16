@@ -4,7 +4,7 @@ import Gatto1 from '../../images/svg-3.svg'
 import Gatto2 from '../../images/svg-4.svg'
 
 export const homeObjStore = { //light
-    id: 'store',
+    id: 'negozio',
     link: '/store',
     lightBg:true,
     lightText: false,
@@ -40,22 +40,22 @@ export const homeObjPresenza = { //dark
 }
 
 
-export const homeObjCommunity = { //dark
-    id: 'community',
+export const homeObjCommunity = { 
+    id: 'comunità',
     link: '/community',
-    lightBg:false,
-    lightText: true,
-    lightTextDesc: true,
-    topLine: 'Community',
+    lightBg:true,
+    lightText: false,
+    lightTextDesc: false,
+    topLine: 'Comunità',
     headline:'Bacheca online',
     description: 'Qua si puo interagire tra proprietari di animali per scoprire gli interessi dei tuoi simili!',
-    buttonLabel: 'Servizi di community',
+    buttonLabel: 'Servizi di comunità',
     imgStart: true,
     img: Gatto2,
     alt: 'cane',
     dark: true,
     primary: true,
-    darkText: false
+    darkText: true
 }
 
 
@@ -71,11 +71,29 @@ export const objVeterinario={
     description: "I nostri esperti veterinari offrono cure personalizzate per la salute e il benessere dei tuoi amati animali domestici.",
     buttonLabel: 'Cerca qui il migliore',
     imgStart: true,
-    img: Gatto2,
+    img: Cane2,
     alt: 'cane',
     dark: true,
     primary: true,
     darkText: false
+}
+
+export const objPsicologo={
+    id: 'psicologo',
+    link: "/presenza/psicologo",
+    lightBg:true,
+    lightText: false,
+    lightTextDesc: false,
+    topLine: 'Psicologo',
+    headline:'Anche gli animali hanno bisogno di conoscersi!',
+    description: "Provalo con noi, porta il tuo animale a fare due chiacchiere con i nostri esperti nel settore",
+    buttonLabel: 'Cerca qui il migliore',
+    imgStart: false,
+    img: Gatto1,
+    alt: 'cane',
+    dark: false,
+    primary: false,
+    darkText: true
 }
 
 export const objDogSitter = { //light
@@ -89,7 +107,7 @@ export const objDogSitter = { //light
     description: "I nostri dogsitter altamente qualificati offrono un'assistenza amorevole e affidabile per i tuoi animali domestici, mentre sei fuori casa.",
     buttonLabel: 'Prenota subito',
     imgStart: false,
-    img: Gatto1,
+    img: Cane1,
     alt: 'cane',
     dark: false,
     primary: false,
@@ -97,18 +115,18 @@ export const objDogSitter = { //light
 }
 
 export const objToilettatura={ 
-    id: 'toilettatura',
+    id: 'toelettatura',
     link: "/presenza/toilettatura",
     lightBg:false,
     lightText: true,
     lightTextDesc: true,
-    topLine: 'Toilettatura',
+    topLine: 'Toelettatura',
     headline:"Fai brillare i tuoi amici pelosi con la nostra toilettatura professionale!",
     description: "Toilette professionali per cani e gatti: facciamo sì che i tuoi animali domestici siano sempre puliti e curati!",
     buttonLabel: 'Clicca per maggiori informazioni',
     imgStart: true,
     img: Gatto2,
-    alt: 'cane',  
+    alt: 'cane', 
     dark: true,
     primary: true,
     darkText: false

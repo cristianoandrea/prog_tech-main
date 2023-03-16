@@ -18,6 +18,7 @@ export class CommunityComponent implements OnInit {
   description:string;
   medicalConditions: string;
   error:any=null
+  id_user:any
 
 
   constructor(private http: HttpClient, public authservice:AuthService) { 
@@ -29,10 +30,13 @@ export class CommunityComponent implements OnInit {
     this.sex='';
     this.description=''
     this.pets=[]
+    
 
   }
   //fai per bene la chiamata
   ngOnInit(): void {
+    this.id_user = localStorage.getItem('id')
+    console.log("id: ",this.id_user)
     //this.loading = true;
     this.http.post<any>('http://localhost:4000/api/note/', {})
       .subscribe(
@@ -58,7 +62,9 @@ export class CommunityComponent implements OnInit {
     if (animals !== null) {
       animali = JSON.parse(animals);
     }
-    animali.push(species)
+    if(!animali.includes(species)){
+      animali.push(species)
+    }
     console.log("animali", animali)
     let jsonAnimali=JSON.stringify(animali)
     localStorage.setItem('animali', jsonAnimali)
@@ -80,7 +86,7 @@ export class CommunityComponent implements OnInit {
       username:username, species:species, nameAnimal:name, sex:sex, age:age, medicalConditions:medicalConditions, descrizione: description
     }
     this.http.post<any>('http://localhost:4000/api/note/create', 
-    {username:username, species:species, nameAnimal:name, sex:sex, age:age, medicalConditions:medicalConditions, descrizione: description }, httpOptions)
+    {identificatore:this.id_user,username:username, species:species, nameAnimal:name, sex:sex, age:age, medicalConditions:medicalConditions, descrizione: description }, httpOptions)
       .subscribe(response => {
         console.log(new_pet)
         console.log("successo! ",response)
@@ -89,6 +95,13 @@ export class CommunityComponent implements OnInit {
         console.error(error);
       });
       this.pets.push(new_pet)
+      this.username=''
+      this.age=0;
+      this.medicalConditions='';
+      this.species='';
+      this.name='';
+      this.sex='';
+      this.description=''
       
       
    console.log(username, species, name, sex, medicalConditions,age )

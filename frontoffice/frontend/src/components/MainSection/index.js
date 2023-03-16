@@ -12,7 +12,7 @@ import {
     } from './MainElements'
 
 const MainSection = () => {
-    const[hover,setHover] = useState(false)
+    const[hover,setHover] = useState(false) 
 
     const onHover= () =>{
         setHover(!hover)
@@ -21,30 +21,12 @@ const MainSection = () => {
   return (
     <HeroContainer>
         <HeroContent>
-            <HeroH1>
-            Da un po' di tempo <br/>
-Spesso mi viene in mente <br/>
-Quella poesia di Dante <br/>
-Quella dove lui diceva:
-            </HeroH1>
+            <HeroH1>Benvenut* su Animal House!</HeroH1>
             <HeroP>
-            "Quanto mi piacerebbe <br/>
-Che il tempo si fermasse<br/>
-Mentre io me ne sto su una barca<br/>
-Con un paio di amici miei e qualche amichetta<br/>
-A parlare d'amore e a cazzeggiare"<br/>
-
+            Il luogo ideale per prenderti cura del tuo animale nel miglior modo possibile. <br />
+            Qui troverai i migliori prodotti, le migliori strutture e i migliori specialisti per dare al tuo animaletto il servizio che si merita!
             </HeroP>
-            <HeroBtnWrapper>
-                <Button to='signup'
-                onMouseEnter={onHover}
-                onMouseLeave={onHover} 
-                primary="true"
-                dark="true">
-                    Tipo i video dei rappers americani {hover ? <ArrowForward/> : <ArrowRight/>}
-
-                </Button>
-            </HeroBtnWrapper>
+           
         </HeroContent>
 
         

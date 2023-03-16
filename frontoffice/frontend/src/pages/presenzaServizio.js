@@ -74,26 +74,24 @@ const PresenzaServizio = ({service, time}) => {
       return newValue;
     });
   }
-
+  
   const[isOpen, setIsOpen] = useState(false)
  
-    const toggle = ()=> {
-        setIsOpen(!isOpen)
-    }
-  
+  const toggle = ()=> {
+      setIsOpen(!isOpen)
+  }
 
   return (
     <div>
-      <Sidebar isOpen={isOpen} toggle={toggle}/>
+<Sidebar isOpen={isOpen} toggle={toggle}/>
       <Navbar toggle={toggle}/>
-
       { 
         loading ?
         " "
         : 
         <div>
 
-      <ServicesContainer> 
+      <ServicesContainer>
         
         
         <FiltriServices time={time} onPass={onPass} service={service} />

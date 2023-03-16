@@ -24,7 +24,8 @@ export class QuizComponent implements OnInit {
   public punteggi: any[]
   public fetched:boolean
   public game_name:string
-  localStorage: Storage;
+  id_user:any
+
 
   constructor(
     private http: HttpClient, 
@@ -34,7 +35,6 @@ export class QuizComponent implements OnInit {
     ) { 
     this.punteggi=[]  
     this.fetched=false
-    this.localStorage=window.localStorage
     this.game_name=''  
     this.registered=false
     this.started=false
@@ -48,6 +48,7 @@ export class QuizComponent implements OnInit {
       'Canidae', 'Mustelidae', 'Hominidae', 'Cervidae', 'Sciuridae', 'Felidae', 'Equidae', 'Camelidae', 'Bovidae', 'Suidae'
     ]
     this.questions=[]
+    this.id_user=''
   }
 
   ngOnInit(): void {
@@ -55,20 +56,24 @@ export class QuizComponent implements OnInit {
   }
 
   public start(animal:string) {
+    
     const headers = new HttpHeaders({
       'X-Api-Key': '3skSTXwWGlxmOPAiEX7DLA==5sp1UW4nSDvHbDR7'
     });
+    
     this.name=animal
     this.http.get(`https://api.api-ninjas.com/v1/animals?name=${this.name}`, { headers })
       .subscribe((data) => {
-        this.animalInfo = data;
+        this.animalInfo=data
         console.log(this.animalInfo); 
-        this.generateQuestions();
         this.started=true
+        this.generateQuestions();
       });
+      
   }
 
   private generateQuestions(){
+    console.log(this.animalInfo.length)
     //per ciascuna domanda che lo richiede genero un indice diverso
     if(this.animalInfo.length>0){
       let i = Math.floor(Math.random() * this.animalInfo.length);
@@ -77,16 +82,20 @@ export class QuizComponent implements OnInit {
       this.speciesNumberQuestions()
 
       i = Math.floor(Math.random() * this.animalInfo.length);
+      console.log(i)
       this.sciNameQuestions(this.animalInfo[i])
 
       i = Math.floor(Math.random() * this.animalInfo.length);
+      console.log(i)
       if(this.animalInfo[i].characteristics.estimated_population_size !=null){
         this.estimatedPopulationQuestion(this.animalInfo[i])
       }
       i = Math.floor(Math.random() * this.animalInfo.length);
+      console.log(i)
       this.lifespanQuestion(this.animalInfo[i])
 
       i = Math.floor(Math.random() * this.animalInfo.length);
+      console.log(i)
       this.familyQuestion(this.animalInfo[i])
 
     }
@@ -319,7 +328,7 @@ export class QuizComponent implements OnInit {
       })
     };
     this.http.post<any>('http://localhost:4000/api/giocatore/create', 
-    {nome:username, punteggio:score}, httpOptions)
+    {identificatore: this.id_user,nome:username, punteggio:score}, httpOptions)
       .subscribe(response => {
         // Handle successful response from the server here
         
@@ -335,6 +344,7 @@ export class QuizComponent implements OnInit {
 
     console.log("ao")
     let utente=localStorage.getItem('utente')
+    this.id_user=localStorage.getItem('id')
     console.log('username', utente)
     console.log('score', score)
 
@@ -344,7 +354,7 @@ export class QuizComponent implements OnInit {
       })
     };
     this.http.post<any>('http://localhost:4000/api/giocatore/create', 
-    {nome:utente, punteggio:score}, httpOptions)
+    {identificatore: this.id_user, nome:utente, punteggio:score}, httpOptions)
       .subscribe(response => {
         // Handle successful response from the server here
         
@@ -353,6 +363,7 @@ export class QuizComponent implements OnInit {
         
         console.error(error);
       });
+      this.id_user=''
       this.router.navigate(['/games'])
   }
 

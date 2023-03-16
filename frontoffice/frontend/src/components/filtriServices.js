@@ -55,18 +55,8 @@ justify-content: center;
 
 
 
-
-
-
-const animalucci=[
-  { value: 'cane', label: 'Cani' },
-  { value: 'gatto', label: 'Gatti' },
-  { value: 'drago', label: 'Draghi di Komodo' },
-  { value: 'pesce', label: 'Pesci' },
-]
-
 const cities=[
-  'Bologna', 'Roma', 'Bari', 'Napoli', 'Milano', 'Foligno', 'Matera',"Firenze",'Torino',"Venezia"
+  'Bologna', 'Roma', 'Bari', 'Napoli', 'Milano', 'Plermo', 'Ancona',"Catania",'Torino','Firenze'
 ]
 
 //se time è true => veterinairo
@@ -162,13 +152,14 @@ const FiltriServices = ( {time,onPass,service} ) => {
     console.log(city,startDate,endDate,animaliPiccoli,animaliMedi,animaliGrandi)
     const response = await fetch("http://localhost:4000/api/service/filter/dogsitter",{
       method: "POST",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({city, startDate,endDate,animaliPiccoli,animaliMedi,animaliGrandi}),
     })
     data = await response.json()
     console.log(data)
+    //console.log(data.dottore)
 
     const originalDate = new Date(startDate);
     const year = originalDate.getFullYear();
@@ -254,11 +245,11 @@ const FiltriServices = ( {time,onPass,service} ) => {
         alignItems="center"
         style={{margin:10}}
        >
-        {time? 
+        {time?
         <Box sx={{marginTop:5}}>
-          <h1>Filtri:</h1>
-        </Box>
-         :
+        <h1>Filtri:</h1>
+      </Box>
+       :
         <Grid item xs={12} sm={6} md={4}>
         <InputLabel
           sx={{
@@ -303,12 +294,12 @@ const FiltriServices = ( {time,onPass,service} ) => {
                     </Grid>
                     <Grid item xs={6}>
                     <Button onClick={() => {
-                        if (pet.quantity > 1) {
+                        if (pet.quantity >= 1) {
                           if(pet.key=="piccolo")setPiccoli(animaliPiccoli -1)
                           else if(pet.key=="medio")setMedi(animaliMedi -1)
                           else if(pet.key=="grande")setGrandi(animaliGrandi -1)
                           
-                          handleAnimalQuantityChange(index, 1)
+                          handleAnimalQuantityChange(index, -1)
                         console.log("piccoli", animaliPiccoli)
                         console.log("medi", animaliMedi)
                         console.log("grandi", animaliGrandi)
@@ -338,14 +329,8 @@ const FiltriServices = ( {time,onPass,service} ) => {
         </Grid>
          }
         <Grid item xs={12} sm={6} md={4}>
+          <div>Città</div>
         <FormControl  size="small">
-        <InputLabel
-          sx={{
-            typography:{
-              fontFamily: 'Encode Sans Expanded',
-            }
-          }} id="label-città">Città</InputLabel>
-              
               <Select
                   name="city"
                   labelId="demo-select-small"
@@ -399,7 +384,7 @@ const FiltriServices = ( {time,onPass,service} ) => {
         {
           time ?
           <>
-          
+          <div>Data</div>
           <DatePicker 
             name="data"
             selected={startDate}
@@ -430,7 +415,7 @@ const FiltriServices = ( {time,onPass,service} ) => {
           
           :
           <div>
-            
+            <div>Dal giorno</div>
             <DatePicker
             name="from"
             dateFormat="dd/MM/yyyy"
@@ -454,7 +439,8 @@ const FiltriServices = ( {time,onPass,service} ) => {
                   }}
               />
               )}
-            />
+            /> 
+            <div>Al giorno</div>
             <DatePicker
             name="to"
             dateFormat="dd/MM/yyyy"

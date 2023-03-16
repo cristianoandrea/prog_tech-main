@@ -12,15 +12,15 @@ import styled from "styled-components";
 const slider={
   images: [ 
       {
-        path: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG87nXCQyLJmtoSR2otffGnyUcp2X3n5H-xQ&usqp=CAU",
+        path: "https://images.squarespace-cdn.com/content/v1/5dcfdfa0da15f732723517b9/e6ef045d-bd66-4a93-ac8f-8c4f5f1b7fca/Greg+Murray+Photography+%7C+Pet+and+Animal+Photographer+%7C+Stock+Pet+Photography+.jpg",
         alt: 'Giocattoli',
         title: "Divertimento assicurato: Scopri la nostra vasta selezione di giocattoli per animali domestici!",
         description:"Dai palloni alle palle da tennis, abbiamo tutto per tenere i tuoi animali domestici felici e attivi!",
         button: "Giocattoli ",
-        filtro: "accessori" 
-      }, 
+        filtro: "giochi" 
+      },
       {
-        path: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBhWN_ayg8ASNNLUU3ALLvlbmTW9w2lNQrbKXI6xFsWLbOm6EzGOLZb-BcEDFhhlKgjAs&usqp=CAU",
+        path: "https://img.freepik.com/premium-photo/portrait-dog-bulldog-posing-eating-isolated-white-studio-background-concept-pets-fun_155003-46468.jpg?w=2000",
         alt: 'Cibo',
         title: "Nutrizione di alta qualità per i tuoi amati pelosi: Scopri la nostra vasta selezione di cibo per animali domestici!",
         description:"Alimenti di alta qualità per cani e gatti, per mantenere i tuoi amici pelosi sani e soddisfatti.",
@@ -29,6 +29,7 @@ const slider={
       },
     ],
 }
+
 const elements={
   nome: "Croccantini",
   price: "12"
@@ -58,8 +59,7 @@ margin-bottom: 64px;
 
 
 const StorePage = () => {
-
-  const [isOpen, setIsOpen] = useState(false)
+  const[isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   
@@ -92,13 +92,9 @@ const StorePage = () => {
       ''
       :
       <div>
-      
+
       <Slider testo={true} data={slider} />
       <Services />
-      <PopContainer>
-      <PopH1>Top Selling Products:</PopH1>
-      <Products data = {data}/>
-      </PopContainer>
       <Footer />
       
      

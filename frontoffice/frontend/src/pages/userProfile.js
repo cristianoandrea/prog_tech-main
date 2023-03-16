@@ -24,61 +24,6 @@ import Modal from 'react-bootstrap/Modal';
 import Sidebar from "../components/Sidebar";
 
 
-let profilo={
-  nome: 'Andrea',
-  cognome: "Cristiano",
-  nascita: "28/2/2000",
-  sesso: "M",
-  animali_preferiti:[
-    'Elefante', 'struzzo'
-  ],
-  mail:"cristianoandrea00@gmail.com",
-  password: "ForzaNapoli",
-  acquisti:[
-    {
-      id:4,
-      name:"Maglia Napoli",
-      prezzo: "125",
-      quantity: 2,
-      img:"",
-      alt:"",
-      tag:"accessori",
-      animale:"gatto",
-      data_acquisto: "12/01/2023"
-    },
-    {
-      id:4,
-      name:"Purina cibo cane",
-      prezzo: "15",
-      quantity: 2,
-      img:"",
-      tag:"cibo",
-      animale:"cane",
-      data_acquisto: "12/01/2023"
-    }
-  ],
-  prenotazioni:[
-    {
-      servizio: "Dogsitting",
-      data_inizio:"12/03/2023",
-      data_fine:"15/03/2023",
-      nome_struttura:"Villa Spada",
-      qualita_servizio:"vip",
-      spesa_totale: 250,
-      citta: "Bologna"
-    },
-    {
-      servizio: "Toelettatura",
-      data_inizio:"19/03/2023",
-      data_fine:"",
-      nome_struttura:"Villa Floridiana",
-      qualita_servizio:"vip",
-      spesa_totale: 250,
-      citta: "Napoli"
-    }
-  ]
-}
-
 const CardAcquisto = ({item,quantity,data_acquisto}) =>{
 
   const link="item/prodotti/" + item.id
@@ -98,10 +43,10 @@ const CardAcquisto = ({item,quantity,data_acquisto}) =>{
       >
           <AspectRatio ratio="1" sx={{ width: 90 }}>
           <img
-            src="item.img"
+            src={item.img}
             srcSet="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90&dpr=2 2x"
             loading="lazy"
-            alt="item.alt"
+            alt={item.alt}
           />
           </AspectRatio>
         <div>
@@ -140,6 +85,72 @@ const CardAcquisto = ({item,quantity,data_acquisto}) =>{
  
   
 }
+
+const CardComunity = ({note, punteggi}) => {
+  let tmp=false
+  console.log(note, punteggi);
+  if (note==[]) tmp=true
+  return (
+    <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: 1200, margin: '0 auto'}}>
+      <div style={{flex: 1, marginRight: '10px'}}>
+        {
+          tmp ?
+          <div>
+            <h2>Le mie note:</h2>
+            {note.notes.map((note) => {
+              return (
+                <div key={note.id}>
+                  <Card variant="outlined" sx={{ width: 320 }}>
+                    <Typography level="h2" fontSize="md" sx={{ mb: 0.5 }}>
+                      <strong>Nome:</strong> {note.nameAnimal}
+                    </Typography>
+                    <Typography level="body2">
+                      <strong>Padrone:</strong> {note.username}
+                    </Typography>
+                    <Typography level="body2">
+                      <strong>Specie:</strong> {note.species}
+                    </Typography>
+                    <Typography level="body2">
+                      <strong>Sesso:</strong> {note.sex} - <strong>Età:</strong>{' '}
+                      {note.age}
+                    </Typography>
+                    <Typography level="body1">
+                      <strong>Descrizione:</strong> {note.descrizione}
+                    </Typography>
+                    <Typography level="body1">
+                      <strong>Situazione medica:</strong>{' '}
+                      {note.medicalConditions}
+                    </Typography>
+                  </Card>
+                </div>
+              );
+            })}
+           </div>
+           :
+           '' 
+        }
+      </div>
+      <div style={{flex: 1, marginLeft: '10px'}}>
+        <h2>I miei punteggi:</h2>
+        {punteggi.giocatore.map((punteggio) => {
+          return (
+            <div key={punteggio.id}>
+              <Card variant="outlined" sx={{ width: 320 }}>
+                <Typography level="body2">
+                  <strong>Punteggio:</strong> {punteggio.punteggio}
+                </Typography>
+              </Card>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+
+
+
 
 const CardServizio = ({item,dataAcquisto,datafin,datainiz}) =>{
   console.log(datainiz)
@@ -244,20 +255,24 @@ const UserProfile = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState()
   const [animale, setAnimale] = useState('');
+  const [dataServizio, setDataServizio] = useState([])
+  const [dataNotes, setDataNotes] = useState([])
+  const [dataPunteggi, setDataPunteggi] = useState([])
 
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const birth = user.nascita
   console.log(birth)
-  const dateArray = birth.split(" ");
-const dateWithoutTimeZone = dateArray.slice(0, 5).join(" ");
-  const timestamp = Date.parse(dateWithoutTimeZone);
-  //compare con un ora in piu
-  const nascita = new Date(timestamp)
-  const birtDate = nascita.toLocaleDateString("it-IT", options);
-  console.log(birtDate)
+  if(birth){
 
+    const dateArray = birth.split(" ");
+    const dateWithoutTimeZone = dateArray.slice(0, 5).join(" ");
+    const timestamp = Date.parse(dateWithoutTimeZone);
+    //compare con un ora in piu
+    const nascita = new Date(timestamp)
+    const birtDate = nascita.toLocaleDateString("it-IT", options);
+    console.log(birtDate)
+  }const birtDate=''
 
-  const [dataServizio, setDataServizio] = useState([])
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -315,6 +330,48 @@ const dateWithoutTimeZone = dateArray.slice(0, 5).join(" ");
   }, [])
   
 
+//Per ottenere le note e i punteggi per utente
+useEffect(()=>{
+   const id = user._id
+   const fetchDataNotes = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/note/filter', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ id }),
+
+        })
+        const notes = await response.json()
+        console.log(notes)
+        setDataNotes(notes)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchDataNotes()
+
+    const fetchDataPunteggi = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/giocatore/filter', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ id }),
+
+        })
+        const punteggi = await response.json()
+        console.log(punteggi)
+        setDataPunteggi(punteggi)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchDataPunteggi()
+    
+},[])
 
 
 
@@ -415,6 +472,13 @@ const dateWithoutTimeZone = dateArray.slice(0, 5).join(" ");
           <Tab sx={{fontSize:20}}>
             Prenotazioni
           </Tab>
+          {dataPunteggi || dataNotes ?
+          <Tab sx={{fontSize:20}}>
+            Comunità
+          </Tab>
+          :
+          ''
+}
         </TabList>
         <Box
           sx={(theme) => ({
@@ -547,6 +611,14 @@ const dateWithoutTimeZone = dateArray.slice(0, 5).join(" ");
             }
             </Box>
           </TabPanel>
+          
+          <TabPanel value={3}>
+            {console.log(dataNotes,dataPunteggi)}
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '16px' }}>          
+                  <CardComunity  note={dataNotes} punteggi={dataPunteggi}/>
+            </Box>
+          </TabPanel>
+          
         </Box>
       </Tabs>
     </Box>

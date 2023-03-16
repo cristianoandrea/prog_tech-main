@@ -6,6 +6,7 @@
         <input class="form-control testo" [(ngModel)]="name" placeholder="Enter animal name">
         <button class="btn btn-secondary" (click)="search(name)">Search</button>
     </div>
+<br>
     <div>
         <p>My pets:</p>
         <div *ngFor="let pet of myAnimals"> <button class="btn color" (click)="search(pet)">{{pet}}</button> </div>

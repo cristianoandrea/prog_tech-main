@@ -13,14 +13,11 @@ import{
 } from './SidebarElements'
 
 const Sidebar = ({isOpen, toggle}) => {
-  
-
   const {user} = useAuthContext()
   const {logout} = useLogout()
   const handleLogout = () => {
     logout()
   }
-
   return (
     <SidebarContainer isOpen={isOpen} onClick={ toggle }>
       <Icon onClick={ toggle }>
@@ -36,7 +33,7 @@ const Sidebar = ({isOpen, toggle}) => {
           {
             user?
             <>
-              <SidebarLink1 to="/userprofile" onClick={ toggle }>User Profile</SidebarLink1>
+              <SidebarLink1 to="/userprofile" onClick={ toggle }>Area Personale</SidebarLink1>
               <SidebarLink1 to="/" onClick={handleLogout }>Logout</SidebarLink1>
             </>
 
@@ -46,8 +43,6 @@ const Sidebar = ({isOpen, toggle}) => {
             </>
             
           }
-          
-          
         </SidebarMenu>
       </SidebarWrapper>
       

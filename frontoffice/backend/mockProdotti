@@ -1,0 +1,352 @@
+{
+    "nome": "Croccantini per cani",
+    "rating": 4.5,
+    "tag": "cibi",
+    "producer": "Purina",
+    "prezzo": 22.99,
+    "disponibilità": 180,
+    "recensioni": [
+        {
+            "id": 1,
+            "nome": "Marco",
+            "rating": 5,
+            "txt": "I miei cani adorano questi croccantini, li mangiano con gusto ogni giorno."
+        },
+        {
+            "id": 2,
+            "nome": "Francesca",
+            "rating": 4,
+            "txt": "Buona qualità ma un po' costosi rispetto ad altre marche."
+        }
+    ],
+    "descrizione": "Croccantini per cani di tutte le taglie, con ingredienti naturali e di alta qualità.",
+    "animale": "cane",
+    "image": {
+        "path": "https://example.com/images/dog-food.jpg",
+        "alt": "Croccantini per cani"
+    }
+}
+
+{
+    "nome": "Acquario",
+    "rating": 3.9,
+    "tag": "accessori",
+    "producer": "Tetra",
+    "prezzo": 89.99,
+    "disponibilità": 150,
+    "recensioni": [
+        {
+            "id": 1,
+            "nome": "Chiara",
+            "rating": 4,
+            "txt": "Bellissimo acquario, facile da montare e con un design elegante."
+        },
+        {
+            "id": 2,
+            "nome": "Simone",
+            "rating": 3,
+            "txt": "La qualità dei materiali non sembra eccellente, ma per il prezzo va bene."
+        }
+    ],
+    "descrizione": "Acquario di vetro trasparente con capacità di 50 litri, dotato di filtro e illuminazione LED.",
+    "animale": "pesce",
+    "image": {
+        "path": "https://example.com/images/aquarium.jpg",
+        "alt": "Acquario per pesci"
+    }
+}
+{
+    "nome": "Giocattolo per gatti",
+    "rating": 4.0,
+    "tag": "giochi",
+    "producer": "Kong",
+    "prezzo": 8.99,
+    "disponibilità": 200,
+    "recensioni": [
+        {
+            "id": 1,
+            "nome": "Alice",
+            "rating": 4,
+            "txt": "Mio gatto si diverte un sacco con questo giocattolo, lo consiglio."
+        },
+        {
+            "id": 2,
+            "nome": "Paolo",
+            "rating": 3,
+            "txt": "Il prodotto sembra di buona qualità, ma il prezzo è un po' alto."
+        }
+    ],
+    "descrizione": "Giocattolo in gomma morbida per gatti, con forma di topolino e campanellino interno.",
+    "animale": "gatto",
+    "image": {
+        "path": "https://example.com/images/cat-toy.jpg",
+        "alt": "Giocattolo per gatti"
+    }
+}
+{
+    "nome": "Cibo per orsi",
+    "rating": 3.2,
+    "tag": "cibi",
+    "producer": "Bear Country",
+    "prezzo": 59.99,
+    "disponibilità": 110,
+    "recensioni": [
+        {
+            "id": 1,
+            "nome": "Luca",
+            "rating": 2,
+            "txt": "Il prezzo è troppo alto per la quantità di cibo, non lo ricomprerei."
+        },
+        {
+            "id": 2,
+            "nome": "Martina",
+            "rating": 4,
+            "txt": "Mio padre lo ha comprato per il nostro orso e sembra gradirlo molto."
+        }
+    ],
+    "descrizione": "Cibo secco per orsi, formulato con ingredienti naturali e di alta qualità.",
+    "animale": "orso",
+    "image": {
+        "path": "https://example.com/images/bear-food.jpg",
+        "alt": "Cibo per orsi"
+    }
+}
+
+{
+    "nome": "Giocattolo per gatti",
+    "rating": 4.0,
+    "tag": "giochi",
+    "producer": "KONG",
+    "prezzo": 12.99,
+    "disponibilità": 180,
+    "recensioni": [
+        {
+            "id": 1,
+            "nome": "Sara",
+            "rating": 5,
+            "txt": "Il mio gatto adora questo giocattolo, lo consiglio a tutti i proprietari di felini."
+        },
+        {
+            "id": 2,
+            "nome": "Luca",
+            "rating": 3,
+            "txt": "Il prezzo è un po' alto per un semplice giocattolo, ma sembra resistente."
+        }
+    ],
+    "descrizione": "Giocattolo per gatti in gomma naturale, ideale per il gioco e l'esercizio fisico.",
+    "animale": "gatto",
+    "image": {
+        "path": "https://example.com/images/cat-toy.jpg",
+        "alt": "Giocattolo per gatti"
+    }
+}
+
+{
+    "nome": "Biscotti per cani al gusto di pollo",
+    "rating": 4.8,
+    "tag": "cibi",
+    "producer": "Pedigree",
+    "prezzo": 5.99,
+    "disponibilità": 200,
+    "recensioni": [
+        {
+            "id": 1,
+            "nome": "Paolo",
+            "rating": 5,
+            "txt": "I biscotti sono ottimi, il mio cane li adora e sono anche molto convenienti."
+        },
+        {
+            "id": 2,
+            "nome": "Maria",
+            "rating": 4,
+            "txt": "Il prezzo è giusto e i biscotti sembrano di buona qualità, il mio cane li gradisce."
+        }
+    ],
+    "descrizione": "Biscotti per cani al gusto di pollo, realizzati con ingredienti di alta qualità.",
+    "animale": "cane",
+    "image": {
+        "path": "https://example.com/images/dog-biscuits.jpg",
+        "alt": "Biscotti per cani al gusto di pollo"
+    }
+}
+{
+    "nome": "Cibo per gatti all'agnello",
+    "rating": 4.2,
+    "tag": "cibi",
+    "producer": "Royal Canin",
+    "prezzo": 8.99,
+    "disponibilità": 150,
+    "recensioni": [
+        {
+            "id": 1,
+            "nome": "Federica",
+            "rating": 3,
+            "txt": "Il mio gatto sembra gradirlo, ma non sembra fare molto per la sua salute."
+        },
+        {
+            "id": 2,
+            "nome": "Alessandro",
+            "rating": 5,
+            "txt": "Ottimo cibo, il mio gatto lo mangia volentieri e sembra essere più energico da quando lo mangia."
+        }
+    ],
+    "descrizione": "Cibo per gatti all'agnello, realizzato con ingredienti di alta qualità per garantire una nutrizione completa e bilanciata.",
+    "animale": "gatto",
+    "image": {
+        "path": "https://example.com/images/cat-food.jpg",
+        "alt": "Cibo per gatti all'agnello"
+    }
+}
+{
+    "nome": "Casa per criceti",
+    "rating": 4.5,
+    "tag": "accessori",
+    "producer": "Ferplast",
+    "prezzo": 39.99,
+    "disponibilità": 120,
+    "recensioni": [
+        {
+            "id": 1,
+            "nome": "Giovanna",
+            "rating": 5,
+            "txt": "La casa è grande e spaziosa, il mio criceto adora girarci dentro."
+        },
+        {
+            "id": 2,
+            "nome": "Marco",
+            "rating": 4,
+            "txt": "Un buon acquisto, la casa è resistente e facile da pulire."
+        }
+    ],
+    "descrizione": "Casa per criceti in plastica, dotata di diversi accessori per il divertimento del tuo animale.",
+    "animale": "cricete",
+    "image": {
+        "path": "https://example.com/images/hamster-house.jpg",
+        "alt": "Casa per criceti"
+    }
+}
+{
+    "nome": "Cibo secco per cani",
+    "rating": 4.2,
+    "tag": "cibi",
+    "producer": "NutriPet",
+    "prezzo": 24.99,
+    "disponibilità": 200,
+    "recensioni": [
+    {
+    "id": 1,
+    "nome": "Simone",
+    "rating": 5,
+    "txt": "Il mio cane adora questo cibo, e io sono felice di aver scelto un prodotto di qualità."
+    },
+    {
+    "id": 2,
+    "nome": "Lucia",
+    "rating": 3,
+    "txt": "Niente di speciale, il mio cane lo mangia ma non sembra particolarmente entusiasta."
+    }
+    ],
+    "descrizione": "Cibo secco completo e bilanciato per cani di taglia media.",
+    "animale": "cane",
+    "image": {
+    "path": "https://www.example.com/cibo_cani.jpg",
+    "alt": "Cibo secco per cani"
+    }
+    }
+    {
+        "nome": "Gioco per criceti",
+        "rating": 4.7,
+        "tag": "giochi",
+        "producer": "Happy Pets",
+        "prezzo": 12.99,
+        "disponibilità": 120,
+        "recensioni": [
+        {
+        "id": 1,
+        "nome": "Laura",
+        "rating": 5,
+        "txt": "Il mio criceto si diverte un sacco con questo gioco! Consigliato."
+        },
+        {
+        "id": 2,
+        "nome": "Federico",
+        "rating": 4,
+        "txt": "Un bel gioco, ma un po' caro rispetto ad altri simili che ho visto in giro."
+        }
+        ],
+        "descrizione": "Gioco in plastica resistente per criceti, con tubi e percorsi da esplorare.",
+        "animale": "cricete",
+        "image": {
+        "path": "https://www.example.com/gioco_criceti.jpg",
+        "alt": "Gioco per criceti"
+        }
+        }
+        {
+            "nome": "Cibo secco per gatti",
+            "rating": 4.7,
+            "tag": "cibi",
+            "producer": "GattoFelice",
+            "prezzo": 12.99,
+            "disponibilità": 120,
+            "recensioni": [
+              {
+                "id": 1,
+                "nome": "Laura Neri",
+                "rating": 5,
+                "txt": "Il cibo piace molto al mio gatto e sembra anche avere un effetto benefico sulla sua salute."
+              },
+              {
+                "id": 2,
+                "nome": "Giovanni Bianchi",
+                "rating": 4,
+                "txt": "Buon cibo, ma il prezzo è un po' alto rispetto ad altre marche."
+              },
+              {
+                "id": 3,
+                "nome": "Sara Verdi",
+                "rating": 5,
+                "txt": "Il mio gatto non mangia altro cibo secco da quando ho provato questo."
+              }
+            ],
+            "descrizione": "Cibo secco per gatti di alta qualità, con ingredienti naturali e senza conservanti.",
+            "animale": "gatto",
+            "image": {
+              "path": "https://example.com/cibogatti.jpg",
+              "alt": "Cibo secco per gatti"
+            }
+          }
+          {
+            "nome": "Pettorina per cani",
+            "rating": 4.2,
+            "tag": "accessori",
+            "producer": "Puppy Love",
+            "prezzo": 23.99,
+            "disponibilità": 150,
+            "recensioni": [
+              {
+                "id": 1,
+                "nome": "Mario Rossi",
+                "rating": 5,
+                "txt": "La pettorina si adatta perfettamente al mio cane e sembra molto resistente."
+              },
+              {
+                "id": 2,
+                "nome": "Luigi Verdi",
+                "rating": 3,
+                "txt": "La taglia della pettorina era sbagliata, ho dovuto chiedere un cambio."
+              },
+              {
+                "id": 3,
+                "nome": "Carla Bianchi",
+                "rating": 4,
+                "txt": "La pettorina è molto carina e il mio cane sembra trovarsi bene."
+              }
+            ],
+            "descrizione": "Pettorina regolabile in tessuto resistente e traspirante, disponibile in diverse taglie per cani di tutte le razze.",
+            "animale": "cane",
+            "image": {
+              "path": "https://example.com/pettorina.jpg",
+              "alt": "Pettorina per cani"
+            }
+          }
+                    

@@ -14,12 +14,7 @@ const itemSchema = new Schema({
         type: Number,
         required: true
     },
-    varianti: [{ 
-        value : String,
-        id : Number,
-        etichetta: String,
-        disponibilità :Number
-    }],
+    disponibilità :Number, 
     recensioni : [{
         id : Number,
         nome : String,

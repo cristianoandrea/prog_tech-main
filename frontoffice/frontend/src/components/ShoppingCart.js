@@ -7,21 +7,20 @@ import Divider from '@mui/joy/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import ListItemText from '@mui/material/ListItemText'; 
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useShoppingCart } from '../context/shoppingCartContext';
 import CartItem from './CartItem';
-import { Buttone } from '../pages/prodotto_singolo';
+import { Buttone, data } from '../pages/prodotto_singolo';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { NavBtnLink } from './Navbar';
 import { formatCurrency } from '../utilities/formatCurrency';
 import { Typography } from '@mui/joy';
-import CloseIcon from '@mui/icons-material/Close';
 
 
 
-//riscrivi totale prezzo
+
 export default function ShoppingCart({isOpen}) {
   
   const { 
@@ -37,7 +36,7 @@ export default function ShoppingCart({isOpen}) {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-    if(open==true) {openCart()}
+    if(open===true) {openCart()}
     else closeCart();
     setState({ ...state, [anchor]: open });
   };
@@ -45,7 +44,8 @@ export default function ShoppingCart({isOpen}) {
   const list = (anchor) => (
     <Box
       sx={{ 
-        maxWidth: anchor === 'top' || anchor === 'bottom' ? 'auto' : 450,
+        width: 350,
+        maxWidth:'90%',
         marginTop: 2, 
         marginLeft: 1,
         
@@ -54,21 +54,28 @@ export default function ShoppingCart({isOpen}) {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <Button onClick={toggleDrawer(anchor, false)}><CloseIcon/></Button>
       <h3><b>Carrello</b></h3>
       <Divider />
       <List>
         {
             cartItems.map((item)=>{
                 return(
-                    <CartItem key={item} {...item} />
+                    <CartItem id={item.id} quantity={item.quantity} />
                 )
             })
         }
         <br />
-        
-        
-       
+        <h1>
+        <h5 
+            style={{textAlign: 'right', marginRight: 1}}
+        > <b> Totale: {formatCurrency(
+              cartItems.reduce((total, cartItem) => {
+      
+                return total + (cartItem.prezzo || 0) * cartItem.quantity
+              }, 0))
+            }</b>
+          </h5>
+          </h1>
       </List>
       <a href="/checkout">
         <Buttone>Checkout</Buttone>
@@ -78,29 +85,20 @@ export default function ShoppingCart({isOpen}) {
 
   return (
     <div>
+      
+    
+    
     <React.Fragment key={'right'}>
-      <NavBtnLink onClick={toggleDrawer('right', true)}><ShoppingCartIcon/></NavBtnLink>
-      <Drawer
-      anchor={'right'}
-      open={state['right']}
-      onClose={toggleDrawer('right', false)}
-      >
-      {list('right')}
-      </Drawer>
+        <NavBtnLink onClick={toggleDrawer('right', true)}><ShoppingCartIcon/></NavBtnLink>
+        <Drawer
+        anchor={'right'}
+        open={state['right']}
+        onClose={toggleDrawer('right', false)}
+        >
+        {list('right')}
+        </Drawer>
     </React.Fragment>
     
     </div>
   );
 }
-
-/*
-<h5 
-    style={{textAlign: 'right', marginRight: 1}}
-><b> Total: {formatCurrency(
-      cartItems.reduce((total, cartItem) => {
-        const item = data.find(i => i.id === cartItem.id)
-        return total + (item?.prezzo || 0) * cartItem.quantity
-      }, 0))
-    }</b>
-</h5>
-*/

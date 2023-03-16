@@ -1,11 +1,11 @@
 <div class="container d-flex flex-column align-items-center justify-content-center">
-  <h1>Generatore casuale di immagini</h1>
-  <h3>Scegli qui l'animale che preferisci!</h3>
+  <h1>Random image generator</h1>
+  <h3>Choose your favorite animal!</h3>
     
   <div class="btn-group mt-3">
-    <button class="btn color" (click)="fetchDogs()">Cani</button>
-    <button class="btn color" (click)="fetchCats()">Gatti</button>
-    <button class="btn color" (click)="fetchDuck()">Paperelle</button>
+    <button class="btn color" (click)="fetchDogs()">Dogs</button>
+    <button class="btn color" (click)="fetchCats()">Cats</button>
+    
   </div>
     
   <img *ngIf="url" [src]="url" alt="dog image" class="mt-3">

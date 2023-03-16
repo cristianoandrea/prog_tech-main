@@ -15,7 +15,7 @@ import{
     ImgWrap,
     Img
 } from './InfoElements'
-
+ 
 
 
 const InfoSection = ({ lightBg,

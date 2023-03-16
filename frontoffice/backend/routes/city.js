@@ -11,7 +11,7 @@ router.post('/', (req,res) => {
     })
 })
 
-//GET one city 
+//GET one city
 router.get('/:id', (req,res) => {
     res.json({mssg: 'GET one city'})
 })

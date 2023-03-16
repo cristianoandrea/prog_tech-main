@@ -12,7 +12,7 @@ const postService = async (req,res) => {
     }
 }
  
- 
+
 // GET service
 const getItem =async (req,res) => {
     try {

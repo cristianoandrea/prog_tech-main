@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService, Utente } from '../../auth.service';
 
 @Component({
@@ -18,7 +19,7 @@ export class SignupComponent implements OnInit {
   animals = ['Dog', 'Cat', 'Bird', 'Fish', 'Rabbit'];
   utente: Utente
 
-  constructor(private authService: AuthService) { 
+  constructor(private authService: AuthService, private router: Router) { 
     this.selectedAnimals=''
     this.utente= {
       name: "", email: ""
@@ -32,6 +33,9 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.authService.getValue() ==true) {
+      this.router.navigate(['/'])
+    }
   }
 
   signup(nome: string, cognome:string, email: string, pw: string, sesso:string, data:any, animale: string) {
@@ -40,9 +44,7 @@ export class SignupComponent implements OnInit {
     }
     console.log(nome, cognome, email, pw, sesso,data, animale)
     this.authService.signup(nome, cognome, email, pw, sesso, data, animale)
-    //this.utente=nuovo_utente
-    //this.authService.login(email, pw)
-    //console.log(nuovo_utente)
+    
   }
 
 }

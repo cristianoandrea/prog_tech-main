@@ -12,7 +12,7 @@ export const sliderItems = [
       img: Inutile0,
       title: "INTERVISTA BATTIATO A SONIC",
       desc: "piuttosto bizzarro, nevvero? 😏",
-      bg: "#2EFE9A",
+      bg: "#2EFE9A", 
       button: "un devasto..."
     },
     {

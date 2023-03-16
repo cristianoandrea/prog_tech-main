@@ -17,7 +17,7 @@ margin-top:10px;
     background: #01bf71;
     white-space: nowrap;
     padding: 10px 22px;
-    color: #010606;
+    color: #010606; 
     font-size: 16px;
     outline: none;
     border:none;
@@ -62,13 +62,12 @@ const MenuProps = {
 };
 
 const names = [
-  'cane', 'gatto', 'orso', 'topo'
+  'cane', 'gatto', 'orso', 'criceto','pesce'
 ];
 
 const tags = [
-    'cibi' , 'sanitari', 'accessori'
+    'cibi' , 'sanitari', 'accessori', 'giochi'
 ]
-
 
 
 
@@ -127,11 +126,11 @@ export default function FiltriProdotti(props) {
     props.onSubmit(data)
 };
 
-
   return (
     <FilterContainer>
 
-      <form onSubmit={handleSubmit}>
+
+    <form onSubmit={handleSubmit}>
         <Filter>
             <FormControl sx={{ 
               m: 1, width:300, minWidth: 250, height: 70, }}
@@ -201,8 +200,6 @@ export default function FiltriProdotti(props) {
             </Select>
         </FormControl>
 
-        
-
         <FormControl sx={{ m: 1, width: 300, height: 70 }}>
             <InputLabel
             sx={{
@@ -267,6 +264,9 @@ export default function FiltriProdotti(props) {
                 ))}
             </Select>
         </FormControl>
+
+
+
 
 
         <Button1 type="submit">Cerca</Button1>     

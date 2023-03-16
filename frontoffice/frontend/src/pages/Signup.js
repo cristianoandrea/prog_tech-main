@@ -15,7 +15,7 @@ const GenderSelection = styled.div`
   align-items: center;
 `;
  
-const GenderLabel = styled.label` 
+const GenderLabel = styled.label`
   margin-right: 10px;
   font-weight: bold;
 `;
@@ -67,7 +67,7 @@ const Signup = () => {
         <h1>Registrati</h1>
         <form className="signup" onSubmit={handleSubmit}>
           
-          <label>Email address:</label>
+          <label>Indirizzo email:</label>
           <input 
             type="email" 
             onChange={(e) => setEmail(e.target.value)} 
@@ -79,7 +79,7 @@ const Signup = () => {
             onChange={(e) => setPassword(e.target.value)} 
             value={password} 
           />
-          <label>Name</label>
+          <label>Nome</label>
           <input 
             type="name" 
             onChange={(e) => setName(e.target.value)} 
@@ -142,7 +142,7 @@ const Signup = () => {
   <option value="fish">Pesce</option>
 </AnimalSelection>
           
-          <Buttone style={{margin:10}} disabled={isLoading}>Sign up</Buttone>
+          <Buttone style={{margin:10}} disabled={isLoading}>Registrati</Buttone>
           {error && <div className="error">{error}</div>}
         </form>
 

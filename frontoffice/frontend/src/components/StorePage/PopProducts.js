@@ -1,5 +1,8 @@
 import { Grid } from "@mui/material";
 import styled from "styled-components";
+import axios from 'axios'
+import React, { useEffect } from 'react'
+import { useState } from 'react'
 
 import Product from "./Product";
 
@@ -12,7 +15,7 @@ const Container = styled.div`
     @media screen and (max-width: 768px) {
       justify-content: center;
       flex-direction: column;
-  }
+  } 
     
 `;
 
@@ -21,15 +24,15 @@ margin: 10px;
 
 `
 
-const Products = ({data}) => {
-
+const Products = ({data,tipo}) => {
+ 
   
   return (
     <>
     <Container >
       {data.data.map((item) => (
         <Contenitore>
-        <Product item={item} />
+        <Product item={item} tipo={tipo} />
         <br/>
         </Contenitore>
 

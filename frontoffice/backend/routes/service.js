@@ -5,13 +5,28 @@ const { query } = require("express");
 const { find } = require("../models/userModel");
 
 //GET all service
-router.post("/", async (req, res) => {
+router.post("/", async (req, res) => { 
   let result = await Service.find();
   if (!result) {
     return res.status(404).json({ error: "no such item" });
   }
-  res.status(200).json(result);
+  res.status(200).json(result); 
 });
+
+router.post("/getMore", async (req, res) => {
+  const ids = req.body.Serviceids
+  console.log(ids) 
+  const query = { $or: ids.map(id => ({ _id: id })) };
+  console.log(query);
+  const services = await Service.find(query);
+  console.log(services);
+  if(!services) {
+    return res.status(404).json({ error: "no such item" });
+  }
+  console.log(services)
+  res.status(200).json(services);
+})
+ 
 
 router.post("/filter", async (req, res) => {
   const city = String(req.body.ok);
@@ -26,6 +41,17 @@ router.post("/filter", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   const service = await Service.findByIdAndDelete(id);
+
+  if (!service) {
+    return res.status(404).json({ error: "no such service" });
+  }
+  res.status(200).json(service);
+});
+
+//Get one Service
+router.post("/getOne", async (req, res) => {
+  const  id  = req.body.servizio_id;
+  const service = await Service.findById(id);
 
   if (!service) {
     return res.status(404).json({ error: "no such service" });
@@ -70,7 +96,7 @@ router.post("/:id", async(req, res) => {
 
 //find filtered services for either veterinario or toilettatura
 router.post("/filter/veterinario", async (req, res) => {
-  console.log(req.body);
+  console.log(req.body); 
   const tipo = req.body.service
   const start_date = req.body.startDate;
   const city = req.body.city 
@@ -80,7 +106,7 @@ router.post("/filter/veterinario", async (req, res) => {
     tipo.length > 0 ||
     city.length > 0 ||
     start_date.length > 0
-  ) { 
+  ) {
     console.log('inside fisrt if')
     let query = { $and: [] };
     if (city && city.length > 0)
@@ -167,9 +193,12 @@ router.post("/filter/veterinario", async (req, res) => {
 
 //function adds an impegni array to a specified doctor of a service and removes the old impegni
 router.patch("/addVetReservation", async (req, res) => {
-  const id = req.body.id; 
-  const date = req.body.param.date;
-  const dottoreId = req.body.doc_id;
+  console.log(req.body.service)
+  console.log(req.body.cartService)
+
+  const id = req.body.cartService.servizio_id; 
+  const date = req.body.cartService.start_date;
+  const dottoreId = req.body.cartService.dottore_id;
   const dateParts = date.split('-');
   const year = parseInt(dateParts[0]);
   const month = parseInt(dateParts[1]) - 1;
@@ -240,72 +269,70 @@ router.post("/filter/dogsitter", async (req, res) => {
 
 
       console.log(start_midnightUTC,end_midnightUTC,piccolo,medio,grande)
-      const service = await Service.find({
-        tipo: tipo,
-        luogo: città,
-        $or: [
-          {
-            'dottore.impegni': {
-              $elemMatch: {
-                dateiniz: { $lte: end_midnightUTC },
-                datefin: { $gte: start_midnightUTC }
-              }
-            },
-            $expr: {
-              $and: [
-                { $gte: ['$dottore.slot.n_grandi', { $sum: ['$dottore.impegni.n_grandi', grande] }] },
-                { $gte: ['$dottore.slot.n_medi', { $sum: ['$dottore.impegni.n_medi', medio] }] },
-                { $gte: ['$dottore.slot.n_piccoli', { $sum: ['$dottore.impegni.n_piccoli', piccolo] }] }
-              ]
-            }
-          },
-          {
-            'dottore.impegni': {
-              $not: {
-                $elemMatch: {
-                  dateiniz: { $lte: end_midnightUTC },
-                  datefin: { $gte: start_midnightUTC }
+     const pipeline= [
+        {
+          $match: { tipo: tipo, luogo: città }
+        },
+        {
+          $project: {
+            tipo: 1,
+            luogo: 1,
+            nome_struttura: 1,
+            dottore: {
+              $filter: {
+                input: "$dottore",
+                as: "d",
+                cond: {
+                  $or: [
+                    {
+                      $and: [
+                        { $gte: ["$$d.impegni.dateiniz", start_midnightUTC] },
+                        { $lte: ["$$d.impegni.datefin", end_midnightUTC] },
+                        { $gte: [ "$$d.slot.n_grandi", { $add: [ "$$d.impegni.n_grandi", grande ] } ] },
+                        { $gte: [ "$$d.slot.n_medi", { $add: [ "$$d.impegni.n_medi", medio ] } ] },
+                        { $gte: [ "$$d.slot.n_piccolo", { $add: [ "$$d.impegni.n_piccolo", piccolo ] } ] }
+                      ]
+                    },
+                    {
+                      $and: [
+                        { $or: [ { $eq: [ "$$d.impegni", [] ] }, { $eq: [ "$$d.impegni", null ] } ] },
+                        { $gte: [ "$$d.slot.n_grandi", grande ] },
+                        { $gte: [ "$$d.slot.n_medi", medio ] },
+                        { $gte: [ "$$d.slot.n_piccolo", piccolo ] }
+                      ]
+                    }
+                  ]
                 }
               }
-            },
-            $expr: {
-              $and: [
-                { $gte: ['$dottore.slot.n_grandi', grande] },
-                { $gte: ['$dottore.slot.n_medi', { $sum: ['$dottore.impegni.n_medi', medio] }] },
-                { $gte: ['$dottore.slot.n_piccoli', piccolo] }
-              ]
             }
           }
-        ]
-      });
-      
-      
-    
-    console.log(service)
-    if(service.length) console.log(service[0].dottore[0].impegni)
-if (!service) {
-    console.log('no service with that criteria')
-    const all = await Service.find({tipo:tipo})
-    res.status(200).json(all)
-  }
-  else{
-  res.status(200).json(service);
-  }
+        }
+      ];
+      try {
+        const result = await Service.aggregate(pipeline).exec();
+
+        console.log(result)
+
+        res.json(result); 
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+      }
 
 }})
 
 router.patch("/addDogReservation", async (req, res) => {
   console.log("dogsitting")
   console.log(req.body)
-  const id = req.body.id;
-  const start_date = req.body.param.date;
+  const id = req.body.cartService.servizio_id;
+  const start_date = req.body.cartService.start_date
   const final_start_date = new Date(start_date);
-  const end_date = req.body.param.endDate;
+  const end_date = req.body.cartService.end_date;
   const final_end_date = new Date(end_date)
-  const stanzaId = req.body.doc_id;
-  const grandi = req.body.param.grandi
-  const medi = req.body.param.medi
-  const piccoli = req.body.param.piccoli
+  const stanzaId = req.body.cartService.dottore_id;
+  const grandi = req.body.cartService.grandi
+  const medi = req.body.cartService.medi
+  const piccoli = req.body.cartService.piccoli
 // convert start_date in right format
   const dateParts = start_date.split('-');
   const year = parseInt(dateParts[0]);

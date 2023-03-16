@@ -14,7 +14,7 @@ const Filtri = () => {
   const handleChange = (event) => {
     setAnimale(event.target.value);
   };
-
+ 
   const [age, setAge] = React.useState('');
 
   const handleChange1 = (event) => {

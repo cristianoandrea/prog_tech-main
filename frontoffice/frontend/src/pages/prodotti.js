@@ -1,26 +1,43 @@
-import {Grid, Box, Link } from '@mui/material'
-import axios from 'axios'
-import React, { useEffect } from 'react'
-import { useState } from 'react'
-import { Stack } from 'react-bootstrap'
-import styled, { useTheme } from 'styled-components'
-import Footer from '../components/Footer'
-import Navbar from '../components/Navbar'
+import { Grid, Box, Link } from "@mui/material";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { Stack } from "react-bootstrap";
+import styled, { useTheme } from "styled-components";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 import Sidebar from '../components/Sidebar'
-import { popularProducts } from '../components/StorePage/data'
-import FiltriProdotti from '../components/StorePage/filtri_chiavica'
-import Products from '../components/StorePage/PopProducts'
+import { popularProducts } from "../components/StorePage/data";
+import FiltriProdotti from "../components/StorePage/filtri_chiavica";
+import Products from "../components/StorePage/PopProducts";
 
-const Container1= styled.div`
+const Container1 = styled.div`
   margin-top: 80px;
   margin-left: 2em;
-  margin-right: 2em;
-`
+  margin-right: 2em; 
+`;
+const Button1 = styled.button`
+  margin-top: 10px;
+  border-radius: 50px;
+  background: #01bf71;
+  white-space: nowrap;
+  padding: 10px 22px;
+  color: #010606;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  &:hover {
+    background: #fff;
 
+    transition: all 0.2s ease-in-out;
+    color: #010606;
+  }
+`;
 
 const Prodotti = () => {
-
-  
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -80,11 +97,9 @@ const Prodotti = () => {
     ok();
   }, []);
 
-  
- 
-    const toggle = ()=> {
-        setIsOpen(!isOpen)
-    }
+  const toggle = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
     axios
@@ -100,36 +115,28 @@ const Prodotti = () => {
     console.log(data);
   }, []);
 
-  
-
   return (
     <div>
       <Sidebar isOpen={isOpen} toggle={toggle}/>
       <Navbar toggle={toggle}/>
-      {loading ?
-      ''
-      : 
-      <div>
+      {loading ? (
+        ""
+      ) : (
+        <div>
+          <Container1>
+            <FiltriProdotti onSubmit={handleChangeFiltri} />
 
-        <Container1>
-          
-            
-        <FiltriProdotti onSubmit={handleChangeFiltri} />
-        {dataFiltrata.length > 0 ? (
+            {dataFiltrata.length > 0 ? (
               <Products data={dataFiltrataFin} tipo={false} />
             ) : (
               <Products data={data} tipo={false} />
             )}
-            
-        
-        </Container1>
-        <Footer />  
-      </div>
-      }
-      
-      
+          </Container1>
+          <Footer />
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Prodotti
+export default Prodotti;

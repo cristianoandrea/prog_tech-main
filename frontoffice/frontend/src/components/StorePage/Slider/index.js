@@ -7,10 +7,9 @@ import { Box, Grid } from "@mui/material";
 import Garfield from './garfield.jpg'
 import { withStyles } from '@material-ui/core/styles';
 import styled from "styled-components";
-import { Grommet, Carousel, Image } from 'grommet';
+import { Grommet, Carousel, Image} from 'grommet';
 import { Buttone } from "../../../pages/prodotto_singolo";
 import { AspectRatio } from "@mui/joy";
-
 
 /*
 struttura unica per due usi:
@@ -79,6 +78,8 @@ height: 100vh;
 const Image1 = styled.img`
 height: 100vh;
 width:100%
+object-fit: cover;
+image-rendering: optimizeQuality;
 `;
 
 const Testo=styled.div`
@@ -97,7 +98,7 @@ const Slider = ({data, testo}) => {
     <div>
         {
             testo ?
-            <Box sx={{
+<Box sx={{
                 width:'100%',
                 marginTop: '80px',
                 height: '100%'
@@ -111,7 +112,7 @@ const Slider = ({data, testo}) => {
                                     <Grid item xs={12} md={7} >
                                         <AspectRatio
                                          ratio="4/3"
-                                         objectFit="fill">
+                                         objectFit="cover">
                                             <Image1 src={item.path} alt={item.alt} />
                                         </AspectRatio>
                                     </Grid>
@@ -123,8 +124,8 @@ const Slider = ({data, testo}) => {
                                         }}>
                                         <h1>{item.title}</h1>
                                         <h4>{item.description}</h4>
-                                        <Buttone>{item.button}</Buttone>
-                                        
+                                        <a >
+                                        <Button1 to={`/store/prodotti?tipo=${item.filtro}`}>{item.button}</Button1>                                        </a>
                                         </Box>
                                     </Grid>
                                     </Grid>
@@ -135,8 +136,7 @@ const Slider = ({data, testo}) => {
                         }
                 
                 </Carousel>
-            </Box>
-            :
+            </Box>            :
             <Carousel fill>
                 <Container2>
 
