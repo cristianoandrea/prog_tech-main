@@ -26,7 +26,7 @@ function App() {
   return (
     <ShoppingCartProvider>
 
-    <Router >
+    <Router basename='frontoffice'>
       <div className='pages'>
       <Routes>     
         <Route path='/' caseSensitive={false} element={<Home />} />

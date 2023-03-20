@@ -13,7 +13,7 @@ import { DinoGameComponent } from './dino-game/dino-game.component';
 import { TrexGameComponent } from './games/trex-game/trex-game.component';
 import { CuriosityComponent } from './curiosity/curiosity.component';
 import { FormsModule } from '@angular/forms';
-import {  HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { QuizComponent } from './games/quiz/quiz.component';
 import { FooterComponent } from './footer/footer.component';
 import { ProductsComponent } from './pages/products/products.component';
@@ -26,6 +26,7 @@ import { ServizioComponent } from './pages/servizio/servizio.component';
 import { ImagesComponent } from './games/images/images.component';
 import { CommunityComponent } from './pages/community/community.component';
 import { YoutubeComponent } from './pages/youtube/youtube.component';
+import { RouterModule } from '@angular/router';
 
 //import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -51,10 +52,10 @@ import { YoutubeComponent } from './pages/youtube/youtube.component';
     ImagesComponent,
     CommunityComponent,
     YoutubeComponent,
-
+    
   ],
   imports: [
-    
+    RouterModule,
     NgbAccordionModule,
     HttpClientModule,
     FormsModule,

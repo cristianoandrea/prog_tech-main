@@ -15,6 +15,7 @@ import { AuthService } from './auth.service';
 import { YoutubeComponent } from './pages/youtube/youtube.component';
 
 const routes: Routes = [
+  { path: '**', component: HomeComponent },
   { path: "", component: HomeComponent},
   { path: "games", component: GamesComponent},
   { path: "images", component: ImagesComponent},

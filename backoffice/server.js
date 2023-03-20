@@ -4,30 +4,30 @@ const path = require("path")
 const app = express();
 
 
-app.get("/",(req,res) => {
+app.get("/backoffice/",(req,res) => {
     res.sendFile(path.resolve( "service.html"));
 });
-app.get("/items",(req,res) => {
+app.get("/backoffice/items",(req,res) => {
     res.sendFile(path.resolve( "items.html"));
 });
 
-app.get("/notes",(req,res) => {
+app.get("/backoffice/notes",(req,res) => {
     res.sendFile(path.resolve( "notes.html"));
 });
 
-app.get("/services",(req,res) => {
+app.get("/backoffice/services",(req,res) => {
     res.sendFile(path.resolve( "service.html"));
 });
 
-app.get("/citta",(req,res) => {
+app.get("/backoffice/citta",(req,res) => {
     res.sendFile(path.resolve( "serviceDetails.html"));
 });
 
-app.get("/style.css",(req,res) => {
+app.get("/backoffice/style.css",(req,res) => {
     res.sendFile(path.resolve( "style.css"));
 });
 
-app.get("/nav.html",(req,res) => {
+app.get("/backoffice/nav.html",(req,res) => {
     res.sendFile(path.resolve( "nav.html"));
 });
 
